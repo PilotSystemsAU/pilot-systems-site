@@ -1,11 +1,71 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const pageTitle = "Pilot Systems — Work in Progress";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta
+      name="description"
+      content="We're building something useful for Australian trade businesses. Check back soon."
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at top left, #4a455c 0, #111 55%);
+        color: #f5f5f5;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .wrapper {
+        max-width: 32rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+      }
+
+      p {
+        margin: 0.25rem 0;
+        line-height: 1.6;
+      }
+
+      .tagline {
+        margin-top: 1rem;
+        font-weight: 500;
+        opacity: 0.85;
+      }
+
+      .note {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>Pilot Systems</h1>
+      <p>Our website is currently a work in progress.</p>
+      <p>We’re building a new home for simple systems and clearer days for Aussie tradies.</p>
+      <p class="tagline">Check back soon — we’re working on something genuinely useful.</p>
+      <p class="note">
+        In the meantime, you can reach us at<br />
+        <strong>pilot.systems@outlook.com</strong>
+      </p>
+    </div>
+  </body>
+</html>
