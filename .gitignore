@@ -1,24 +1,102 @@
-# build output
-dist/
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
 
-# generated types
-.astro/
+<BaseLayout
+  title="Pilot Systems — Websites & Simple Systems for Aussie Tradies"
+  description="Simple Systems. Clearer Days. Websites and practical automations for Australian tradies."
+>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>Simple Systems. Clearer Days.</h1>
+        <p>
+          Websites and practical automations for Aussie tradies who want more
+          quotes, more jobs, and less admin.
+        </p>
+        <div class="hero-actions">
+          <a href="tel:04XX XXX XXX" class="button button-primary">Call now</a>
+          <a href="/contact" class="button button-secondary">Send an enquiry</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <!-- Placeholder: later, add tradie imagery or site screenshots -->
+        <div class="hero-placeholder">Tradie imagery / site previews here</div>
+      </div>
+    </div>
+  </section>
 
-# dependencies
-node_modules/
+  <!-- Later: add sections for Who we help, What we do, Why this matters, Featured projects, etc. -->
 
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+  <style>
+    .hero {
+      padding: 3rem 1rem;
+      background: #f8f8fb;
+    }
 
-# environment variables
-.env
-.env.production
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+      gap: 2rem;
+      align-items: center;
+    }
 
-# macOS-specific files
-.DS_Store
+    .hero-text h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.75rem;
+    }
 
-# jetbrains setting folder
-.idea/
+    .hero-text p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    .button-primary {
+      background: #4a455c;
+      color: #f8f8fb;
+    }
+
+    .button-secondary {
+      border: 1px solid #4a455c;
+      color: #4a455c;
+      background: transparent;
+    }
+
+    .hero-image {
+      min-height: 180px;
+    }
+
+    .hero-placeholder {
+      border-radius: 0.75rem;
+      border: 1px dashed #c0bfd5;
+      padding: 2rem;
+      text-align: center;
+      color: #7a7890;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</BaseLayout>

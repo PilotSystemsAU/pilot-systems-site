@@ -1,0 +1,561 @@
+<section class="get-in-touch" aria-labelledby="get-in-touch-title">
+  <div class="section-inner">
+    <div class="contact-intro">
+      <p class="kicker">START WITH A SIMPLE CONVERSATION</p>
+      <h2 id="get-in-touch-title">GET IN TOUCH</h2>
+      <p>
+        Tell us what is getting in the way. We will help you work out whether a
+        website, automation or a clearer system is the right next step.
+      </p>
+
+      <a
+        href="tel:0457471392"
+        class="phone-link"
+        aria-label="Call Pilot Systems on 0457 471 392"
+      >
+        <span class="phone-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M6.5 3.5 9 6.2 7.4 9c1.1 2.3 3 4.2 5.3 5.3l2.8-1.6 2.7 2.5-1.2 3.2c-.3.8-1.1 1.3-2 1.2-7-.9-12.5-6.4-13.4-13.4-.1-.9.4-1.7 1.2-2z"></path>
+          </svg>
+        </span>
+        <span>
+          <small>CALL PILOT SYSTEMS</small>
+          <strong>0457 471 392</strong>
+        </span>
+      </a>
+    </div>
+
+    <form class="contact-form" novalidate>
+      <div class="form-status" aria-live="polite" hidden></div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+          <p class="field-error" id="name-error"></p>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            inputmode="tel"
+            required
+          />
+          <p class="field-error" id="phone-error"></p>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          />
+          <p class="field-error" id="email-error"></p>
+        </div>
+
+        <div class="field">
+          <label for="suburb">Suburb</label>
+          <input
+            id="suburb"
+            name="suburb"
+            type="text"
+            autocomplete="address-level2"
+            required
+          />
+          <p class="field-error" id="suburb-error"></p>
+        </div>
+
+        <div class="field field-full">
+          <label for="service">Requested service</label>
+          <select id="service" name="service" required>
+            <option value="">Select a service</option>
+            <option value="website">Website</option>
+            <option value="automation">Automation</option>
+            <option value="website-and-automation">Website and automation</option>
+            <option value="not-sure">Not sure yet</option>
+          </select>
+          <p class="field-error" id="service-error"></p>
+        </div>
+
+        <div class="field field-full">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            placeholder="What would you like to improve?"
+          ></textarea>
+          <p class="field-error" id="message-error"></p>
+        </div>
+      </div>
+
+      <p class="consent-copy">
+        By sending this enquiry, you agree that Pilot Systems may use your
+        details to respond to your request. Read our
+        <a href="/privacy">Privacy Policy</a>.
+      </p>
+
+      <button type="submit" class="button button-primary">
+        SEND ENQUIRY
+      </button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .get-in-touch {
+    padding: 6rem 1.5rem;
+    background: #ffffff;
+  }
+
+  .section-inner {
+    display: grid;
+    width: min(100%, 1100px);
+    margin: 0 auto;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(2rem, 7vw, 6rem);
+  }
+
+  .kicker {
+    margin: 0;
+    color: #777289;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .contact-intro h2 {
+    margin: 0.5rem 0 1rem;
+    color: #181532;
+    font-size: clamp(2rem, 4vw, 3.35rem);
+    letter-spacing: 0.035em;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .contact-intro > p:last-of-type {
+    max-width: 480px;
+    margin: 0;
+    color: #686277;
+    font-size: 0.96rem;
+    line-height: 1.8;
+  }
+
+  .phone-link {
+    display: inline-flex;
+    margin-top: 2rem;
+    align-items: center;
+    gap: 0.8rem;
+    color: #181532;
+    text-decoration: none;
+  }
+
+  .phone-icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    color: #ffffff;
+    background: #181582;
+    border-radius: 0.5rem;
+  }
+
+  .phone-icon svg {
+    width: 21px;
+    height: 21px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .phone-link small,
+  .phone-link strong {
+    display: block;
+  }
+
+  .phone-link small {
+    color: #777289;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+  }
+
+  .phone-link strong {
+    margin-top: 0.15rem;
+    color: #181532;
+    font-size: 1.08rem;
+    letter-spacing: 0.015em;
+    line-height: 1.3;
+  }
+
+  .contact-form {
+    padding: 1.35rem;
+    background: #f8f8fb;
+    border: 1px solid #deddea;
+    border-radius: 0.75rem;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .field {
+    min-width: 0;
+  }
+
+  .field-full {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #181532;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  input,
+  select,
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 0.72rem 0.78rem;
+    color: #181532;
+    background: #ffffff;
+    border: 1px solid #cfcddd;
+    border-radius: 0.45rem;
+    font: inherit;
+    font-size: 0.84rem;
+    line-height: 1.4;
+    transition:
+      border-color 0.18s ease-out,
+      box-shadow 0.18s ease-out;
+  }
+
+  textarea {
+    min-height: 125px;
+    resize: vertical;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #8b8699;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: #89849c;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #181582;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(24, 21, 130, 0.12);
+  }
+
+  input[aria-invalid="true"],
+  select[aria-invalid="true"],
+  textarea[aria-invalid="true"] {
+    border-color: #a3293b;
+  }
+
+  .field-error {
+    min-height: 1.1rem;
+    margin: 0.3rem 0 0;
+    color: #a3293b;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .consent-copy {
+    margin: 1rem 0;
+    color: #686277;
+    font-size: 0.72rem;
+    line-height: 1.65;
+  }
+
+  .consent-copy a {
+    color: #181582;
+    font-weight: 700;
+  }
+
+  .form-status {
+    margin-bottom: 1rem;
+    padding: 0.75rem 0.85rem;
+    border-radius: 0.45rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.55;
+  }
+
+  .form-status.success {
+    color: #14532d;
+    background: #eaf7ef;
+    border: 1px solid #9ed3ad;
+  }
+
+  .form-status.error {
+    color: #8f1d2c;
+    background: #fff0f1;
+    border: 1px solid #e7abb3;
+  }
+
+  .button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 45px;
+    padding: 0.65rem 1rem;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 0.45rem;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.035em;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      background-color 0.18s ease-out,
+      transform 0.18s ease-out;
+  }
+
+  .button-primary {
+    color: #ffffff;
+    background: #4a455c;
+  }
+
+  .button-primary:hover,
+  .button-primary:focus-visible {
+    background: #181582;
+    transform: translateY(-1px);
+  }
+
+  .button:disabled {
+    cursor: wait;
+    opacity: 0.72;
+    transform: none;
+  }
+
+  @media (max-width: 900px) {
+    .get-in-touch {
+      padding: 4.5rem 1.25rem;
+    }
+
+    .section-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .field-full {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .get-in-touch {
+      padding-inline: 1rem;
+    }
+
+    .contact-form {
+      padding: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    input,
+    select,
+    textarea,
+    .button {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".contact-form");
+
+  if (form) {
+    const status = form.querySelector<HTMLDivElement>(".form-status");
+    const submitButton = form.querySelector<HTMLButtonElement>(
+      'button[type="submit"]',
+    );
+
+    const fields = [
+      {
+        input: form.querySelector<HTMLInputElement>("#name"),
+        error: form.querySelector<HTMLParagraphElement>("#name-error"),
+        message: "Please enter your name.",
+      },
+      {
+        input: form.querySelector<HTMLInputElement>("#phone"),
+        error: form.querySelector<HTMLParagraphElement>("#phone-error"),
+        message: "Please enter a phone number.",
+      },
+      {
+        input: form.querySelector<HTMLInputElement>("#email"),
+        error: form.querySelector<HTMLParagraphElement>("#email-error"),
+        message: "Please enter a valid email address.",
+        validate: (value: string) => /^\S+@\S+\.\S+$/.test(value),
+      },
+      {
+        input: form.querySelector<HTMLInputElement>("#suburb"),
+        error: form.querySelector<HTMLParagraphElement>("#suburb-error"),
+        message: "Please enter your suburb.",
+      },
+      {
+        input: form.querySelector<HTMLSelectElement>("#service"),
+        error: form.querySelector<HTMLParagraphElement>("#service-error"),
+        message: "Please select a requested service.",
+      },
+      {
+        input: form.querySelector<HTMLTextAreaElement>("#message"),
+        error: form.querySelector<HTMLParagraphElement>("#message-error"),
+        message: "Please tell us a little about what you need.",
+      },
+    ];
+
+    const clearFieldError = (
+      input: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
+      error: HTMLParagraphElement | null,
+    ) => {
+      input.removeAttribute("aria-invalid");
+
+      if (error) {
+        error.textContent = "";
+      }
+    };
+
+    const setFieldError = (
+      input: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
+      error: HTMLParagraphElement | null,
+      message: string,
+    ) => {
+      input.setAttribute("aria-invalid", "true");
+
+      if (error) {
+        error.textContent = message;
+      }
+    };
+
+    fields.forEach((field) => {
+      if (!field.input) return;
+
+      field.input.addEventListener("input", () => {
+        clearFieldError(field.input!, field.error);
+      });
+
+      field.input.addEventListener("change", () => {
+        clearFieldError(field.input!, field.error);
+      });
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      let hasErrors = false;
+      let firstInvalidField:
+        | HTMLInputElement
+        | HTMLSelectElement
+        | HTMLTextAreaElement
+        | null = null;
+
+      fields.forEach((field) => {
+        if (!field.input) return;
+
+        const value = field.input.value.trim();
+        const isValid = field.validate ? field.validate(value) : value.length > 0;
+
+        if (!isValid) {
+          hasErrors = true;
+          setFieldError(field.input, field.error, field.message);
+
+          if (!firstInvalidField) {
+            firstInvalidField = field.input;
+          }
+        } else {
+          clearFieldError(field.input, field.error);
+        }
+      });
+
+      if (status) {
+        status.hidden = true;
+        status.className = "form-status";
+      }
+
+      if (hasErrors) {
+        if (status) {
+          status.hidden = false;
+          status.classList.add("error");
+          status.textContent =
+            "Please check the highlighted fields before sending your enquiry.";
+        }
+
+        firstInvalidField?.focus();
+        return;
+      }
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "SENDING...";
+      }
+
+      try {
+        // TODO: wire up form submission endpoint
+        await new Promise((resolve) => window.setTimeout(resolve, 550));
+
+        if (status) {
+          status.hidden = false;
+          status.classList.add("success");
+          status.textContent =
+            "Thanks — your enquiry has been received. We will be in touch soon.";
+        }
+
+        form.reset();
+      } catch {
+        if (status) {
+          status.hidden = false;
+          status.classList.add("error");
+          status.textContent =
+            "Something went wrong while sending your enquiry. Please call us on 0457 471 392.";
+        }
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "SEND ENQUIRY";
+        }
+      }
+    });
+  }
+</script>
