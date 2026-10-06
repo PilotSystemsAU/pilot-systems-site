@@ -12,19 +12,25 @@ const {
 ---
 
 <section class="cta section--dark on-dark" aria-labelledby="cta-heading">
-  <div class="container inner">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="container inner" data-reveal>
     <h2 id="cta-heading" class="h2">{heading}</h2>
     <p class="lead">{text}</p>
     <div class="btn-row">
-      <a class="btn btn--light" href="/contact">{site.cta}</a>
+      <a class="btn btn--primary" href="/contact">{site.cta}</a>
       <a class="btn btn--ghost" href={site.phoneHref}>Call {site.phoneDisplay}</a>
     </div>
   </div>
 </section>
 
 <style>
-  .cta { padding-block: clamp(72px, 10vw, 100px); }
-  .inner { text-align: center; max-width: 900px; }
+  .cta { position: relative; overflow: hidden; padding-block: clamp(76px, 10vw, 112px); }
+  .glow {
+    position: absolute; inset: auto -10% -60% -10%; height: 120%;
+    background: radial-gradient(closest-side, rgba(245, 165, 36, .16), transparent 70%);
+    pointer-events: none;
+  }
+  .inner { position: relative; text-align: center; max-width: 900px; }
   .h2 { font-size: clamp(32px, 4.6vw, 58px); margin-bottom: 18px; }
   .lead { margin: 0 auto 34px; }
   .btn-row { justify-content: center; }

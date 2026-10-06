@@ -1,0 +1,61 @@
+---
+import { trades } from '../data/site';
+---
+
+<section class="marquee" aria-label="Trades we work with">
+  <p class="sr-only">We build for {trades.join(', ')} and more.</p>
+  <div class="viewport" aria-hidden="true">
+    <div class="track">
+      {[0, 1].map(() => (
+        <ul class="group" role="list">
+          {trades.map((t) => <li>{t}<span class="dot">●</span></li>)}
+          <li>And more<span class="dot">●</span></li>
+        </ul>
+      ))}
+    </div>
+  </div>
+  <button class="pause" type="button" aria-pressed="false">
+    <span class="sr-only">Pause scrolling trades list</span>
+    <svg class="i-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="5" height="16" rx="1"></rect><rect x="14" y="4" width="5" height="16" rx="1"></rect></svg>
+    <svg class="i-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg>
+  </button>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.marquee').forEach((m) => {
+    const b = m.querySelector<HTMLButtonElement>('.pause');
+    b?.addEventListener('click', () => {
+      const paused = m.classList.toggle('paused');
+      b.setAttribute('aria-pressed', String(paused));
+      const label = b.querySelector('.sr-only');
+      if (label) label.textContent = paused ? 'Play scrolling trades list' : 'Pause scrolling trades list';
+    });
+  });
+</script>
+
+<style>
+  .marquee { position: relative; background: var(--amber); color: var(--ink-900); overflow: hidden; }
+  .viewport { overflow: hidden; padding-block: 16px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .track { display: flex; width: max-content; animation: scroll 55s linear infinite; }
+  .marquee:hover .track, .marquee.paused .track { animation-play-state: paused; }
+  .group { display: flex; list-style: none; margin: 0; padding: 0; }
+  .group li { display: flex; align-items: center; white-space: nowrap; font-weight: 800; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; }
+  .dot { font-size: 8px; margin: 0 22px; opacity: .55; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .pause {
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 0; background: var(--ink-900); color: var(--amber);
+    display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .pause:focus-visible { outline: 3px solid var(--ink-900); outline-offset: 2px; }
+  .i-play { display: none; }
+  .marquee.paused .i-play { display: block; }
+  .marquee.paused .i-pause { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+    .group:nth-child(2) { display: none; }
+    .group { flex-wrap: wrap; justify-content: center; row-gap: 6px; }
+    .pause { display: none; }
+  }
+</style>

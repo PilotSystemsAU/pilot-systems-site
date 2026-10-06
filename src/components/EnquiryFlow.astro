@@ -1,0 +1,110 @@
+---
+// Animated example of one enquiry moving through a connected set-up.
+// Steps light up in turn; with reduced motion, all steps show at once.
+const steps = [
+  { time: '7:42 am', title: 'New quote request', text: 'Hot water system, Box Hill. Photos attached.', icon: 'inbox' },
+  { time: '7:42 am', title: 'Sarah gets an instant reply', text: '"Thanks Sarah, we\'ll call you back today."', icon: 'reply' },
+  { time: '12:10 pm', title: 'You get a reminder to call', text: 'Right when you stop for lunch.', icon: 'bell' },
+  { time: '3 days later', title: 'Quote follow-up sent for you', text: 'No more quotes going quiet.', icon: 'repeat' },
+  { time: 'Done', title: 'Job booked', text: 'And no admin on your phone at 9pm.', icon: 'check' },
+];
+const paths: Record<string, string> = {
+  inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/>',
+  reply: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
+  repeat: '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+};
+---
+
+<div class="flow-wrap">
+  <div class="flow-card" data-flow>
+    <div class="head">
+      <p class="label">While you're on the tools</p>
+      <span class="tag">Example</span>
+    </div>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class:list={['step', { final: i === steps.length - 1, active: i === 0 }]}>
+          <span class="icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={paths[s.icon]} />
+          </span>
+          <div class="body">
+            <p class="time">{s.time}</p>
+            <p class="title">{s.title}</p>
+            <p class="text">{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-flow]').forEach((card) => {
+    const steps = Array.from(card.querySelectorAll<HTMLElement>('.step'));
+    if (reduce || steps.length === 0) {
+      steps.forEach((s) => s.classList.add('seen'));
+      return;
+    }
+    let i = 0;
+    const tick = () => {
+      steps.forEach((s, n) => {
+        s.classList.toggle('active', n === i);
+        s.classList.toggle('seen', n < i);
+      });
+      i = (i + 1) % (steps.length + 1);
+      // Pause briefly on the finished state before starting again
+      const wait = i === 0 ? 2600 : 1700;
+      setTimeout(tick, wait);
+    };
+    tick();
+  });
+</script>
+
+<style>
+  .flow-wrap { animation: float 6s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+  .flow-card {
+    position: relative;
+    background: linear-gradient(180deg, var(--ink-800), #221c2e);
+    border: 1px solid var(--ink-700);
+    border-radius: 18px;
+    padding: clamp(20px, 3vw, 28px);
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .7), 0 0 0 1px rgba(245, 165, 36, .06);
+  }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .label { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+  .tag { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--on-dark-2); border: 1px solid var(--ink-700); border-radius: 999px; padding: 3px 9px; }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; position: relative; }
+  .step {
+    position: relative;
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    opacity: .5;
+    transition: opacity .45s ease, background-color .45s ease, border-color .45s ease, transform .45s ease;
+  }
+  .step.seen { opacity: .85; }
+  .step.active { opacity: 1; background: rgba(245, 165, 36, .1); border-color: rgba(245, 165, 36, .45); transform: translateX(4px); }
+  .icon {
+    flex: 0 0 36px; height: 36px; border-radius: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--ink-700); color: var(--lav);
+    transition: background-color .45s ease, color .45s ease;
+  }
+  .step.active .icon, .step.seen .icon { background: var(--amber); color: var(--ink-900); }
+  .step.final.active .icon { box-shadow: 0 0 0 6px rgba(245, 165, 36, .2); }
+  .time { font-size: 12px; font-weight: 700; color: var(--on-dark-2); letter-spacing: .04em; }
+  .title { font-weight: 800; font-size: 16px; color: var(--white); line-height: 1.3; }
+  .text { font-size: 14px; color: #c9c3dc; line-height: 1.5; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow-wrap { animation: none; }
+    .step { opacity: 1; transform: none !important; }
+  }
+</style>

@@ -1,44 +1,123 @@
 ---
-import { site, nav } from '../data/site';
+import LogoMark from '../assets/logo-mark-light.svg';
+import { site, socials, trades } from '../data/site';
 const year = new Date().getFullYear();
+
+const services = [
+  { href: '/services', label: 'Websites for tradies' },
+  { href: '/services#automations', label: 'Automations' },
+  { href: '/pricing#presence', label: 'Pilot Presence' },
+  { href: '/pricing#lead-engine', label: 'Pilot Lead Engine' },
+  { href: '/pricing#digital-hq', label: 'Pilot Digital HQ' },
+  { href: '/pricing#care', label: 'Website Care' },
+];
+const company = [
+  { href: '/services', label: 'What we do' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/contact', label: 'Free discovery call' },
+  { href: '/privacy', label: 'Privacy Policy' },
+  { href: '/terms', label: 'Terms of Use' },
+];
+
+// Simple outline icons, drawn in the current text colour.
+const icons: Record<string, string> = {
+  Facebook: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+  Instagram: '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4z"/><path d="M17.5 6.5h.01"/>',
+  LinkedIn: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
+  TikTok: '<path d="M16 3c.3 2.4 1.9 4 4 4.2v3.3c-1.5 0-2.9-.4-4-1.2V15a6 6 0 1 1-6-6v3.4a2.6 2.6 0 1 0 2.6 2.6V3z"/>',
+  YouTube: '<path d="M22.5 6.4a2.8 2.8 0 0 0-2-2C18.9 4 12 4 12 4s-6.9 0-8.5.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1 12a29 29 0 0 0 .5 5.6 2.8 2.8 0 0 0 2 2c1.6.4 8.5.4 8.5.4s6.9 0 8.5-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 23 12a29 29 0 0 0-.5-5.6z"/><path d="m9.8 15.3 5.7-3.3-5.7-3.3z"/>',
+};
+const liveSocials = socials.filter((s) => s.url);
 ---
 
 <footer class="site-footer on-dark">
-  <div class="container cols">
-    <div>
-      <p class="name">PILOT SYSTEMS</p>
-      <p>{site.tagline}</p>
+  <div class="container top">
+    <div class="brand-col">
+      <a href="/" class="brand" aria-label="Pilot Systems home">
+        <LogoMark class="mark" aria-hidden="true" />
+        <span>PILOT SYSTEMS</span>
+      </a>
+      <p class="tag">Simple systems. Clearer days. Websites and practical automations built for Australian tradies.</p>
+      {liveSocials.length > 0 && (
+        <ul class="socials" role="list">
+          {liveSocials.map((s) => (
+            <li>
+              <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={`Pilot Systems on ${s.name} (opens in a new tab)`}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[s.name]} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p class="abn">ABN: {site.abn}</p>
     </div>
-    <div>
-      <p>{site.location}</p>
-      <p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
-      <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
-      <p>ABN {site.abn}</p>
-    </div>
-    <nav aria-label="Footer">
-      <ul>
-        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-        <li><a href="/privacy">Privacy Policy</a></li>
-        <li><a href="/terms">Terms of Use</a></li>
-      </ul>
+
+    <nav aria-labelledby="f-services">
+      <h2 id="f-services" class="col-head">Services</h2>
+      <ul role="list">{services.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
     </nav>
+
+    <nav aria-labelledby="f-company">
+      <h2 id="f-company" class="col-head">Company</h2>
+      <ul role="list">{company.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+    </nav>
+
+    <div>
+      <h2 class="col-head">Contact</h2>
+      <p class="strong"><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
+      <p class="strong"><a href="/contact">Contact us</a></p>
+      <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      <p class="muted-dark">Based in {site.location}.<br />Working with tradies Australia-wide.</p>
+    </div>
   </div>
-  <p class="legal">© {year} Pilot Systems. Pilot Systems is a registered business name of {site.owner}.</p>
+
+  <div class="container who">
+    <h2 class="col-head">Who we build for</h2>
+    <ul class="trades" role="list">{trades.map((t) => <li>{t}</li>)}</ul>
+  </div>
+
+  <div class="container bottom">
+    <p>© {year} Pilot Systems. All rights reserved.</p>
+    <p>Pilot Systems is a registered business name of {site.owner}.</p>
+  </div>
 </footer>
 
 <style>
-  .site-footer { background: var(--navy-900); color: var(--on-dark-2); font-size: 14px; line-height: 1.9; }
-  .cols {
+  .site-footer { background: var(--ink-950); color: var(--on-dark-2); font-size: 15px; }
+  .top {
     display: grid;
-    gap: 32px;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-    padding-block: 48px;
+    gap: 40px;
+    grid-template-columns: 1.3fr 1fr 1fr 1.1fr;
+    padding-block: 64px 48px;
   }
-  .name { color: var(--white); font-weight: 800; letter-spacing: 0.12em; margin-bottom: 6px; }
-  a { color: var(--white); text-decoration: none; }
-  a:hover { color: var(--lav); text-decoration: underline; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--on-dark); font-weight: 800; letter-spacing: .12em; font-size: 18px; margin-bottom: 14px; }
+  .brand :global(.mark) { width: 44px; }
+  .tag { line-height: 1.6; margin-bottom: 18px; max-width: 300px; }
+  .socials { list-style: none; margin: 0 0 18px; padding: 0; display: flex; gap: 14px; }
+  .socials a { color: var(--on-dark-2); display: inline-flex; padding: 4px; border-radius: 6px; transition: color .18s ease, transform .18s ease; }
+  .socials a:hover { color: var(--amber); transform: translateY(-2px); }
+  .abn { color: var(--on-dark); }
+  .col-head { font-size: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 18px; }
   ul { list-style: none; margin: 0; padding: 0; }
-  ul a { color: var(--on-dark); }
-  .legal { border-top: 1px solid #241d48; padding: 18px var(--gutter); text-align: center; font-size: 13px; }
+  nav li { margin-bottom: 11px; }
+  a { color: var(--on-dark-2); text-decoration: none; transition: color .18s ease; }
+  a:hover { color: var(--white); }
+  .strong { margin-bottom: 12px; }
+  .strong a { color: var(--white); font-weight: 700; }
+  .top p { margin-bottom: 12px; }
+  .muted-dark { line-height: 1.6; }
+
+  .who { border-top: 1px solid var(--ink-800); padding-block: 36px; }
+  .trades { display: flex; flex-wrap: wrap; gap: 10px 24px; color: var(--on-dark); }
+
+  .bottom {
+    border-top: 1px solid var(--ink-800);
+    padding-block: 22px;
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 900px) { .top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .top { grid-template-columns: 1fr; gap: 32px; } }
   @media (max-width: 700px) { .site-footer { padding-bottom: 76px; } }
 </style>

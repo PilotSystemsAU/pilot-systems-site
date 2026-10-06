@@ -27,7 +27,7 @@ const fields = [
       <div class="side">
         <div class="card call">
           <h2 class="h3">Prefer to talk?</h2>
-          <a class="btn btn--solid call-btn" href={site.phoneHref}>Call {site.phoneDisplay}</a>
+          <a class="btn btn--primary call-btn" href={site.phoneHref}>Call {site.phoneDisplay}</a>
           <p class="muted">Call any time. If we can't pick up, leave a message and we'll call you back within one business day.</p>
         </div>
 
@@ -83,7 +83,7 @@ const fields = [
 
         <p class="consent">By sending this form, you agree to Pilot Systems using your details to respond to your enquiry. Read the <a href="/privacy">Privacy Policy</a>.</p>
 
-        <button class="btn btn--solid submit" type="submit">Send my enquiry</button>
+        <button class="btn btn--primary submit" type="submit">Send my enquiry</button>
         <p class="status" role="status" aria-live="polite"></p>
       </form>
     </div>
@@ -146,7 +146,7 @@ const fields = [
   .side { display: grid; gap: 36px; }
   .h3 { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 14px; }
   .call-btn { width: 100%; font-size: 16px; margin-bottom: 14px; }
-  .next ol { margin: 0; padding-left: 22px; display: grid; gap: 12px; color: var(--ink-2); }
+  .next ol { margin: 0; padding-left: 22px; display: grid; gap: 12px; color: var(--text-2); }
   .next strong { color: var(--ink); }
   .other p { margin-bottom: 4px; }
 
@@ -160,16 +160,16 @@ const fields = [
     font: 400 16px/1.5 var(--font);
     color: var(--ink);
     background: var(--white);
-    border: 1.5px solid #9c98b3;
+    border: 1.5px solid #9a93a8;
     border-radius: var(--radius);
     padding: 12px 14px;
     min-height: 48px;
   }
-  input:focus-visible, textarea:focus-visible { outline: 3px solid var(--indigo); outline-offset: 1px; border-color: var(--indigo); }
+  input:focus-visible, textarea:focus-visible { outline: 3px solid var(--amber-ink); outline-offset: 1px; border-color: var(--amber-ink); }
   [aria-invalid='true'] { border-color: #b3261e; }
   .error { color: #b3261e; font-size: 14px; font-weight: 600; margin-top: 6px; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-  .consent { font-size: 14px; color: var(--ink-2); margin: 6px 0 18px; }
+  .consent { font-size: 14px; color: var(--text-2); margin: 6px 0 18px; }
   .submit { width: 100%; }
   .submit:disabled { opacity: .7; cursor: progress; }
   .status { margin-top: 14px; font-weight: 600; }

@@ -1,17 +1,12 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EnquiryFlow from '../components/EnquiryFlow.astro';
+import TradesMarquee from '../components/TradesMarquee.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
 import headshot from '../assets/declan-headshot.jpg';
 import { site } from '../data/site';
-
-const flow = [
-  { title: 'They find you.', text: 'A clear, fast website shows up when locals search.' },
-  { title: 'They reach out on the spot.', text: 'Tap to call, or a quick quote form.' },
-  { title: 'They get a reply straight away.', text: "Even when you're on the tools." },
-  { title: "You're first to respond.", text: 'The enquiry is waiting for you, with all the details.' },
-];
 
 const pains = [
   { quote: "I miss calls while I'm on the tools.", fix: 'Missed-call text-back' },
@@ -37,19 +32,27 @@ const steps = [
 ];
 
 const tiers = [
-  { name: 'Pilot Presence', price: '$1,790', from: false, best: 'Looking professional and getting quote requests' },
-  { name: 'Pilot Lead Engine', price: '$3,490', from: false, best: 'Winning and tracking more enquiries', featured: true },
-  { name: 'Pilot Digital HQ', price: '$5,990', from: true, best: 'Growing businesses that need one advanced feature' },
+  { id: 'presence', name: 'Pilot Presence', label: 'Fixed price', price: '$1,790', best: 'Look professional and get quote requests.' },
+  { id: 'lead-engine', name: 'Pilot Lead Engine', label: 'Fixed price', price: '$3,490', best: 'Win, qualify and track more enquiries.', featured: true },
+  { id: 'digital-hq', name: 'Pilot Digital HQ', label: 'From', price: '$5,990', best: 'A tailored site with a custom tool built in.' },
 ];
 
 const reasons = [
-  { title: 'You own everything.', text: 'Your domain, website and accounts are in your name. No lock-in contracts.' },
-  { title: 'Built for your business, not from a template.', text: 'Every project starts with a discovery call and a written plan.' },
-  { title: 'Fixed price, written scope.', text: "You know exactly what you're getting, and what it costs, before work starts." },
-  { title: 'Built with security in mind.', text: "Secure connections (HTTPS), security settings and careful handling of your customers' details." },
-  { title: 'Easy to use on any phone.', text: 'Readable text, big buttons and pages that load quickly.' },
-  { title: 'Local and accountable.', text: 'A registered Melbourne business with its ABN on show, working with tradies Australia-wide. You deal directly with the founder.' },
+  { icon: 'key', title: 'You own everything.', text: 'Your domain, website and accounts are in your name. No lock-in contracts.' },
+  { icon: 'layout', title: 'Built for you, not from a template.', text: 'Every project starts with a discovery call and a written plan.' },
+  { icon: 'file', title: 'Fixed price, written scope.', text: "You know exactly what you're getting, and what it costs, before work starts." },
+  { icon: 'shield', title: 'Built with security in mind.', text: "Secure connections (HTTPS), security settings and careful handling of your customers' details." },
+  { icon: 'phone', title: 'Easy to use on any phone.', text: 'Readable text, big buttons and pages that load quickly.' },
+  { icon: 'pin', title: 'Local and accountable.', text: 'A registered Melbourne business with its ABN on show, working with tradies Australia-wide. You deal directly with the founder.' },
 ];
+const reasonIcons: Record<string, string> = {
+  key: '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
+  layout: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>',
+  file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+  phone: '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>',
+  pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+};
 
 const faqs = [
   { q: 'Do I own my website?', a: "Yes. Your domain is registered in your business's name, your accounts are in your name, and we get access to work on them. If you ever move on, we'll hand everything over." },
@@ -68,81 +71,74 @@ const faqs = [
 >
   <!-- HERO -->
   <section class="hero section--dark on-dark">
+    <div class="glow" aria-hidden="true"></div>
     <div class="container hero-grid">
       <div class="hero-copy">
-        <p class="kicker">Websites + automations for Australian tradies</p>
-        <h1 class="h1">Simple systems.<br /><span class="lav">Clearer days.</span></h1>
-        <p class="lead">A proper website that turns visitors into enquiries, plus simple automations that handle the follow-up, so you're not doing admin on your phone at 9pm.</p>
-        <div class="btn-row">
-          <a class="btn btn--light" href="/contact">{site.cta}</a>
+        <p class="kicker rise" style="--d:0ms">Websites + automations for Australian tradies</p>
+        <h1 class="h1 rise" style="--d:80ms">Simple systems.<br /><span class="accent">Clearer days.</span></h1>
+        <p class="lead rise" style="--d:160ms">Your website brings in the enquiries. Our automations reply, follow up and chase invoices for you, so no job slips away while you're on the tools.</p>
+        <div class="btn-row rise" style="--d:240ms">
+          <a class="btn btn--primary" href="/contact">{site.cta}</a>
           <a class="btn btn--ghost" href={site.phoneHref}>Call {site.phoneDisplay}</a>
         </div>
-        <p class="small-print">Melbourne-based <span aria-hidden="true">·</span> Reply within one business day <span aria-hidden="true">·</span> You own your website</p>
+        <ul class="assurances rise" style="--d:320ms" role="list">
+          <li>Fixed prices</li>
+          <li>No lock-in contracts</li>
+          <li>Tradies Australia-wide</li>
+        </ul>
       </div>
-
-      <div class="flow-card" aria-labelledby="flow-heading">
-        <p id="flow-heading" class="flow-label">What a connected website and automations do for you</p>
-        <ol class="flow">
-          {flow.map((s, i) => (
-            <li style={`--d:${i * 140}ms`}>
-              <span class:list={['num', { last: i === flow.length - 1 }]} aria-hidden="true">{i + 1}</span>
-              <div>
-                <p class="flow-title">{s.title}</p>
-                <p class="flow-text">{s.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-        <p class="payoff">Fewer missed enquiries. Faster replies. Less admin.</p>
+      <div class="rise" style="--d:200ms">
+        <EnquiryFlow />
       </div>
     </div>
   </section>
 
-  <!-- TRADES -->
-  <section class="trades" aria-label="Trades we work with">
-    <p class="container">Electricians · Plumbers · Builders · Carpenters · Landscapers · Painters · Roofers · Handymen · And more</p>
-  </section>
+  <TradesMarquee />
 
   <!-- SOUNDS LIKE YOU -->
   <section class="section" aria-labelledby="pains-heading">
     <div class="container">
-      <p class="kicker">The problem</p>
-      <h2 id="pains-heading" class="h2">Sounds like you?</h2>
-      <p class="lead">These are the places trade businesses most often lose work and time.</p>
+      <div data-reveal>
+        <p class="kicker">The problem</p>
+        <h2 id="pains-heading" class="h2">Sounds like you?</h2>
+        <p class="lead intro">These are the places trade businesses most often lose work and time.</p>
+      </div>
       <ul class="grid-auto pains" role="list">
-        {pains.map((p) => (
-          <li class="card pain">
+        {pains.map((p, i) => (
+          <li class="card card--hover pain" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
             <p class="quote">“{p.quote}”</p>
             <p class="fix"><span class="sr-only">How we fix it: </span><span aria-hidden="true">→ </span>{p.fix}</p>
           </li>
         ))}
       </ul>
-      <a class="btn btn--solid" href="/contact">{site.cta}</a>
+      <div data-reveal><a class="btn btn--primary" href="/contact">{site.cta}</a></div>
     </div>
   </section>
 
   <!-- HOW IT FITS -->
   <section class="section section--white" aria-labelledby="fits-heading">
     <div class="container">
-      <p class="kicker">What we do</p>
-      <h2 id="fits-heading" class="h2">How it fits together</h2>
+      <div data-reveal>
+        <p class="kicker">What we do</p>
+        <h2 id="fits-heading" class="h2">How it fits together</h2>
+      </div>
       <div class="pillars">
-        {pillars.map((p) => (
-          <div class="pillar">
+        {pillars.map((p, i) => (
+          <div class="pillar" data-reveal style={`--reveal-delay:${i * 110}ms`}>
             <p class="pillar-label">{p.label}</p>
             <h3>{p.title}</h3>
             <p class="muted">{p.text}</p>
           </div>
         ))}
       </div>
-      <a class="text-link" href="/services">See what we do →</a>
+      <a class="text-link" href="/services" data-reveal>See what we do →</a>
     </div>
   </section>
 
   <!-- MISSED CALL -->
-  <section class="section section--dark on-dark" aria-labelledby="missed-heading">
+  <section class="section section--dark on-dark missed-sec" aria-labelledby="missed-heading">
     <div class="container split">
-      <div>
+      <div data-reveal>
         <p class="kicker">Built for tradies who can't answer the phone</p>
         <h2 id="missed-heading" class="h2 big">You can't answer on a roof. This can.</h2>
         <p class="lead">Missed-call text-back replies for you the moment you can't pick up, so the job doesn't go to the next number on Google.</p>
@@ -150,20 +146,20 @@ const faqs = [
       </div>
       <div>
         <ol class="missed" role="list">
-          <li>
+          <li data-reveal style="--reveal-delay:0ms">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 1 17 7M17 1l6 6"></path><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg>
             <p><strong>1.</strong> You miss a call because you're working.</p>
           </li>
-          <li>
+          <li data-reveal style="--reveal-delay:120ms">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             <p><strong>2.</strong> The caller gets a text straight away, with a link to your quote form.</p>
           </li>
-          <li class="done">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"></path></svg>
+          <li class="done" data-reveal style="--reveal-delay:240ms">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
             <p><strong>3.</strong> Their details land in one place, ready for when you're off the tools.</p>
           </li>
         </ol>
-        <p class="bundles">Other bundles: <a href="/services#automations">Quote Conversion · Job Communication · Cashflow · Reputation · Operations</a></p>
+        <p class="bundles" data-reveal>Other bundles: <a href="/services#automations">Quote Conversion · Job Communication · Cashflow · Reputation · Operations</a></p>
       </div>
     </div>
   </section>
@@ -171,11 +167,13 @@ const faqs = [
   <!-- HOW IT WORKS -->
   <section class="section" aria-labelledby="process-heading">
     <div class="container">
-      <p class="kicker">The process</p>
-      <h2 id="process-heading" class="h2">How it works</h2>
+      <div data-reveal>
+        <p class="kicker">The process</p>
+        <h2 id="process-heading" class="h2">How it works</h2>
+      </div>
       <ol class="steps" role="list">
         {steps.map((s, i) => (
-          <li class="card">
+          <li class="card card--hover" data-reveal style={`--reveal-delay:${i * 90}ms`}>
             <p class="step-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
             <h3><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
             <p class="muted">{s.text}</p>
@@ -188,30 +186,41 @@ const faqs = [
   <!-- PRICING PREVIEW -->
   <section class="section section--white" aria-labelledby="pricing-heading">
     <div class="container">
-      <p class="kicker">Pricing</p>
-      <h2 id="pricing-heading" class="h2">Clear prices, up front</h2>
-      <p class="lead">Founding-client rates for our first five projects. No GST is added.</p>
+      <div data-reveal>
+        <p class="kicker">Pricing</p>
+        <h2 id="pricing-heading" class="h2">Clear prices, up front</h2>
+        <p class="lead intro">Founding-client rates for our first five projects. No GST is added.</p>
+      </div>
       <ul class="tiers" role="list">
-        {tiers.map((t) => (
-          <li class:list={['tier', { featured: t.featured }]}>
-            <h3 class="tier-name">{t.name}</h3>
-            <p class="tier-price">{t.from && <span class="from">From </span>}{t.price}</p>
-            <p class="muted">{t.best}</p>
+        {tiers.map((t, i) => (
+          <li data-reveal style={`--reveal-delay:${i * 100}ms`}>
+            <a class:list={['tier', { featured: t.featured }]} href={`/pricing#${t.id}`}>
+              {t.featured && <span class="badge">Recommended</span>}
+              <span class="tier-name">{t.name}</span>
+              <span class="tier-label">{t.label}</span>
+              <span class="tier-price">{t.price}</span>
+              <span class="tier-best">{t.best}</span>
+              <span class="tier-more">See what's included <span aria-hidden="true">→</span></span>
+            </a>
           </li>
         ))}
       </ul>
-      <a class="text-link" href="/pricing">See full pricing →</a>
     </div>
   </section>
 
   <!-- WHY -->
   <section class="section" aria-labelledby="why-heading">
     <div class="container">
-      <p class="kicker">Why us</p>
-      <h2 id="why-heading" class="h2">Why Pilot Systems</h2>
+      <div data-reveal>
+        <p class="kicker">Why us</p>
+        <h2 id="why-heading" class="h2">Why Pilot Systems</h2>
+      </div>
       <ul class="reasons" role="list">
-        {reasons.map((r) => (
-          <li>
+        {reasons.map((r, i) => (
+          <li class="card card--hover reason" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
+            <span class="icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={reasonIcons[r.icon]} />
+            </span>
             <h3>{r.title}</h3>
             <p class="muted">{r.text}</p>
           </li>
@@ -223,12 +232,14 @@ const faqs = [
   <!-- FOUNDER -->
   <section class="section section--white" aria-labelledby="founder-heading">
     <div class="container founder">
-      <Image src={headshot} alt="Declan Cawthorn, founder of Pilot Systems" widths={[320, 480, 640]} sizes="(max-width: 700px) 80vw, 320px" class="headshot" />
-      <div>
+      <div class="photo" data-reveal>
+        <Image src={headshot} alt="Declan Cawthorn, founder of Pilot Systems" widths={[320, 480, 640]} sizes="(max-width: 700px) 80vw, 320px" class="headshot" />
+      </div>
+      <div data-reveal style="--reveal-delay:120ms">
         <p class="kicker">Meet the founder</p>
         <h2 id="founder-heading" class="h2">You'll deal with me, start to finish</h2>
         <p class="lead">I'm Declan Cawthorn, founder of Pilot Systems. I'm passionate about good website design, cybersecurity and helping trade businesses run better. From the first call to launch day, you deal with the person doing the work.</p>
-        <a class="text-link" href="/about">More about me →</a>
+        <a class="text-link" href="/contact">Book a call with Declan →</a>
       </div>
     </div>
   </section>
@@ -238,79 +249,111 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  .hero { padding-block: clamp(56px, 8vw, 96px); }
-  .hero-grid { display: grid; gap: 48px; align-items: center; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+  /* Hero */
+  .hero { position: relative; overflow: hidden; padding-block: clamp(56px, 8vw, 100px); }
+  .glow {
+    position: absolute; top: -30%; right: -10%; width: 65%; height: 150%;
+    background: radial-gradient(closest-side, rgba(245, 165, 36, .18), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid { position: relative; display: grid; gap: 56px; align-items: center; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
   .h1 { margin-bottom: 26px; }
-  .lav { color: var(--lav); }
+  .accent { color: var(--amber); }
   .hero .lead { margin-bottom: 34px; max-width: 560px; }
-  .hero .btn-row { margin-bottom: 24px; }
-  .small-print { font-size: 14px; color: var(--on-dark-2); font-weight: 500; }
+  .hero .btn-row { margin-bottom: 26px; }
+  .assurances { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: 14px; font-weight: 600; color: var(--on-dark); }
+  .assurances li { display: flex; align-items: center; gap: 8px; }
+  .assurances li::before {
+    content: ''; width: 16px; height: 16px; border-radius: 50%; flex: 0 0 16px;
+    background: var(--amber) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231c1726' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 10px no-repeat;
+  }
+  .rise { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; animation-delay: var(--d, 0ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 
-  .flow-card { background: var(--navy-700); border: 1px solid var(--navy-600); border-radius: 16px; padding: clamp(22px, 3vw, 30px); }
-  .flow-label { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lav); margin-bottom: 22px; }
-  .flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
-  .flow li { display: flex; gap: 16px; animation: rise .5s ease both; animation-delay: var(--d); }
-  .num { flex: 0 0 36px; height: 36px; border-radius: 50%; background: var(--navy-600); color: var(--white); font-weight: 800; display: flex; align-items: center; justify-content: center; }
-  .num.last { background: var(--white); color: var(--indigo); }
-  .flow-title { font-weight: 800; font-size: 17px; margin-bottom: 2px; }
-  .flow-text { color: #c9c5e2; font-size: 15px; line-height: 1.55; }
-  .payoff { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--navy-600); font-weight: 800; }
-  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .intro { margin-bottom: 40px; }
 
-  .trades { background: var(--indigo); color: var(--white); }
-  .trades p { padding-block: 18px; text-align: center; font-weight: 800; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.9; }
-
-  .section > .container > .lead { margin-bottom: 40px; }
+  /* Pains */
   .pains { list-style: none; padding: 0; margin: 0 0 36px; }
   .pain { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; }
   .quote { font-size: 19px; font-weight: 700; line-height: 1.4; }
-  .fix { align-self: flex-start; background: var(--lav-soft); color: var(--indigo); font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 8px; }
+  .fix { align-self: flex-start; background: var(--amber-tint); color: var(--amber-ink); font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 8px; }
 
+  /* Pillars */
   .pillars { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin: 40px 0; }
-  .pillar { border-top: 4px solid var(--indigo); padding-top: 24px; }
+  .pillar { border-top: 4px solid var(--amber); padding-top: 24px; }
   .pillar-label { font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
   .pillar h3 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
 
+  /* Missed call */
+  .missed-sec { position: relative; overflow: hidden; }
   .split { display: grid; gap: 48px; align-items: center; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
   .big { font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 22px; }
   .split .lead { margin-bottom: 24px; }
   .price-note { color: var(--on-dark-2); }
-  .price-note strong { color: var(--white); }
+  .price-note strong { color: var(--amber); }
   .missed { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-  .missed li { display: flex; gap: 16px; align-items: center; background: var(--navy-700); border: 1px solid var(--navy-600); border-radius: var(--radius-card); padding: 20px 22px; }
-  .missed svg { flex: 0 0 26px; color: var(--lav); }
-  .missed li.done { background: var(--white); color: var(--ink); border-color: var(--white); }
-  .missed li.done svg { color: var(--indigo); }
+  .missed li { display: flex; gap: 16px; align-items: center; background: var(--ink-800); border: 1px solid var(--ink-700); border-radius: var(--radius-card); padding: 20px 22px; transition: border-color .2s ease, transform .2s ease; }
+  .missed li:hover { border-color: var(--amber); }
+  .missed svg { flex: 0 0 26px; color: var(--amber); }
+  .missed li.done { background: var(--amber); color: var(--ink-900); border-color: var(--amber); }
+  .missed li.done svg { color: var(--ink-900); }
   .bundles { margin-top: 16px; font-size: 14px; color: var(--on-dark-2); line-height: 1.8; }
   .bundles a { color: var(--on-dark); }
+  .bundles a:hover { color: var(--amber); }
 
+  /* Steps */
   .steps { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
-  .step-num { font-size: 34px; font-weight: 900; color: var(--indigo); margin-bottom: 12px; line-height: 1; }
+  .step-num { font-size: 34px; font-weight: 900; color: var(--amber-ink); margin-bottom: 12px; line-height: 1; }
   .steps h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
   .steps .muted { font-size: 15px; line-height: 1.6; }
 
-  .tiers { list-style: none; padding: 0; margin: 0 0 32px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
-  .tier { border: 1px solid var(--border); border-radius: 14px; padding: 30px; }
-  .tier.featured { border: 2px solid var(--indigo); background: var(--lav-tint); }
-  .tier-name { font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-  .tier.featured .tier-name { color: var(--indigo); }
-  .tier-price { font-size: 44px; font-weight: 900; margin: 6px 0 8px; line-height: 1.1; }
-  .from { font-size: 20px; font-weight: 700; }
+  /* Pricing preview: every card highlights on hover; the featured one is
+     highlighted by default unless another card is being hovered. */
+  .tiers { list-style: none; padding: 0; margin: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  .tiers li { display: flex; }
+  .tier {
+    position: relative; flex: 1;
+    display: flex; flex-direction: column;
+    background: var(--paper); color: var(--text); text-decoration: none;
+    border: 2px solid var(--border); border-radius: 16px; padding: 34px 30px 28px;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background-color .22s ease;
+  }
+  .tier.featured, .tier:hover, .tier:focus-visible {
+    border-color: var(--amber); background: var(--amber-tint); box-shadow: var(--shadow-lift);
+  }
+  .tier:hover, .tier:focus-visible { transform: translateY(-6px); }
+  .tiers:hover .tier.featured:not(:hover) { border-color: var(--border); background: var(--paper); box-shadow: none; transform: none; }
+  .badge { position: absolute; top: -13px; left: 28px; background: var(--amber); color: var(--ink-900); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; }
+  .tier-name { font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-2); }
+  .tier-label { margin-top: 18px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .tier-price { font-size: 46px; font-weight: 900; line-height: 1.05; margin-bottom: 10px; }
+  .tier-best { font-size: 16px; line-height: 1.5; color: var(--text-2); min-height: 3em; }
+  .tier-more { margin-top: 18px; font-weight: 800; font-size: 14px; color: var(--amber-ink); }
+  .tier:hover .tier-more span { display: inline-block; transform: translateX(4px); transition: transform .2s ease; }
 
-  .reasons { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 34px 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
-  .reasons h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  /* Why */
+  .reasons { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+  .reason .icon-badge { margin-bottom: 16px; }
+  .reason h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
 
+  /* Founder */
   .founder { display: grid; gap: 48px; align-items: center; grid-template-columns: 320px minmax(0, 1fr); }
-  .founder :global(.headshot) { width: 100%; height: auto; border-radius: 16px; aspect-ratio: 4 / 5; object-fit: cover; }
+  .photo { position: relative; }
+  .photo::before { content: ''; position: absolute; inset: 14px -14px -14px 14px; border-radius: 18px; background: var(--amber); z-index: 0; }
+  .founder :global(.headshot) { position: relative; z-index: 1; width: 100%; height: auto; border-radius: 18px; aspect-ratio: 4 / 5; object-fit: cover; }
   .founder .lead { margin-bottom: 22px; }
 
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
     .founder { grid-template-columns: 1fr; }
-    .founder :global(.headshot) { max-width: 320px; }
+    .photo { max-width: 300px; }
   }
   @media (max-width: 480px) {
     .btn-row .btn { width: 100%; }
-    .tier-price { font-size: 38px; }
+    .tier-price { font-size: 40px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rise { animation: none; }
+    .tier:hover, .tier.featured { transform: none; }
   }
 </style>

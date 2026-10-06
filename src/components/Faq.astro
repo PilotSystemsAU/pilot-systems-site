@@ -2,19 +2,23 @@
 interface Props {
   heading?: string;
   items: { q: string; a: string }[];
+  tone?: 'paper' | 'white';
 }
-const { heading = 'Common questions', items } = Astro.props;
+const { heading = 'Common questions', items, tone = 'paper' } = Astro.props;
 ---
 
-<section class="section faq" aria-labelledby="faq-heading">
+<section class:list={['section faq', { 'section--white': tone === 'white' }]} aria-labelledby="faq-heading">
   <div class="container">
-    <h2 id="faq-heading" class="h2">{heading}</h2>
+    <h2 id="faq-heading" class="h2" data-reveal>{heading}</h2>
     <div class="list">
-      {items.map((item) => (
-        <div class="item">
-          <h3>{item.q}</h3>
+      {items.map((item, i) => (
+        <details class="item" data-reveal style={`--reveal-delay:${(i % 2) * 80}ms`}>
+          <summary>
+            <h3>{item.q}</h3>
+            <span class="chev" aria-hidden="true"></span>
+          </summary>
           <p>{item.a}</p>
-        </div>
+        </details>
       ))}
     </div>
   </div>
@@ -22,8 +26,16 @@ const { heading = 'Common questions', items } = Astro.props;
 
 <style>
   .h2 { margin-bottom: 32px; }
-  .list { display: grid; gap: 0 48px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
-  .item { border-top: 1px solid var(--border-2); padding: 24px 0; }
-  h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; line-height: 1.35; }
-  p { color: var(--ink-2); line-height: 1.7; }
+  .list { display: grid; gap: 14px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: start; }
+  .item { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow); transition: border-color .2s ease; }
+  .section--white .item { background: var(--paper); }
+  .item[open], .item:hover { border-color: var(--amber); }
+  summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; }
+  summary::-webkit-details-marker { display: none; }
+  h3 { font-size: 17px; font-weight: 800; line-height: 1.35; }
+  .chev { flex: 0 0 22px; height: 22px; border-radius: 50%; background: var(--amber-tint); position: relative; transition: transform .25s ease; }
+  .chev::before, .chev::after { content: ''; position: absolute; left: 6px; right: 6px; top: 10px; height: 2px; background: var(--amber-ink); border-radius: 2px; }
+  .chev::after { transform: rotate(90deg); transition: transform .25s ease; }
+  .item[open] .chev::after { transform: rotate(0); }
+  p { color: var(--text-2); line-height: 1.7; padding: 0 22px 20px; }
 </style>

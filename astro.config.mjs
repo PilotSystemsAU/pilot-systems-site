@@ -11,6 +11,7 @@ export default defineConfig({
   ],
   redirects: {
     '/home': '/',
-    '/who-we-are': '/about',
+    '/who-we-are': '/',
+    '/about': '/',
   },
 });

@@ -14,8 +14,23 @@ export const site = {
 };
 
 export const nav = [
-  { href: '/services', label: 'What We Do' },
+  { href: '/services', label: 'Websites' },
+  { href: '/services#automations', label: 'Automations' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+];
+
+// Social profiles: add each full URL. An entry with an empty url is not shown.
+export const socials: { name: 'Facebook' | 'Instagram' | 'LinkedIn' | 'TikTok' | 'YouTube'; url: string }[] = [
+  { name: 'Facebook', url: '' },
+  { name: 'Instagram', url: '' },
+  { name: 'LinkedIn', url: '' },
+  { name: 'TikTok', url: '' },
+  { name: 'YouTube', url: '' },
+];
+
+export const trades = [
+  'Electricians', 'Plumbers', 'Builders', 'Carpenters', 'Landscapers', 'Painters',
+  'Roofers', 'Handymen', 'Tilers', 'Plasterers', 'Concreters', 'Fencers',
+  'Bricklayers', 'Air conditioning techs', 'Solar installers', 'Glaziers',
 ];

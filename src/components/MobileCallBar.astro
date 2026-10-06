@@ -4,7 +4,7 @@ import { site } from '../data/site';
 
 <div class="call-bar" role="region" aria-label="Quick contact">
   <a class="btn btn--ghost" href={site.phoneHref}>Call</a>
-  <a class="btn btn--light" href="/contact">Book a call</a>
+  <a class="btn btn--primary" href="/contact">Book a call</a>
 </div>
 
 <style>
@@ -18,8 +18,8 @@ import { site } from '../data/site';
       left: 0; right: 0; bottom: 0;
       z-index: 40;
       padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-      background: var(--navy-800);
-      border-top: 1px solid #2a2350;
+      background: var(--ink-900);
+      border-top: 1px solid var(--ink-700);
     }
     .call-bar .btn { min-height: 48px; padding: 12px; }
   }
