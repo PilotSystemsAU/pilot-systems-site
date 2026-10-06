@@ -3,65 +3,69 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
 
-const fields = [
-  { id: 'name', label: 'Your name', type: 'text', autocomplete: 'name', hint: '', error: 'Please enter your name.' },
-  { id: 'phone', label: 'Phone', type: 'tel', autocomplete: 'tel', hint: 'So we can call you back', error: 'Please enter a phone number so we can call you back.' },
-  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', hint: '', error: 'Please enter a valid email address, like name@example.com.' },
-  { id: 'trade', label: 'Your trade', type: 'text', autocomplete: 'organization-title', hint: 'e.g. Electrician, Plumber', error: "Please tell us what trade you're in." },
-  { id: 'suburb', label: 'Suburb', type: 'text', autocomplete: 'address-level2', hint: "Where you're based", error: 'Please enter your suburb.' },
+type Field = { id: string; label: string; type: string; autocomplete?: string; hint?: string; required: boolean; error: string };
+const fields: Field[] = [
+  { id: 'name', label: 'Your name', type: 'text', autocomplete: 'name', required: true, error: 'Please add your name.' },
+  { id: 'phone', label: 'Best number to reach you', type: 'tel', autocomplete: 'tel', required: true, error: 'Please add your phone number.' },
+  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', required: false, error: "That email doesn't look right. Please check it." },
+  { id: 'trade', label: 'Your trade', type: 'text', hint: 'e.g. electrician', required: true, error: 'Please add your trade.' },
+  { id: 'suburb', label: "Suburb you're based in", type: 'text', autocomplete: 'address-level2', required: true, error: 'Please add your suburb.' },
 ];
 ---
 
 <BaseLayout
-  title="Book a Free Discovery Call | Pilot Systems"
-  description="Book a free 15–25 minute discovery call about your website or admin. Call 0457 471 392 or send an enquiry. Reply within one business day."
+  title="Contact Pilot Systems | Book a Free Discovery Call"
+  description="Book a free 15–25 minute discovery call with Pilot Systems. Call 0457 471 392 or send an enquiry. Replies within 1 business day."
 >
   <PageHero
-    kicker="Get in touch"
+    kicker="Contact"
     title="Book a free discovery call"
-    intro="A 15–25 minute chat about your business: how enquiries come in, where time gets lost, and what you'd like to fix. Afterwards we'll recommend what will be most useful. No cost, no obligation."
+    intro="A 15–25 minute chat about your business, how you handle enquiries, and what would actually help. Afterwards, we'll send you a recommendation. Free, and no obligation."
   />
 
   <section class="section">
     <div class="container grid">
       <div class="side">
-        <div class="card call">
-          <h2 class="h3">Prefer to talk?</h2>
-          <a class="btn btn--primary call-btn" href={site.phoneHref}>Call {site.phoneDisplay}</a>
-          <p class="muted">Call any time. If we can't pick up, leave a message and we'll call you back within one business day.</p>
+        <div class="card call" data-reveal>
+          <h2 class="h3">Easiest way: give me a call</h2>
+          <a class="btn btn--primary call-btn" href={site.phoneHref}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg>
+            {site.phoneDisplay}
+          </a>
+          <p class="muted">If I'm on another call, leave a message or send the form.</p>
         </div>
 
-        <div class="next">
+        <div class="next" data-reveal style="--reveal-delay:100ms">
           <h2 class="h3">What happens next</h2>
-          <ol>
-            <li><strong>We'll reply within one business day</strong> for a quick chat about what you need and what we offer.</li>
-            <li><strong>We book your free discovery call</strong> and send you a calendar invite: 15–25 minutes on how your business runs and what's slowing you down.</li>
-            <li><strong>We recommend what will help most</strong>, with clear pricing if you want to go ahead.</li>
+          <ol class="steps" role="list">
+            <li><span class="n" aria-hidden="true">1</span><p><strong>We reply within 1 business day</strong> to set up a time.</p></li>
+            <li><span class="n" aria-hidden="true">2</span><p><strong>We talk for 15–25 minutes</strong> by phone or video.</p></li>
+            <li><span class="n" aria-hidden="true">3</span><p><strong>We send you a recommendation:</strong> what would help, and what it would cost. No obligation.</p></li>
           </ol>
         </div>
 
-        <div class="other">
-          <h2 class="h3">Other ways to reach us</h2>
+        <div class="other" data-reveal style="--reveal-delay:200ms">
           <p>Email: <a href={`mailto:${site.email}`}>{site.email}</a></p>
-          <p>Phone: <a href={site.phoneHref}>{site.phoneDisplay}</a></p>
-          <p class="muted">Based in {site.location} · ABN {site.abn}</p>
+          <p class="muted">Based in {site.location} · Working with tradies Australia-wide</p>
         </div>
       </div>
 
       <form class="card form" id="enquiry-form" action="/api/enquiry" method="post" novalidate>
         <h2 class="h3">Or send an enquiry</h2>
-        <p class="muted req-note">All fields are required.</p>
 
         {fields.map((f) => (
           <div class="field">
-            <label for={f.id}>{f.label}</label>
+            <label for={f.id}>
+              {f.label}
+              <span class:list={['req', { opt: !f.required }]}>{f.required ? 'Required' : 'Optional'}</span>
+            </label>
             {f.hint && <p class="hint" id={`${f.id}-hint`}>{f.hint}</p>}
             <input
               id={f.id}
               name={f.id}
               type={f.type}
               autocomplete={f.autocomplete}
-              required
+              required={f.required}
               aria-describedby={[f.hint ? `${f.id}-hint` : '', `${f.id}-error`].filter(Boolean).join(' ')}
             />
             <p class="error" id={`${f.id}-error`} data-msg={f.error} hidden></p>
@@ -69,10 +73,10 @@ const fields = [
         ))}
 
         <div class="field">
-          <label for="message">What do you need help with?</label>
-          <p class="hint" id="message-hint">e.g. New website, missed calls, quote follow-up</p>
+          <label for="message">What do you need help with? <span class="req">Required</span></label>
+          <p class="hint" id="message-hint">e.g. "I need a website", "I keep missing calls", "Not sure, want to talk it through"</p>
           <textarea id="message" name="message" rows="5" required aria-describedby="message-hint message-error"></textarea>
-          <p class="error" id="message-error" data-msg="Please tell us a little about what you need." hidden></p>
+          <p class="error" id="message-error" data-msg="Please add what you need help with." hidden></p>
         </div>
 
         <!-- Honeypot: hidden from people, bots tend to fill it in -->
@@ -81,7 +85,7 @@ const fields = [
           <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
         </div>
 
-        <p class="consent">By sending this form, you agree to Pilot Systems using your details to respond to your enquiry. Read the <a href="/privacy">Privacy Policy</a>.</p>
+        <p class="consent">By sending this, you agree to us contacting you about your enquiry. See our <a href="/privacy">Privacy Policy</a>.</p>
 
         <button class="btn btn--primary submit" type="submit">Send my enquiry</button>
         <p class="status" role="status" aria-live="polite"></p>
@@ -100,7 +104,10 @@ const fields = [
     const check = (el: HTMLInputElement | HTMLTextAreaElement) => {
       const err = document.getElementById(`${el.id}-error`);
       const v = el.value.trim();
-      const bad = !v || (el.type === 'email' && !emailOk(v)) || (el.type === 'tel' && v.replace(/\D/g, '').length < 8);
+      let bad = false;
+      if (el.required && !v) bad = true;
+      else if (el.type === 'email' && v && !emailOk(v)) bad = true;
+      else if (el.type === 'tel' && v && v.replace(/\D/g, '').length < 8) bad = true;
       el.setAttribute('aria-invalid', String(bad));
       if (err) {
         err.hidden = !bad;
@@ -109,7 +116,7 @@ const fields = [
       return !bad;
     };
 
-    const inputs = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[required], textarea[required]'));
+    const inputs = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.field input, .field textarea')).filter((el) => el.id !== 'company_website');
     inputs.forEach((el) => el.addEventListener('blur', () => el.value && check(el)));
 
     form.addEventListener('submit', async (e) => {
@@ -117,7 +124,8 @@ const fields = [
       const results = inputs.map(check);
       if (results.includes(false)) {
         inputs[results.indexOf(false)].focus();
-        status.textContent = 'Please fix the highlighted fields.';
+        status.textContent = 'Please check the highlighted fields.';
+        status.classList.remove('fail');
         return;
       }
       button.disabled = true;
@@ -132,7 +140,8 @@ const fields = [
         if (!res.ok) throw new Error(String(res.status));
         window.location.href = '/thanks';
       } catch {
-        status.textContent = "Sorry, your enquiry didn't go through. Please call 0457 471 392 or email declan@pilotsystems.com.au, and we'll get straight back to you.";
+        // Never show success unless the enquiry was actually sent.
+        status.textContent = "Sorry, that didn't send. Please call 0457 471 392 or email declan@pilotsystems.com.au and we'll sort it out.";
         status.classList.add('fail');
         button.disabled = false;
         button.textContent = 'Send my enquiry';
@@ -143,29 +152,36 @@ const fields = [
 
 <style>
   .grid { display: grid; gap: 40px; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: start; }
-  .side { display: grid; gap: 36px; }
+  .side { display: grid; gap: 34px; }
   .h3 { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 14px; }
-  .call-btn { width: 100%; font-size: 16px; margin-bottom: 14px; }
-  .next ol { margin: 0; padding-left: 22px; display: grid; gap: 12px; color: var(--text-2); }
-  .next strong { color: var(--ink); }
+  .call { border: 2px solid var(--amber); background: var(--amber-tint); }
+  .call-btn { width: 100%; font-size: 20px; min-height: 60px; margin-bottom: 14px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .steps li { display: flex; gap: 14px; align-items: flex-start; }
+  .n { flex: 0 0 32px; height: 32px; border-radius: 50%; background: var(--ink-900); color: var(--amber); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .steps p { color: var(--text-2); padding-top: 4px; }
+  .steps strong { color: var(--text); }
   .other p { margin-bottom: 4px; }
 
   .form { padding: clamp(22px, 3vw, 34px); }
-  .req-note { font-size: 14px; margin: -6px 0 18px; }
   .field { margin-bottom: 18px; }
-  label { display: block; font-weight: 700; margin-bottom: 4px; }
+  label { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 700; margin-bottom: 6px; }
+  .req { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--amber-ink); background: var(--amber-tint); padding: 2px 8px; border-radius: 999px; }
+  .req.opt { color: var(--muted); background: var(--paper); }
   .hint { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
   input, textarea {
     width: 100%;
     font: 400 16px/1.5 var(--font);
-    color: var(--ink);
+    color: var(--text);
     background: var(--white);
     border: 1.5px solid #9a93a8;
     border-radius: var(--radius);
     padding: 12px 14px;
     min-height: 48px;
+    transition: border-color .18s ease, box-shadow .18s ease;
   }
-  input:focus-visible, textarea:focus-visible { outline: 3px solid var(--amber-ink); outline-offset: 1px; border-color: var(--amber-ink); }
+  input:hover, textarea:hover { border-color: var(--plum); }
+  input:focus-visible, textarea:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; border-color: var(--amber-ink); }
   [aria-invalid='true'] { border-color: #b3261e; }
   .error { color: #b3261e; font-size: 14px; font-weight: 600; margin-top: 6px; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
@@ -174,7 +190,5 @@ const fields = [
   .submit:disabled { opacity: .7; cursor: progress; }
   .status { margin-top: 14px; font-weight: 600; }
   .status.fail { color: #b3261e; }
-  @media (max-width: 900px) {
-    .grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
 </style>

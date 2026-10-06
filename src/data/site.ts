@@ -3,20 +3,22 @@ export const site = {
   name: 'Pilot Systems',
   url: 'https://www.pilotsystems.com.au',
   phoneDisplay: '0457 471 392',
-  phoneHref: 'tel:0457471392',
+  phoneHref: 'tel:+61457471392',
   phoneIntl: '+61457471392',
   email: 'declan@pilotsystems.com.au',
   abn: '19 717 753 395',
   location: 'Melbourne, Victoria',
   owner: 'Declan Cawthorn',
+  legalName: 'Declan Thomas Cawthorn',
   tagline: 'Websites and practical automations for Australian tradies.',
+  description: 'Websites and practical automations for Australian trade businesses.',
   cta: 'Book a free discovery call',
 };
 
 export const nav = [
-  { href: '/services', label: 'Websites' },
-  { href: '/services#automations', label: 'Automations' },
+  { href: '/services', label: 'What We Do' },
   { href: '/pricing', label: 'Pricing' },
+  { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
 

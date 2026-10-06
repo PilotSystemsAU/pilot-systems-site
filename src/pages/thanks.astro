@@ -6,22 +6,23 @@ import { site } from '../data/site';
 <BaseLayout title="Enquiry received | Pilot Systems" description="Thanks for your enquiry." noindex>
   <section class="section msg">
     <div class="container narrow">
-      <p class="kicker">Enquiry received</p>
-      <h1 class="h2">Thanks, your enquiry's in.</h1>
-      <p class="lead">We'll be in touch within one business day to set up your free discovery call. We've also sent a confirmation to your email. If you can't see it, check your junk folder.</p>
-      <p class="lead">Need to talk sooner? Call <a href={site.phoneHref}>{site.phoneDisplay}</a>.</p>
-      <div class="btn-row">
-        <a class="btn btn--primary" href="/">Back to home</a>
-        <a class="btn btn--outline" href="/pricing">See pricing</a>
-      </div>
+      <span class="tick" aria-hidden="true">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+      </span>
+      <h1 class="h2">Thanks, your enquiry is in</h1>
+      <p class="lead">We'll get back to you within 1 business day to set up a time to chat.</p>
+      <p class="lead">In a hurry? Call <a href={site.phoneHref}><strong>{site.phoneDisplay}</strong></a>.</p>
+      <a class="btn btn--primary" href="/">Back to home</a>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .msg { min-height: 60vh; }
+  .msg { min-height: 60vh; display: flex; align-items: center; }
   .narrow { max-width: 760px; }
+  .tick { width: 68px; height: 68px; border-radius: 50%; background: var(--amber); color: var(--ink-900); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 24px; animation: pop .5s cubic-bezier(.2, .9, .3, 1.4) both; }
+  @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
   .h2 { font-size: clamp(34px, 5vw, 56px); margin-bottom: 20px; }
-  .lead { margin-bottom: 16px; }
-  .btn-row { margin-top: 28px; }
+  .lead { margin-bottom: 14px; }
+  .btn { margin-top: 18px; }
 </style>

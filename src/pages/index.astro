@@ -7,66 +7,58 @@ import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
 import headshot from '../assets/declan-headshot.jpg';
 import { site } from '../data/site';
+import { homeFaqs } from '../data/faqs';
 
 const pains = [
-  { quote: "I miss calls while I'm on the tools.", fix: 'Missed-call text-back' },
-  { quote: 'I send quotes and never hear back.', fix: 'Automatic quote follow-up' },
-  { quote: "My website's outdated, or I don't have one.", fix: 'A proper website built for your trade' },
-  { quote: "I'm still doing admin at 9pm.", fix: 'Automatic confirmations and reminders' },
-  { quote: 'Enquiries come in by text, Facebook and email, and some get lost.', fix: 'Every enquiry in one place' },
-  { quote: 'Chasing unpaid invoices takes forever.', fix: 'Overdue invoice reminders' },
+  { quote: "I miss calls when I'm on the tools.", text: "You can't answer with a drill in your hand. By the time you call back, they've rung someone else.", fix: 'missed-call text-back' },
+  { quote: "I don't have a website, or it's embarrassing.", text: 'Customers check you out before they call. If they can\'t find you, or what they find looks dated, they move on.', fix: 'a proper website' },
+  { quote: 'Enquiries are all over the place.', text: 'Texts, emails, Facebook messages and voicemails, and something always slips through.', fix: 'one place for every enquiry' },
+  { quote: 'I send quotes and never hear back.', text: "Following up feels awkward and there's never time, so good quotes go cold.", fix: 'automatic quote follow-ups' },
+  { quote: "I'm doing paperwork at 9pm.", text: "Reminders, confirmations, chasing. The admin piles up after the real work's done.", fix: 'reminders that send themselves' },
+  { quote: "I'm chasing people to pay.", text: 'Sending "just a reminder" messages to customers is nobody\'s favourite job.', fix: 'automatic invoice reminders' },
 ];
 
 const pillars = [
-  { label: '01 · The front door', title: 'Your website', text: 'A fast, mobile-friendly site that makes it obvious what you do, where you work and how to get a quote.' },
-  { label: '02 · The work behind the door', title: 'Automations', text: 'Simple workflows that reply to enquiries, follow up quotes and send reminders, so nothing falls through the cracks.' },
-  { label: '03 · Keeping it running', title: 'Support', text: 'Every project includes a 30-day defect warranty. After that, Website Care keeps your site online, secure and up to date for $49 a month.' },
+  { label: 'Websites', title: 'The front door', text: 'A fast, clear website that shows what you do, where you work and how to reach you, and makes getting in touch easy on a phone.' },
+  { label: 'Systems', title: 'The work behind it', text: 'Simple automations that reply to enquiries, follow up quotes and send reminders. We set up the software you already use first, and only build something new when we need to.' },
+  { label: 'Care', title: 'Keeping it running', text: "Hosting, checks and fixes, so your website and systems keep working while you're on the tools." },
 ];
 
 const steps = [
-  { title: 'Get in touch', text: "Call, email or send the form. We'll reply within one business day." },
-  { title: 'Free discovery call', text: '15–25 minutes. We learn how your business runs, where work gets stuck and what you need.' },
-  { title: 'Written proposal', text: 'Exact scope, price, timeline and payment milestones. Nothing starts until you approve it.' },
-  { title: 'Build and test', text: 'We design, build and test on phones and computers. You review it and request changes in agreed revision rounds.' },
-  { title: 'Launch and support', text: 'We go live together, walk you through how everything works, and fix any defects in the first 30 days at no cost.' },
+  { title: 'Free discovery call', text: '15–25 minutes. You tell us what\'s going on, and we tell you honestly what would help.' },
+  { title: 'Written proposal', text: "A fixed price, exactly what's included, what we need from you, and when it'll be done." },
+  { title: 'Build and test', text: 'You approve the design first. We build it, then test it on phones and computers.' },
+  { title: 'Launch and handover', text: 'We go live, walk you through it, and give you a short guide.' },
+  { title: 'Support', text: '30 days of free fixes after launch, then optional care so it keeps running.' },
 ];
 
 const tiers = [
-  { id: 'presence', name: 'Pilot Presence', label: 'Fixed price', price: '$1,790', best: 'Look professional and get quote requests.' },
-  { id: 'lead-engine', name: 'Pilot Lead Engine', label: 'Fixed price', price: '$3,490', best: 'Win, qualify and track more enquiries.', featured: true },
-  { id: 'digital-hq', name: 'Pilot Digital HQ', label: 'From', price: '$5,990', best: 'A tailored site with a custom tool built in.' },
+  { href: '/pricing#presence', name: 'Pilot Presence', label: 'Fixed price', price: '$1,790', best: 'A professional website that makes you easy to find, trust and contact.' },
+  { href: '/pricing#lead-engine', name: 'Pilot Lead Engine', label: 'Fixed price', price: '$4,490', best: 'A bigger website, plus missed-call text-back and lead capture, so fewer enquiries slip through.', featured: true },
+  { href: '/pricing#systems', name: 'Lead Capture Pack', label: 'From', price: '$1,490', best: 'Already have a good website? Add missed-call text-back and instant enquiry replies.' },
 ];
 
 const reasons = [
-  { icon: 'key', title: 'You own everything.', text: 'Your domain, website and accounts are in your name. No lock-in contracts.' },
-  { icon: 'layout', title: 'Built for you, not from a template.', text: 'Every project starts with a discovery call and a written plan.' },
-  { icon: 'file', title: 'Fixed price, written scope.', text: "You know exactly what you're getting, and what it costs, before work starts." },
-  { icon: 'shield', title: 'Built with security in mind.', text: "Secure connections (HTTPS), security settings and careful handling of your customers' details." },
-  { icon: 'phone', title: 'Easy to use on any phone.', text: 'Readable text, big buttons and pages that load quickly.' },
-  { icon: 'pin', title: 'Local and accountable.', text: 'A registered Melbourne business with its ABN on show, working with tradies Australia-wide. You deal directly with the founder.' },
+  { icon: 'key', title: 'You own it. No lock-in.', text: 'Your domain, your content and your accounts stay in your name. If you ever leave, we hand everything over.' },
+  { icon: 'cog', title: 'Your software first', text: 'If the software you already pay for can do the job, we set that up properly before building anything new.' },
+  { icon: 'file', title: 'Fixed price, written scope', text: "You know exactly what you're getting and what it costs before we start." },
+  { icon: 'access', title: 'Built for everyone', text: "Websites built to WCAG 2.2 AA accessibility guidelines, so they're easier for every customer to use." },
+  { icon: 'shield', title: 'Security built in', text: 'Secure connections, security headers, no risky plugins, and accounts protected with two-step login.' },
+  { icon: 'pin', title: 'A real person in Melbourne', text: `You deal directly with the person building your website. ABN ${site.abn}.` },
 ];
-const reasonIcons: Record<string, string> = {
+const icons: Record<string, string> = {
   key: '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
-  layout: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>',
+  cog: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
   file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/>',
+  access: '<circle cx="12" cy="4.5" r="2"/><path d="M5 8.5 12 10l7-1.5"/><path d="M12 10v5l-3 6M12 15l3 6"/>',
   shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
-  phone: '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>',
   pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
 };
-
-const faqs = [
-  { q: 'Do I own my website?', a: "Yes. Your domain is registered in your business's name, your accounts are in your name, and we get access to work on them. If you ever move on, we'll hand everything over." },
-  { q: 'How long does it take?', a: 'Pilot Presence takes about a week (5 business days). Pilot Lead Engine takes about two weeks (10 business days). Pilot Digital HQ takes about 3–4 weeks. All are counted from when we have your content and deposit. Automations usually add a few days.' },
-  { q: 'What do I need to provide?', a: "Your logo, photos of your work, your services and service areas, licence details and any reviews you already have. We'll send you a simple checklist." },
-  { q: "Can you guarantee I'll rank first on Google?", a: 'No, and be wary of anyone who does. We build every site on solid search foundations, but rankings also depend on your competition, your reviews and Google itself.' },
-  { q: 'How do payments work?', a: "A deposit to book, then the balance before launch. Bigger projects are split into milestones. Pilot Systems isn't registered for GST, so no GST is charged." },
-  { q: 'Do I have to change my job software?', a: "No. We start with the tools you already use, and only build something new if they can't do the job." },
-];
 ---
 
 <BaseLayout
-  title="Websites & Automations for Tradies | Pilot Systems"
-  description="Melbourne-based websites and practical automations for Australian tradies. Fewer missed enquiries, faster follow-up, less admin. Free discovery call."
+  title="Websites & Automations for Tradies | Pilot Systems Melbourne"
+  description="Websites and simple automations for Australian tradies. Stop missing enquiries, follow up quotes automatically and spend less time on admin. Book a free call."
   schema
 >
   <!-- HERO -->
@@ -75,16 +67,16 @@ const faqs = [
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="kicker rise" style="--d:0ms">Websites + automations for Australian tradies</p>
-        <h1 class="h1 rise" style="--d:80ms">Simple systems.<br /><span class="accent">Clearer days.</span></h1>
-        <p class="lead rise" style="--d:160ms">Your website brings in the enquiries. Our automations reply, follow up and chase invoices for you, so no job slips away while you're on the tools.</p>
+        <h1 class="h1 rise" style="--d:80ms">Simple Systems.<br /><span class="accent">Clearer Days.</span></h1>
+        <p class="lead rise" style="--d:160ms">A proper website that makes you easy to find and contact, plus simple systems that answer enquiries and handle the follow-ups, so you're not doing admin on your phone at 9pm.</p>
         <div class="btn-row rise" style="--d:240ms">
           <a class="btn btn--primary" href="/contact">{site.cta}</a>
           <a class="btn btn--ghost" href={site.phoneHref}>Call {site.phoneDisplay}</a>
         </div>
         <ul class="assurances rise" style="--d:320ms" role="list">
-          <li>Fixed prices</li>
-          <li>No lock-in contracts</li>
-          <li>Tradies Australia-wide</li>
+          <li>Melbourne-based</li>
+          <li>Replies within 1 business day</li>
+          <li>No lock-in</li>
         </ul>
       </div>
       <div class="rise" style="--d:200ms">
@@ -99,15 +91,16 @@ const faqs = [
   <section class="section" aria-labelledby="pains-heading">
     <div class="container">
       <div data-reveal>
-        <p class="kicker">The problem</p>
-        <h2 id="pains-heading" class="h2">Sounds like you?</h2>
-        <p class="lead intro">These are the places trade businesses most often lose work and time.</p>
+        <p class="kicker">Sounds like you?</p>
+        <h2 id="pains-heading" class="h2">The stuff that eats your day</h2>
+        <p class="lead intro">Most tradies don't need more software. They need the things they already do to happen without them chasing.</p>
       </div>
       <ul class="grid-auto pains" role="list">
         {pains.map((p, i) => (
           <li class="card card--hover pain" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
-            <p class="quote">“{p.quote}”</p>
-            <p class="fix"><span class="sr-only">How we fix it: </span><span aria-hidden="true">→ </span>{p.fix}</p>
+            <h3 class="quote">“{p.quote}”</h3>
+            <p class="muted pain-text">{p.text}</p>
+            <p class="fix">Fix: {p.fix}</p>
           </li>
         ))}
       </ul>
@@ -119,13 +112,13 @@ const faqs = [
   <section class="section section--white" aria-labelledby="fits-heading">
     <div class="container">
       <div data-reveal>
-        <p class="kicker">What we do</p>
-        <h2 id="fits-heading" class="h2">How it fits together</h2>
+        <p class="kicker">How it works together</p>
+        <h2 id="fits-heading" class="h2 narrow-h">A front door, the work behind it, and someone keeping it running</h2>
       </div>
       <div class="pillars">
         {pillars.map((p, i) => (
           <div class="pillar" data-reveal style={`--reveal-delay:${i * 110}ms`}>
-            <p class="pillar-label">{p.label}</p>
+            <p class="pillar-label">{String(i + 1).padStart(2, '0')} · {p.label}</p>
             <h3>{p.title}</h3>
             <p class="muted">{p.text}</p>
           </div>
@@ -136,40 +129,40 @@ const faqs = [
   </section>
 
   <!-- MISSED CALL -->
-  <section class="section section--dark on-dark missed-sec" aria-labelledby="missed-heading">
+  <section class="section section--dark on-dark" aria-labelledby="missed-heading">
     <div class="container split">
       <div data-reveal>
-        <p class="kicker">Built for tradies who can't answer the phone</p>
-        <h2 id="missed-heading" class="h2 big">You can't answer on a roof. This can.</h2>
-        <p class="lead">Missed-call text-back replies for you the moment you can't pick up, so the job doesn't go to the next number on Google.</p>
-        <p class="price-note">Part of the Lead Capture Pack, from <strong>$1,490</strong>.</p>
+        <p class="kicker">The one tradies ask about first</p>
+        <h2 id="missed-heading" class="h2 big">Missed the call? They still hear from you.</h2>
+        <p class="lead">When you can't answer, the caller gets a text from your business straight away. It lets them know you'll call back and gives them a link to send through their job details. You get an alert, and the enquiry is saved in one place.</p>
+        <a class="btn btn--primary" href="/services#lead-capture">See the Lead Capture Pack</a>
       </div>
       <div>
         <ol class="missed" role="list">
           <li data-reveal style="--reveal-delay:0ms">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 1 17 7M17 1l6 6"></path><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg>
-            <p><strong>1.</strong> You miss a call because you're working.</p>
+            <p><strong>1.</strong> Call missed</p>
           </li>
           <li data-reveal style="--reveal-delay:120ms">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            <p><strong>2.</strong> The caller gets a text straight away, with a link to your quote form.</p>
+            <p><strong>2.</strong> Caller gets a text with a link to your quote form</p>
           </li>
           <li class="done" data-reveal style="--reveal-delay:240ms">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
-            <p><strong>3.</strong> Their details land in one place, ready for when you're off the tools.</p>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"></path></svg>
+            <p><strong>3.</strong> You get an alert, with the enquiry logged</p>
           </li>
         </ol>
-        <p class="bundles" data-reveal>Other bundles: <a href="/services#automations">Quote Conversion · Job Communication · Cashflow · Reputation · Operations</a></p>
+        <p class="small-print" data-reveal>It works with most Australian mobile plans that allow call forwarding. We check your phone setup on the discovery call before you pay anything.</p>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
+  <!-- HOW A PROJECT WORKS -->
   <section class="section" aria-labelledby="process-heading">
     <div class="container">
       <div data-reveal>
-        <p class="kicker">The process</p>
-        <h2 id="process-heading" class="h2">How it works</h2>
+        <p class="kicker">How it works</p>
+        <h2 id="process-heading" class="h2">Clear steps, no surprises</h2>
       </div>
       <ol class="steps" role="list">
         {steps.map((s, i) => (
@@ -187,14 +180,14 @@ const faqs = [
   <section class="section section--white" aria-labelledby="pricing-heading">
     <div class="container">
       <div data-reveal>
-        <p class="kicker">Pricing</p>
-        <h2 id="pricing-heading" class="h2">Clear prices, up front</h2>
-        <p class="lead intro">Founding-client rates for our first five projects. No GST is added.</p>
+        <p class="kicker">Clear prices</p>
+        <h2 id="pricing-heading" class="h2">Founding rates for our first 5 clients</h2>
+        <p class="lead intro">Fixed prices with a written scope. No GST is added.</p>
       </div>
       <ul class="tiers" role="list">
         {tiers.map((t, i) => (
           <li data-reveal style={`--reveal-delay:${i * 100}ms`}>
-            <a class:list={['tier', { featured: t.featured }]} href={`/pricing#${t.id}`}>
+            <a class:list={['tier', { featured: t.featured }]} href={t.href}>
               {t.featured && <span class="badge">Recommended</span>}
               <span class="tier-name">{t.name}</span>
               <span class="tier-label">{t.label}</span>
@@ -205,6 +198,7 @@ const faqs = [
           </li>
         ))}
       </ul>
+      <a class="text-link" href="/pricing" data-reveal>See full pricing →</a>
     </div>
   </section>
 
@@ -212,14 +206,14 @@ const faqs = [
   <section class="section" aria-labelledby="why-heading">
     <div class="container">
       <div data-reveal>
-        <p class="kicker">Why us</p>
-        <h2 id="why-heading" class="h2">Why Pilot Systems</h2>
+        <p class="kicker">Why Pilot Systems</p>
+        <h2 id="why-heading" class="h2">Straightforward, and built to last</h2>
       </div>
       <ul class="reasons" role="list">
         {reasons.map((r, i) => (
           <li class="card card--hover reason" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
             <span class="icon-badge" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={reasonIcons[r.icon]} />
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icons[r.icon]} />
             </span>
             <h3>{r.title}</h3>
             <p class="muted">{r.text}</p>
@@ -233,18 +227,18 @@ const faqs = [
   <section class="section section--white" aria-labelledby="founder-heading">
     <div class="container founder">
       <div class="photo" data-reveal>
-        <Image src={headshot} alt="Declan Cawthorn, founder of Pilot Systems" widths={[320, 480, 640]} sizes="(max-width: 700px) 80vw, 320px" class="headshot" />
+        <Image src={headshot} alt="Declan Cawthorn, founder of Pilot Systems, smiling in front of a light blue wall" widths={[320, 480, 640]} sizes="(max-width: 700px) 80vw, 320px" class="headshot" />
       </div>
       <div data-reveal style="--reveal-delay:120ms">
-        <p class="kicker">Meet the founder</p>
-        <h2 id="founder-heading" class="h2">You'll deal with me, start to finish</h2>
-        <p class="lead">I'm Declan Cawthorn, founder of Pilot Systems. I'm passionate about good website design, cybersecurity and helping trade businesses run better. From the first call to launch day, you deal with the person doing the work.</p>
-        <a class="text-link" href="/contact">Book a call with Declan →</a>
+        <p class="kicker">Who you'll work with</p>
+        <h2 id="founder-heading" class="h2">G'day, I'm Declan</h2>
+        <p class="lead">I started Pilot Systems because good tradies lose work for reasons that have nothing to do with their workmanship: a missed call, a quote nobody followed up, a website that hasn't been touched in years. I build websites and simple systems that fix those things, with security and reliability built in from the start. You'll deal with me from the first call to launch.</p>
+        <a class="text-link" href="/about">More about me →</a>
       </div>
     </div>
   </section>
 
-  <Faq items={faqs} />
+  <Faq items={homeFaqs} />
   <CtaBand />
 </BaseLayout>
 
@@ -259,7 +253,7 @@ const faqs = [
   .hero-grid { position: relative; display: grid; gap: 56px; align-items: center; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
   .h1 { margin-bottom: 26px; }
   .accent { color: var(--amber); }
-  .hero .lead { margin-bottom: 34px; max-width: 560px; }
+  .hero .lead { margin-bottom: 34px; max-width: 580px; }
   .hero .btn-row { margin-bottom: 26px; }
   .assurances { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: 14px; font-weight: 600; color: var(--on-dark); }
   .assurances li { display: flex; align-items: center; gap: 8px; }
@@ -271,12 +265,14 @@ const faqs = [
   @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 
   .intro { margin-bottom: 40px; }
+  .narrow-h { max-width: 900px; }
 
   /* Pains */
   .pains { list-style: none; padding: 0; margin: 0 0 36px; }
-  .pain { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; }
-  .quote { font-size: 19px; font-weight: 700; line-height: 1.4; }
-  .fix { align-self: flex-start; background: var(--amber-tint); color: var(--amber-ink); font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 8px; }
+  .pain { display: flex; flex-direction: column; gap: 12px; }
+  .quote { font-size: 19px; font-weight: 800; line-height: 1.35; }
+  .pain-text { font-size: 15px; line-height: 1.6; flex: 1; }
+  .fix { align-self: flex-start; background: var(--amber-tint); color: var(--amber-ink); font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 8px; margin-top: 6px; }
 
   /* Pillars */
   .pillars { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin: 40px 0; }
@@ -285,21 +281,16 @@ const faqs = [
   .pillar h3 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
 
   /* Missed call */
-  .missed-sec { position: relative; overflow: hidden; }
   .split { display: grid; gap: 48px; align-items: center; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
   .big { font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 22px; }
-  .split .lead { margin-bottom: 24px; }
-  .price-note { color: var(--on-dark-2); }
-  .price-note strong { color: var(--amber); }
+  .split .lead { margin-bottom: 28px; }
   .missed { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-  .missed li { display: flex; gap: 16px; align-items: center; background: var(--ink-800); border: 1px solid var(--ink-700); border-radius: var(--radius-card); padding: 20px 22px; transition: border-color .2s ease, transform .2s ease; }
+  .missed li { display: flex; gap: 16px; align-items: center; background: var(--ink-800); border: 1px solid var(--ink-700); border-radius: var(--radius-card); padding: 20px 22px; transition: border-color .2s ease; font-size: 17px; }
   .missed li:hover { border-color: var(--amber); }
   .missed svg { flex: 0 0 26px; color: var(--amber); }
   .missed li.done { background: var(--amber); color: var(--ink-900); border-color: var(--amber); }
   .missed li.done svg { color: var(--ink-900); }
-  .bundles { margin-top: 16px; font-size: 14px; color: var(--on-dark-2); line-height: 1.8; }
-  .bundles a { color: var(--on-dark); }
-  .bundles a:hover { color: var(--amber); }
+  .small-print { margin-top: 16px; font-size: 14px; color: var(--on-dark-2); line-height: 1.7; }
 
   /* Steps */
   .steps { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
@@ -307,9 +298,9 @@ const faqs = [
   .steps h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
   .steps .muted { font-size: 15px; line-height: 1.6; }
 
-  /* Pricing preview: every card highlights on hover; the featured one is
-     highlighted by default unless another card is being hovered. */
-  .tiers { list-style: none; padding: 0; margin: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  /* Pricing preview: every card lights up on hover; the featured one is lit by
+     default unless another card is being hovered. */
+  .tiers { list-style: none; padding: 0; margin: 0 0 32px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
   .tiers li { display: flex; }
   .tier {
     position: relative; flex: 1;
@@ -318,18 +309,17 @@ const faqs = [
     border: 2px solid var(--border); border-radius: 16px; padding: 34px 30px 28px;
     transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background-color .22s ease;
   }
-  .tier.featured, .tier:hover, .tier:focus-visible {
-    border-color: var(--amber); background: var(--amber-tint); box-shadow: var(--shadow-lift);
-  }
+  .tier.featured, .tier:hover, .tier:focus-visible { border-color: var(--amber); background: var(--amber-tint); box-shadow: var(--shadow-lift); }
   .tier:hover, .tier:focus-visible { transform: translateY(-6px); }
-  .tiers:hover .tier.featured:not(:hover) { border-color: var(--border); background: var(--paper); box-shadow: none; transform: none; }
+  .tiers:hover .tier.featured:not(:hover) { border-color: var(--border); background: var(--paper); box-shadow: none; }
   .badge { position: absolute; top: -13px; left: 28px; background: var(--amber); color: var(--ink-900); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; }
   .tier-name { font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-2); }
   .tier-label { margin-top: 18px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
   .tier-price { font-size: 46px; font-weight: 900; line-height: 1.05; margin-bottom: 10px; }
-  .tier-best { font-size: 16px; line-height: 1.5; color: var(--text-2); min-height: 3em; }
+  .tier-best { font-size: 16px; line-height: 1.5; color: var(--text-2); flex: 1; }
   .tier-more { margin-top: 18px; font-weight: 800; font-size: 14px; color: var(--amber-ink); }
-  .tier:hover .tier-more span { display: inline-block; transform: translateX(4px); transition: transform .2s ease; }
+  .tier-more span { display: inline-block; transition: transform .2s ease; }
+  .tier:hover .tier-more span { transform: translateX(4px); }
 
   /* Why */
   .reasons { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
@@ -354,6 +344,6 @@ const faqs = [
   }
   @media (prefers-reduced-motion: reduce) {
     .rise { animation: none; }
-    .tier:hover, .tier.featured { transform: none; }
+    .tier:hover, .tier:focus-visible { transform: none; }
   }
 </style>

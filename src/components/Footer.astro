@@ -4,17 +4,18 @@ import { site, socials, trades } from '../data/site';
 const year = new Date().getFullYear();
 
 const services = [
-  { href: '/services', label: 'Websites for tradies' },
-  { href: '/services#automations', label: 'Automations' },
-  { href: '/pricing#presence', label: 'Pilot Presence' },
-  { href: '/pricing#lead-engine', label: 'Pilot Lead Engine' },
-  { href: '/pricing#digital-hq', label: 'Pilot Digital HQ' },
-  { href: '/pricing#care', label: 'Website Care' },
+  { href: '/services#websites', label: 'Pilot Presence' },
+  { href: '/services#websites', label: 'Pilot Lead Engine' },
+  { href: '/services#lead-capture', label: 'Lead Capture Pack' },
+  { href: '/services#tune-up', label: 'Software Tune-up' },
+  { href: '/services#care', label: 'Website Care' },
+  { href: '/services#care', label: 'Systems Care' },
 ];
 const company = [
-  { href: '/services', label: 'What we do' },
+  { href: '/services', label: 'What We Do' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/contact', label: 'Free discovery call' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms of Use' },
 ];
@@ -37,7 +38,7 @@ const liveSocials = socials.filter((s) => s.url);
         <LogoMark class="mark" aria-hidden="true" />
         <span>PILOT SYSTEMS</span>
       </a>
-      <p class="tag">Simple systems. Clearer days. Websites and practical automations built for Australian tradies.</p>
+      <p class="tag"><strong>Simple Systems. Clearer Days.</strong><br />Websites and practical automations for Australian tradies.</p>
       {liveSocials.length > 0 && (
         <ul class="socials" role="list">
           {liveSocials.map((s) => (
@@ -77,7 +78,7 @@ const liveSocials = socials.filter((s) => s.url);
   </div>
 
   <div class="container bottom">
-    <p>© {year} Pilot Systems. All rights reserved.</p>
+    <p>© {year} Pilot Systems</p>
     <p>Pilot Systems is a registered business name of {site.owner}.</p>
   </div>
 </footer>
@@ -93,6 +94,7 @@ const liveSocials = socials.filter((s) => s.url);
   .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--on-dark); font-weight: 800; letter-spacing: .12em; font-size: 18px; margin-bottom: 14px; }
   .brand :global(.mark) { width: 44px; }
   .tag { line-height: 1.6; margin-bottom: 18px; max-width: 300px; }
+  .tag strong { color: var(--on-dark); }
   .socials { list-style: none; margin: 0 0 18px; padding: 0; display: flex; gap: 14px; }
   .socials a { color: var(--on-dark-2); display: inline-flex; padding: 4px; border-radius: 6px; transition: color .18s ease, transform .18s ease; }
   .socials a:hover { color: var(--amber); transform: translateY(-2px); }

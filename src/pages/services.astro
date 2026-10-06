@@ -1,176 +1,242 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { site } from '../data/site';
+import { websites, comparison, care } from '../data/offers';
+import { servicesFaqs } from '../data/faqs';
 
-const icon: Record<string, string> = {
-  phone: '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>',
-  call: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
-  form: '<path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h4"/>',
-  search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
-  bolt: '<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',
-  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
-  key: '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
-  spam: '<path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/><path d="m5.7 5.7 12.6 12.6"/>',
-};
-
-const features = [
-  { i: 'phone', t: 'Built for phones first', d: 'Most of your customers will find you on a phone, so that is where we design first.' },
-  { i: 'call', t: 'Tap to call, everywhere', d: 'Your number and a quote button are always one tap away.' },
-  { i: 'form', t: 'Quote form to your inbox', d: 'Enquiries arrive with the details you need to call back.' },
-  { i: 'spam', t: 'Spam protection', d: 'Bots get filtered out so you only see real enquiries.' },
-  { i: 'search', t: 'Set up for Google', d: 'Page titles, a sitemap and Search Console, so Google can find and understand your site.' },
-  { i: 'bolt', t: 'Fast to load', d: 'Lightweight pages that open quickly, even on a weak signal.' },
-  { i: 'shield', t: 'Secure by design', d: 'HTTPS, security settings and only the access we actually need.' },
-  { i: 'key', t: 'Yours to keep', d: 'Your domain and accounts in your name. No lock-in.' },
+const pillars = [
+  { id: 'websites', label: 'Websites', title: 'The front door', text: 'A fast, clear website that shows what you do, where you work and how to reach you, and makes getting in touch easy on a phone.' },
+  { id: 'systems', label: 'Systems', title: 'The work behind it', text: 'Simple automations that reply to enquiries, follow up quotes and send reminders. We set up the software you already use first, and only build something new when we need to.' },
+  { id: 'care', label: 'Care', title: 'Keeping it running', text: "Hosting, checks and fixes, so your website and systems keep working while you're on the tools." },
 ];
 
-const fits = [
-  { id: 'presence', name: 'Pilot Presence', who: 'Pick this if you…', points: ['Are a sole trader or small team', 'Need to look legit online, fast', 'Mostly get work by word of mouth'] },
-  { id: 'lead-engine', name: 'Pilot Lead Engine', who: 'Pick this if you…', points: ['Want your website to bring in new work', 'Cover several services or suburbs', "Don't want to write the words yourself"] },
-  { id: 'digital-hq', name: 'Pilot Digital HQ', who: 'Pick this if you…', points: ['Are growing and want to stand out', 'Want a tool like a quote calculator', 'Plan to connect your site to other systems'] },
-];
-
-const bundles = [
-  { name: 'Lead Capture Pack', price: 'From $1,490', does: 'Responds to and organises every enquiry', when: 'A call is missed or a form comes in', then: 'They get an instant reply, you get an alert, and the lead is logged', includes: 'Missed-call text-back, instant enquiry reply, new-lead alert, every enquiry in one place, lead source tracking' },
-  { name: 'Quote Conversion Pack', price: 'From $1,190', does: 'Stops good quotes going cold', when: 'You send a quote', then: 'Follow-ups go out on a schedule until they reply', includes: 'Quote-sent confirmation, follow-up reminders, accepted quote turned into a job, alerts for big quotes' },
-  { name: 'Job Communication Pack', price: 'From $990', does: 'Keeps customers and your team informed', when: 'A job is booked or you head out', then: 'The customer gets a confirmation, a reminder and an "on my way" text', includes: 'Booking confirmations, appointment reminders, "on my way" texts, job updates' },
-  { name: 'Cashflow Pack', price: 'From $1,190', does: 'Invoice faster, chase less', when: 'A job is marked done', then: "You're prompted to invoice, and overdue reminders go out for you", includes: "Invoice prompt when a job's done, deposit requests, overdue reminders, payment confirmations" },
-  { name: 'Reputation Pack', price: 'From $990', does: 'Collects genuine feedback and referrals', when: 'A job is finished', then: 'The customer gets a thank-you and a simple link to leave a review', includes: "Thank-you message, review request, follow-up if something wasn't right, testimonial permission, referral request" },
-  { name: 'Operations Pack', price: 'From $1,190', does: 'Less admin and fewer things forgotten', when: 'Each morning, or before something expires', then: 'You get a daily summary and reminders for licences and insurance', includes: 'Daily summary, licence and insurance reminders, email filing, alerts if an automation stops working' },
+const projectIncludes = [
+  'A free discovery call',
+  'A written proposal with a fixed price',
+  'Your approval of the design before we build',
+  'Testing on phones and computers before launch',
+  'A walkthrough and a short guide',
+  '30 days of free fixes after launch',
+  'Everything in your name, with no lock-in',
 ];
 ---
 
 <BaseLayout
-  title="What We Do: Websites & Automations | Pilot Systems"
-  description="Websites built to win work for tradies, plus six automation bundles: missed-call text-back, quote follow-up, reminders, invoice chasing, reviews and more."
+  title="Websites, Automations & Care for Tradies | Pilot Systems"
+  description="Tradie websites, missed-call text-back, quote and invoice follow-ups, and ongoing care. See what's included in each Pilot Systems package."
 >
   <PageHero
     kicker="What we do"
-    title="Websites that win work. Automations that keep it moving."
-    intro="We build a website that makes your business easy to find, trust and contact. Then we set up simple automations that handle the follow-up, so good jobs don't slip through the cracks."
+    title="Websites and simple systems for tradies"
+    intro="We build websites that make you easy to find and contact, and set up systems that answer enquiries and handle follow-ups. Pick what you need now and add more later."
   >
-    <div class="btn-row">
-      <a class="btn btn--primary" href="/contact">{site.cta}</a>
-      <a class="btn btn--ghost" href="#automations">See the automations</a>
-    </div>
+    <nav class="jump" aria-label="On this page">
+      <a href="#websites">Websites</a>
+      <a href="#systems">Systems</a>
+      <a href="#care">Care</a>
+    </nav>
   </PageHero>
 
-  <section id="websites" class="section" aria-labelledby="features-heading">
+  <!-- HOW IT FITS -->
+  <section class="section section--white" aria-label="How it fits together">
+    <div class="container pillars">
+      {pillars.map((p, i) => (
+        <a class="pillar" href={`#${p.id}`} data-reveal style={`--reveal-delay:${i * 110}ms`}>
+          <span class="pillar-label">{String(i + 1).padStart(2, '0')} · {p.label}</span>
+          <span class="pillar-title">{p.title}</span>
+          <span class="muted">{p.text}</span>
+          <span class="pillar-more">Jump to {p.label} <span aria-hidden="true">↓</span></span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- WEBSITES -->
+  <section id="websites" class="section" aria-labelledby="websites-heading">
     <div class="container">
       <div data-reveal>
         <p class="kicker">Websites</p>
-        <h2 id="features-heading" class="h2">Every website includes</h2>
-        <p class="lead intro">Whichever package you choose, these come as standard.</p>
+        <h2 id="websites-heading" class="h2">Websites</h2>
+        <p class="lead intro">Two packages. Pick the one that matches where your business is right now.</p>
       </div>
-      <ul class="features" role="list">
-        {features.map((f, n) => (
-          <li class="card card--hover feature" data-reveal style={`--reveal-delay:${(n % 4) * 70}ms`}>
-            <span class="icon-badge" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon[f.i]} />
-            </span>
-            <h3>{f.t}</h3>
-            <p class="muted">{f.d}</p>
+      <ul class="packages" role="list">
+        {websites.map((w, i) => (
+          <li class:list={['package', { featured: w.featured }]} data-reveal style={`--reveal-delay:${i * 100}ms`}>
+            {w.featured && <span class="badge">Recommended</span>}
+            <div class="pkg-head">
+              <h3>{w.name}</h3>
+              <p class="pkg-price">{w.price}</p>
+            </div>
+            <p class="best"><strong>Best for:</strong> {w.bestFor}</p>
+            <p class="inc-intro">{w.includesIntro}</p>
+            <ul class="ticks" role="list">{w.includes.map((x) => <li>{x}</li>)}</ul>
+            <p class="timeline"><strong>Timeline:</strong> {w.timeline}</p>
           </li>
         ))}
       </ul>
+
+      <div class="table-wrap" role="region" aria-label="Website package comparison" tabindex="0" data-reveal>
+        <table>
+          <thead>
+            <tr><th scope="col">Feature</th><th scope="col">Pilot Presence</th><th scope="col" class="hl">Pilot Lead Engine</th></tr>
+          </thead>
+          <tbody>
+            {comparison.map(([label, a, b]) => (
+              <tr>
+                <th scope="row">{label}</th>
+                {[a, b].map((v, n) => (
+                  <td class:list={{ hl: n === 1 }}>
+                    {v === '✓' ? <><span aria-hidden="true" class="yes">✓</span><span class="sr-only">Included</span></> :
+                     v === '—' ? <><span aria-hidden="true" class="no">—</span><span class="sr-only">Not included</span></> : v}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="see-pricing" data-reveal><a class="text-link" href="/pricing">See prices, timelines and payment stages →</a></p>
     </div>
   </section>
 
-  <section class="section section--white" aria-labelledby="fit-heading">
+  <!-- SYSTEMS -->
+  <section id="systems" class="section section--dark on-dark" aria-labelledby="systems-heading">
     <div class="container">
       <div data-reveal>
-        <p class="kicker">Which package fits?</p>
-        <h2 id="fit-heading" class="h2">Three ways to get started</h2>
-        <p class="lead intro">Not sure? That's what the free discovery call is for. We'll recommend the right one, even if it's the smallest.</p>
+        <p class="kicker">Systems</p>
+        <h2 id="systems-heading" class="h2">Systems</h2>
+        <p class="lead intro">Less admin and fewer missed enquiries. We always start with the software you already use.</p>
       </div>
-      <ul class="fits" role="list">
-        {fits.map((f, n) => (
-          <li data-reveal style={`--reveal-delay:${n * 100}ms`}>
-            <a class="fit" href={`/pricing#${f.id}`}>
-              <span class="fit-name">{f.name}</span>
-              <span class="fit-who">{f.who}</span>
-              <ul class="ticks" role="list">{f.points.map((p) => <li>{p}</li>)}</ul>
-              <span class="fit-more">Compare packages and pricing <span aria-hidden="true">→</span></span>
-            </a>
-          </li>
-        ))}
-      </ul>
+
+      <div class="systems">
+        <article id="lead-capture" class="sys" data-reveal>
+          <div class="sys-head">
+            <h3>Lead Capture Pack</h3>
+            <p class="sys-price">from $1,490</p>
+          </div>
+          <p class="best"><strong>Best for:</strong> tradies who already have a decent website but miss calls and lose track of enquiries.</p>
+          <div class="rule" aria-label="How it works">
+            <p><span class="rule-tag">When</span>You miss a call or a website enquiry comes in</p>
+            <p><span class="rule-tag then">Then</span>They get a text or reply straight away, and you get an alert</p>
+          </div>
+          <p class="inc-intro">What's included:</p>
+          <ul class="ticks" role="list">
+            <li>Missed-call text-back (where your phone plan supports it; we check first)</li>
+            <li>An instant reply to website enquiries</li>
+            <li>An alert to you for every new enquiry</li>
+            <li>All enquiries in one place, with where they came from</li>
+            <li>Testing, a short guide, and an off switch you control</li>
+          </ul>
+          <p class="meta"><strong>Timeline:</strong> usually 1–2 weeks.</p>
+          <p class="meta"><strong>Running costs:</strong> the text messages and phone number are in your name and paid directly by you. We'll estimate this for you before you start.</p>
+        </article>
+
+        <article id="tune-up" class="sys" data-reveal style="--reveal-delay:120ms">
+          <div class="sys-head">
+            <h3>Software Tune-up</h3>
+            <p class="sys-price">from $690</p>
+          </div>
+          <p class="best"><strong>Best for:</strong> businesses already using job management or accounting software that aren't using its automatic features.</p>
+          <div class="rule" aria-label="How it works">
+            <p><span class="rule-tag">When</span>A quote, booking or invoice is waiting on a customer</p>
+            <p><span class="rule-tag then">Then</span>Your software sends the follow-up for you, and stops when they reply</p>
+          </div>
+          <p class="inc-intro">What we can set up (up to 3 features in one app):</p>
+          <ul class="ticks" role="list">
+            <li>Quote follow-ups that stop when the customer replies or accepts</li>
+            <li>Booking confirmations and reminders</li>
+            <li>Overdue invoice reminders</li>
+            <li>Review requests after every completed job</li>
+          </ul>
+          <p class="meta"><strong>What's included:</strong> we set the features up, write your customer messages, test them, and walk you through how it works.</p>
+          <p class="single">Just need one thing set up? <strong>Single feature from $390.</strong></p>
+        </article>
+      </div>
+
+      <div id="something-else" class="else" data-reveal>
+        <h3>Need something else?</h3>
+        <p>If what you need isn't here (connecting two systems, a custom tool, or something your software can't do), get in touch. We'll look at whether existing software can do it first. If it can't and we can build it well, we'll quote it. If we can't, we'll say so.</p>
+        <a class="btn btn--ghost" href="/contact">Tell us what you need</a>
+      </div>
     </div>
   </section>
 
-  <section id="automations" class="section section--dark on-dark auto" aria-labelledby="auto-heading">
+  <!-- CARE -->
+  <section id="care" class="section" aria-labelledby="care-heading">
     <div class="container">
       <div data-reveal>
-        <p class="kicker">Automations</p>
-        <h2 id="auto-heading" class="h2">Automations that do the boring bits</h2>
-        <p class="lead intro">An automation is a simple "when this happens, do that" rule that runs on its own. You only pay for the ones your business needs, and every part of a bundle is available on its own.</p>
+        <p class="kicker">Care</p>
+        <h2 id="care-heading" class="h2">Care</h2>
+        <p class="lead intro">Keeps your website and systems running after launch.</p>
       </div>
-      <ul class="bundles" role="list">
-        {bundles.map((b, n) => (
-          <li class="bundle" data-reveal style={`--reveal-delay:${(n % 3) * 90}ms`}>
-            <div class="bundle-top">
-              <h3>{b.name}</h3>
-              <span class="price">{b.price}</span>
-            </div>
-            <p class="does">{b.does}</p>
-            <div class="rule">
-              <p><span class="rule-tag">When</span>{b.when}</p>
-              <p><span class="rule-tag then">Then</span>{b.then}</p>
-            </div>
-            <p class="includes"><strong>Includes:</strong> {b.includes}</p>
+      <ul class="care" role="list">
+        {care.map((c, i) => (
+          <li id={c.id} class="card card--hover care-card" data-reveal style={`--reveal-delay:${i * 100}ms`}>
+            <h3>{c.name}</h3>
+            <p class="care-price">{c.price}<span>{c.per}</span></p>
+            <ul class="ticks" role="list">{c.items.map((x) => <li>{x}</li>)}</ul>
           </li>
         ))}
       </ul>
-      <p class="note" data-reveal>Prices are starting points. Your exact price depends on the software you use and is confirmed in writing after your discovery call. SMS and software subscriptions are billed to you at cost.</p>
+      <p class="note" data-reveal>Month to month. Cancel with 30 days' notice. If you leave, we hand over everything.</p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="existing-heading">
+  <!-- EVERY PROJECT INCLUDES -->
+  <section class="section section--white" aria-labelledby="includes-heading">
     <div class="container two-col">
       <div data-reveal>
-        <p class="kicker">We start with what you already use</p>
-        <h2 id="existing-heading" class="h2">No new software unless you need it</h2>
-        <p class="lead">Most job management and accounting software already has reminders and automations built in. They're often just not switched on. We set up what you already pay for first, and only build something new when it can't do the job.</p>
+        <p class="kicker">No surprises</p>
+        <h2 id="includes-heading" class="h2">Every project includes</h2>
+        <p class="lead">Whatever you choose, this is how we work.</p>
+        <a class="btn btn--primary" href="/contact">{site.cta}</a>
       </div>
-      <div class="card proj" data-reveal style="--reveal-delay:120ms">
-        <h2 class="h3">What every project includes</h2>
-        <ul class="ticks" role="list">
-          <li>A discovery call and a written scope before any work starts</li>
-          <li>A fixed price and milestone payments</li>
-          <li>Testing before anything goes live</li>
-          <li>A plain-English guide to what runs automatically and what still needs you</li>
-          <li>A defect warranty after launch</li>
-          <li>Accounts in your name, with no lock-in</li>
-        </ul>
-      </div>
+      <ul class="ticks big-ticks card" role="list" data-reveal style="--reveal-delay:120ms">
+        {projectIncludes.map((x) => <li>{x}</li>)}
+      </ul>
     </div>
   </section>
 
-  <CtaBand heading="Not sure what you need?" text="Book a free discovery call and we'll map out where your business is losing time, then recommend only what will help." />
+  <Faq items={servicesFaqs} />
+  <CtaBand heading="Not sure which one fits?" text="Tell us how you handle calls, quotes and enquiries now, and we'll recommend the simplest option that will help." call={false} />
 </BaseLayout>
 
 <style>
   .intro { margin-bottom: 40px; }
-  .features { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
-  .feature .icon-badge { margin-bottom: 14px; }
-  .feature h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
-  .feature .muted { font-size: 15px; line-height: 1.6; }
+  .jump { display: flex; flex-wrap: wrap; gap: 10px; }
+  .jump a { color: var(--white); text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid #5d5470; border-radius: 999px; padding: 9px 18px; transition: border-color .2s ease, background-color .2s ease; }
+  .jump a:hover { border-color: var(--amber); background: rgba(245, 165, 36, .1); }
 
-  .fits { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
-  .fits > li { display: flex; }
-  .fit {
-    flex: 1; display: flex; flex-direction: column; gap: 10px;
-    background: var(--paper); color: var(--text); text-decoration: none;
-    border: 2px solid var(--border); border-radius: 16px; padding: 30px;
+  .pillars { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  .pillar {
+    display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: var(--text);
+    border-top: 4px solid var(--amber); padding: 24px 4px 8px;
+    transition: transform .2s ease;
+  }
+  .pillar:hover { transform: translateY(-4px); }
+  .pillar-label { font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .pillar-title { font-size: 24px; font-weight: 800; }
+  .pillar-more { font-weight: 800; font-size: 14px; color: var(--amber-ink); margin-top: 4px; }
+
+  .packages { list-style: none; margin: 0 0 32px; padding: 0; display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: start; }
+  .package {
+    position: relative; background: var(--white); border: 2px solid var(--border); border-radius: 16px; padding: 34px 30px 30px;
     transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background-color .22s ease;
   }
-  .fit:hover, .fit:focus-visible { border-color: var(--amber); background: var(--amber-tint); box-shadow: var(--shadow-lift); transform: translateY(-5px); }
-  .fit-name { font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: .01em; }
-  .fit-who { font-weight: 700; color: var(--muted); font-size: 14px; }
-  .fit .ticks { flex: 1; }
-  .fit-more { font-weight: 800; font-size: 14px; color: var(--amber-ink); margin-top: 8px; }
+  .package.featured, .package:hover { border-color: var(--amber); background: var(--amber-tint); box-shadow: var(--shadow-lift); }
+  .package:hover { transform: translateY(-5px); }
+  .packages:hover .package.featured:not(:hover) { border-color: var(--border); background: var(--white); box-shadow: none; }
+  .badge { position: absolute; top: -13px; left: 28px; background: var(--amber); color: var(--ink-900); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; }
+  .pkg-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .pkg-head h3 { font-size: 24px; font-weight: 900; text-transform: uppercase; }
+  .pkg-price { font-size: 32px; font-weight: 900; color: var(--amber-ink); }
+  .best { color: var(--text-2); margin-bottom: 16px; }
+  .best strong { color: var(--text); }
+  .inc-intro { font-weight: 800; margin-bottom: 10px; }
+  .timeline { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--text-2); }
 
   .ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; align-content: start; }
   .ticks li { position: relative; padding-left: 28px; color: var(--text-2); line-height: 1.5; }
@@ -179,26 +245,56 @@ const bundles = [
     background: var(--amber) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231c1726' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 11px no-repeat;
   }
 
-  .bundles { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
-  .bundle {
-    background: var(--ink-800); border: 1px solid var(--ink-700); border-radius: var(--radius-card); padding: 26px;
-    display: flex; flex-direction: column; gap: 12px;
+  .table-wrap { position: relative; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--white); box-shadow: var(--shadow); }
+  table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 13px 20px; text-align: left; vertical-align: top; border-top: 1px solid var(--border); }
+  thead th { border-top: 0; background: var(--ink-900); color: var(--white); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; }
+  thead th.hl { background: var(--amber); color: var(--ink-900); }
+  td.hl { background: var(--amber-tint); }
+  tbody tr:hover th, tbody tr:hover td { background: #fbf3e4; }
+  tbody th { font-weight: 700; width: 44%; }
+  td { color: var(--text-2); }
+  .yes { color: var(--amber-ink); font-weight: 900; font-size: 18px; }
+  .no { color: var(--muted); }
+  .see-pricing { margin-top: 20px; }
+
+  /* Systems (dark) */
+  .systems { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: start; }
+  .sys {
+    background: var(--ink-800); border: 1px solid var(--ink-700); border-radius: 16px; padding: 30px;
+    display: flex; flex-direction: column; gap: 14px; scroll-margin-top: 110px;
     transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background-color .22s ease;
   }
-  .bundle:hover { transform: translateY(-5px); border-color: var(--amber); background: #2c2539; box-shadow: 0 24px 48px -24px rgba(0, 0, 0, .8); }
-  .bundle-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .bundle h3 { font-size: 19px; font-weight: 800; color: var(--white); }
-  .price { font-weight: 800; color: var(--amber); font-size: 14px; white-space: nowrap; }
-  .does { font-weight: 700; color: var(--on-dark); }
+  .sys:hover, .sys:target { transform: translateY(-5px); border-color: var(--amber); background: #2c2539; box-shadow: 0 24px 48px -24px rgba(0, 0, 0, .8); }
+  .sys-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .sys h3 { font-size: 22px; font-weight: 900; text-transform: uppercase; color: var(--white); }
+  .sys-price { font-size: 22px; font-weight: 900; color: var(--amber); }
+  .sys .best, .sys .meta { color: var(--on-dark-2); margin: 0; }
+  .sys .best strong, .sys .meta strong { color: var(--on-dark); }
+  .sys .inc-intro { color: var(--white); margin: 0; }
+  .sys .ticks li { color: var(--on-dark); }
   .rule { background: var(--ink-900); border-radius: 10px; padding: 14px; display: grid; gap: 8px; font-size: 14px; color: var(--on-dark); line-height: 1.5; }
   .rule p { display: flex; gap: 10px; align-items: baseline; }
   .rule-tag { flex: 0 0 auto; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-900); background: var(--lav); border-radius: 6px; padding: 2px 7px; }
   .rule-tag.then { background: var(--amber); }
-  .includes { font-size: 14px; color: var(--on-dark-2); line-height: 1.6; }
-  .includes strong { color: var(--on-dark); }
-  .note { margin-top: 24px; font-size: 15px; color: var(--on-dark-2); max-width: 780px; }
+  .single { background: rgba(245, 165, 36, .1); border: 1px dashed rgba(245, 165, 36, .5); border-radius: 10px; padding: 12px 14px; color: var(--on-dark); }
+  .single strong { color: var(--amber); }
+  .else { margin-top: 28px; border: 1px solid var(--ink-700); border-radius: 16px; padding: 28px 30px; display: grid; gap: 12px; justify-items: start; max-width: 860px; scroll-margin-top: 110px; }
+  .else h3 { font-size: 20px; font-weight: 800; color: var(--white); }
+  .else p { color: var(--on-dark); line-height: 1.7; }
 
-  .two-col { display: grid; gap: 48px; align-items: start; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
-  .h3 { font-size: 20px; font-weight: 800; margin-bottom: 18px; text-transform: uppercase; letter-spacing: .02em; }
-  @media (prefers-reduced-motion: reduce) { .fit:hover, .bundle:hover { transform: none; } }
+  /* Care */
+  .care { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); }
+  .care-card { scroll-margin-top: 110px; }
+  .care-card h3 { font-size: 22px; font-weight: 900; text-transform: uppercase; }
+  .care-price { font-size: 42px; font-weight: 900; line-height: 1.1; margin: 6px 0 18px; }
+  .care-price span { font-size: 15px; font-weight: 700; color: var(--muted); margin-left: 4px; }
+  .note { margin-top: 20px; color: var(--text-2); font-weight: 600; }
+
+  .two-col { display: grid; gap: 48px; align-items: center; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+  .two-col .lead { margin-bottom: 26px; }
+  .big-ticks { padding: 30px; gap: 14px; }
+  .big-ticks li { font-size: 17px; }
+
+  @media (prefers-reduced-motion: reduce) { .package:hover, .sys:hover, .sys:target, .pillar:hover { transform: none; } }
 </style>

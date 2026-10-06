@@ -1,0 +1,104 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import headshot from '../assets/declan-headshot.jpg';
+import { site } from '../data/site';
+
+const principles = [
+  { t: 'Plain English.', d: 'No jargon, and no selling you things you don\'t need.' },
+  { t: 'Your software first.', d: "If something you already pay for can do the job, I'll set it up before building anything new." },
+  { t: 'Everything in writing.', d: 'A fixed price and a clear scope before we start.' },
+  { t: 'You own it.', d: 'Your domain, content and accounts stay in your name.' },
+  { t: 'Built for everyone.', d: 'Websites built to accessibility guidelines as standard.' },
+  { t: 'You deal with me.', d: 'From the first call to launch and after.' },
+];
+---
+
+<BaseLayout
+  title="About Pilot Systems | Melbourne Websites & Automations for Tradies"
+  description="Meet Declan, founder of Pilot Systems: websites and simple systems for Australian tradies, built with security and reliability in mind."
+>
+  <section class="about-hero section--dark on-dark">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div class="rise">
+        <p class="kicker">About</p>
+        <h1 class="h1">G'day, I'm Declan</h1>
+        <p class="lead">Founder of Pilot Systems, based in Melbourne.</p>
+      </div>
+      <div class="photo rise" style="--d:150ms">
+        <Image src={headshot} alt="Declan Cawthorn, founder of Pilot Systems, smiling in front of a light blue wall" widths={[320, 480, 720]} sizes="(max-width: 900px) 70vw, 360px" class="headshot" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="why-heading">
+    <div class="container prose" data-reveal>
+      <h2 id="why-heading" class="h2">Good tradies shouldn't lose work to admin</h2>
+      <p>Most tradies I talk to are good at what they do. Where they lose out is everything around the job: a call missed on a roof, a quote nobody followed up, a website that hasn't been touched in years, or invoices chased at 9pm.</p>
+      <p>None of that needs a huge, expensive system to fix. It needs a clear website and a few simple things set up properly, so they keep happening without you remembering to do them.</p>
+      <p class="punch">That's what Pilot Systems does.</p>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="bring-heading">
+    <div class="container prose" data-reveal>
+      <h2 id="bring-heading" class="h2">What I bring</h2>
+      <p>I've always been interested in two things: how good websites and systems are put together, and how they can go wrong. That second part is why security and reliability are part of everything I build, not extras.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="how-heading">
+    <div class="container">
+      <h2 id="how-heading" class="h2" data-reveal>How I work</h2>
+      <ul class="principles" role="list">
+        {principles.map((p, i) => (
+          <li class="card card--hover" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
+            <h3>{p.t}</h3>
+            <p class="muted">{p.d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="details-band" aria-label="Business details">
+    <div class="container details" data-reveal>
+      <span>Pilot Systems</span>
+      <span>{site.location}</span>
+      <span>Working with tradies Australia-wide</span>
+      <span>ABN {site.abn}</span>
+    </div>
+  </section>
+
+  <CtaBand heading="Let's have a chat" text="Book a free 15–25 minute call, or just give me a ring." />
+</BaseLayout>
+
+<style>
+  .about-hero { position: relative; overflow: hidden; padding-block: clamp(56px, 8vw, 96px); }
+  .glow { position: absolute; top: -30%; right: -10%; width: 65%; height: 150%; background: radial-gradient(closest-side, rgba(245, 165, 36, .18), transparent 70%); pointer-events: none; }
+  .hero-grid { position: relative; display: grid; gap: 56px; align-items: center; grid-template-columns: minmax(0, 1fr) 360px; }
+  .h1 { font-size: clamp(42px, 6vw, 84px); margin-bottom: 20px; }
+  .rise { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; animation-delay: var(--d, 0ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .photo { position: relative; }
+  .photo::before { content: ''; position: absolute; inset: 14px -14px -14px 14px; border-radius: 18px; background: var(--amber); }
+  .photo :global(.headshot) { position: relative; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 18px; }
+
+  .prose { max-width: 800px; }
+  .prose p { font-size: 18px; line-height: 1.75; color: var(--text-2); margin-bottom: 18px; }
+  .prose .punch { font-weight: 800; color: var(--text); font-size: 20px; }
+
+  .principles { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .principles h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+
+  .details-band { background: var(--amber); }
+  .details { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; padding-block: 22px; font-weight: 800; color: var(--ink-900); text-align: center; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .photo { max-width: 320px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .rise { animation: none; } }
+</style>

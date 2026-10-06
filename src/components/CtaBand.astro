@@ -4,10 +4,12 @@ import { site } from '../data/site';
 interface Props {
   heading?: string;
   text?: string;
+  call?: boolean;
 }
 const {
   heading = 'Not sure where to start?',
-  text = "Book a free 15–25 minute discovery call. We'll ask how your business runs, then recommend what will actually help, even if that means nothing at all.",
+  text = "Book a free 15–25 minute discovery call. We'll look at your website and how you handle enquiries, and tell you what would actually help. No obligation.",
+  call = true,
 } = Astro.props;
 ---
 
@@ -15,10 +17,10 @@ const {
   <div class="glow" aria-hidden="true"></div>
   <div class="container inner" data-reveal>
     <h2 id="cta-heading" class="h2">{heading}</h2>
-    <p class="lead">{text}</p>
+    {text && <p class="lead">{text}</p>}
     <div class="btn-row">
       <a class="btn btn--primary" href="/contact">{site.cta}</a>
-      <a class="btn btn--ghost" href={site.phoneHref}>Call {site.phoneDisplay}</a>
+      {call && <a class="btn btn--ghost" href={site.phoneHref}>Call {site.phoneDisplay}</a>}
     </div>
   </div>
 </section>

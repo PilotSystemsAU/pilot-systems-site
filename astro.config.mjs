@@ -7,11 +7,10 @@ export default defineConfig({
   site: 'https://www.pilotsystems.com.au',
   trailingSlash: 'never',
   integrations: [
-    sitemap({ filter: (page) => !page.includes('/thanks') }),
+    sitemap({ filter: (page) => !['/thanks', '/privacy', '/terms'].some((p) => page.includes(p)) }),
   ],
   redirects: {
     '/home': '/',
-    '/who-we-are': '/',
-    '/about': '/',
+    '/who-we-are': '/about',
   },
 });
