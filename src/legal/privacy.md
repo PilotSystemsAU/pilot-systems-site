@@ -56,8 +56,8 @@ We use a small number of service providers to run our business. They may handle 
 | Provider type | What it does | Provider |
 |---|---|---|
 | Website hosting | Hosts our website and processes form submissions | Vercel Inc. |
-| Email delivery | Sends form enquiries to our inbox | [to be confirmed] |
-| Spam protection | Checks that form submissions are from real people | [to be confirmed] |
+| Email delivery | Sends form enquiries to our inbox | Resend |
+| Spam protection | Checks that form submissions are from real people | Cloudflare Turnstile |
 | Website analytics | Counts visits and page views | [to be confirmed] |
 | Email | Our business email | [to be confirmed] |
 | Invoicing | Sends invoices and records payments | Zoho Invoice |

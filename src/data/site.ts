@@ -23,12 +23,13 @@ export const nav = [
 ];
 
 // Social profiles: add each full URL. An entry with an empty url is not shown.
-export const socials: { name: 'Facebook' | 'Instagram' | 'LinkedIn' | 'TikTok' | 'YouTube'; url: string }[] = [
-  { name: 'Facebook', url: '' },
-  { name: 'Instagram', url: '' },
-  { name: 'LinkedIn', url: '' },
-  { name: 'TikTok', url: '' },
-  { name: 'YouTube', url: '' },
+export const socials: { name: 'Facebook' | 'Instagram' | 'LinkedIn' | 'TikTok' | 'YouTube' | 'X'; url: string }[] = [
+  { name: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61594162504603' },
+  { name: 'Instagram', url: 'https://www.instagram.com/pilot.systems/' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/declan-cawthorn-1180a9232/' },
+  { name: 'TikTok', url: 'https://www.tiktok.com/@pilot.systems' },
+  { name: 'YouTube', url: 'https://www.youtube.com/@PilotSystemsAU' },
+  { name: 'X', url: 'https://x.com/PilotSystemsAU' },
 ];
 
 export const trades = [

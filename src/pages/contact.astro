@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
 
+// Cloudflare Turnstile site key (public by design). The secret key lives in Vercel.
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAFO08JJwJUhDeGDc';
+
 type Field = { id: string; label: string; type: string; autocomplete?: string; hint?: string; required: boolean; error: string };
 const fields: Field[] = [
   { id: 'name', label: 'Your name', type: 'text', autocomplete: 'name', required: true, error: 'Please add your name.' },
@@ -85,6 +88,11 @@ const fields: Field[] = [
           <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
         </div>
 
+        <div class="field spam">
+          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" data-response-field-name="cf-turnstile-response"></div>
+          <p class="hint">This quick check stops spam. It usually finishes on its own.</p>
+        </div>
+
         <p class="consent">By sending this, you agree to us contacting you about your enquiry. See our <a href="/privacy">Privacy Policy</a>.</p>
 
         <button class="btn btn--primary submit" type="submit">Send my enquiry</button>
@@ -93,6 +101,8 @@ const fields: Field[] = [
     </div>
   </section>
 </BaseLayout>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
   const form = document.getElementById('enquiry-form') as HTMLFormElement | null;
@@ -137,8 +147,21 @@ const fields: Field[] = [
           headers: { Accept: 'application/json' },
           body: new FormData(form),
         });
-        if (!res.ok) throw new Error(String(res.status));
-        window.location.href = '/thanks';
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          window.location.href = '/thanks';
+          return;
+        }
+        if (data.error === 'spam_check_failed') {
+          status.textContent = "The spam check didn't go through. Please wait a moment for it to finish, then press Send again.";
+          status.classList.add('fail');
+          // @ts-ignore Turnstile adds this global
+          window.turnstile?.reset?.();
+          button.disabled = false;
+          button.textContent = 'Send my enquiry';
+          return;
+        }
+        throw new Error(String(res.status));
       } catch {
         // Never show success unless the enquiry was actually sent.
         status.textContent = "Sorry, that didn't send. Please call 0457 471 392 or email declan@pilotsystems.com.au and we'll sort it out.";
@@ -185,6 +208,7 @@ const fields: Field[] = [
   [aria-invalid='true'] { border-color: #b3261e; }
   .error { color: #b3261e; font-size: 14px; font-weight: 600; margin-top: 6px; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .spam { margin-top: 4px; }
   .consent { font-size: 14px; color: var(--text-2); margin: 6px 0 18px; }
   .submit { width: 100%; }
   .submit:disabled { opacity: .7; cursor: progress; }
