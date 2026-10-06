@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
+
+const tiers = [
+  {
+    name: 'Pilot Presence', price: '$1,790', from: false, tag: 'Look professional online and get quote requests.',
+    items: ['Up to 5 pages: Home, About, Services, Gallery, Contact', 'Mobile-first design built for your trade', 'Tap-to-call and a quote form sent straight to your inbox', 'Google search basics and Search Console setup', '2 revision rounds and a 30-day defect warranty'],
+    timeline: 'About 1 week (5 business days)', payment: '50% to book, 50% before launch',
+  },
+  {
+    name: 'Pilot Lead Engine', price: '$3,490', from: false, featured: true, tag: 'Win, qualify and track more enquiries.',
+    items: ['Everything in Presence, plus:', 'Up to 10 pages, including up to 5 service and 3 suburb pages', 'Copywriting included (agreed allowance)', 'Multi-step quote form with photo uploads', 'Edit your own content, with training', 'Keyword research and enquiry tracking', '3 revision rounds, a 30-day warranty and a 30-day review'],
+    timeline: 'About 2 weeks (10 business days)', payment: '40% to book, 40% at design approval, 20% before launch',
+  },
+  {
+    name: 'Pilot Digital HQ', price: '$5,990', from: true, tag: 'A tailored site for a growing business.',
+    items: ['Everything in Lead Engine, plus:', 'Up to 15 pages', 'One advanced feature (quote calculator, filterable project gallery or booking request system)', 'A custom design mock-up for your approval before the build starts', '4 revision rounds, a 60-day warranty and a 30-day review'],
+    timeline: 'About 3–4 weeks', payment: '30% to book, 30% at design approval, 30% at feature sign-off, 10% before launch',
+  },
+];
+
+const automations = [
+  ['Switching on features your job or accounting software already has', 'From $390'],
+  ['A simple automation (one trigger, e.g. new-lead alert or quote-sent confirmation)', 'From $490'],
+  ['Lead Capture Pack (missed-call text-back, instant reply, lead alerts and more)', 'From $1,490'],
+  ['Other bundles and multi-system automations', 'Quoted after your discovery call'],
+];
+
+const faqs = [
+  { q: 'Why are these "founding-client" rates?', a: "We're building our portfolio, so our first five clients get a lower rate. In return, we'll ask permission to show your finished project as an example of our work." },
+  { q: 'What happens after the first five?', a: 'Prices for new clients will go up. Your price is locked in your signed proposal.' },
+  { q: 'Can I pay it off?', a: 'Every project is split into a deposit and milestone payments, so you never pay the full amount up front.' },
+  { q: 'Is GST included?', a: "Pilot Systems isn't registered for GST, so no GST is charged. The price shown is the full price." },
+  { q: 'Can I start small and add more later?', a: 'Yes. You can start with a website and add automations later, once you know where your time goes.' },
+];
+---
+
+<BaseLayout
+  title="Pricing: Tradie Websites from $1,790 | Pilot Systems"
+  description="Clear, fixed prices for tradie websites and automations. Written scope, milestone payments and no lock-in. No GST charged."
+>
+  <PageHero
+    kicker="Pricing"
+    title="Clear prices. Written scope. No lock-in."
+    intro="These are founding-client rates for our first five projects. The price you see is the price you pay: Pilot Systems isn't registered for GST, so no GST is added."
+  />
+
+  <section class="section" aria-labelledby="tiers-heading">
+    <div class="container">
+      <h2 id="tiers-heading" class="sr-only">Website packages</h2>
+      <ul class="tiers" role="list">
+        {tiers.map((t) => (
+          <li class:list={['tier', { featured: t.featured }]}>
+            <h3 class="tier-name">{t.name}</h3>
+            <p class="tier-price">{t.from && <span class="from">From </span>}{t.price}</p>
+            <p class="tag">{t.tag}</p>
+            <ul class="items">
+              {t.items.map((i) => <li>{i}</li>)}
+            </ul>
+            <dl>
+              <div><dt>Timeline</dt><dd>{t.timeline}</dd></div>
+              <div><dt>Payment</dt><dd>{t.payment}</dd></div>
+            </dl>
+            <a class:list={['btn', t.featured ? 'btn--solid' : 'btn--outline']} href="/contact">{site.cta}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="auto-heading">
+    <div class="container narrow">
+      <h2 id="auto-heading" class="h2">Automation pricing</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">What it is</th><th scope="col">Price</th></tr></thead>
+          <tbody>
+            {automations.map(([what, price]) => <tr><td>{what}</td><td class="p">{price}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <p class="note">SMS credits and software subscriptions are billed to you at cost, or paid directly by you. Automations under $2,000: 50% to book, 50% once you've tested and accepted them. $2,000 and over: 40% to book, 40% when ready to test, 20% after acceptance.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-label="What changes the price, what's not included and ongoing care">
+    <div class="container three">
+      <div>
+        <h2 class="h3">What changes the price</h2>
+        <ul>
+          <li>How many pages and features you need</li>
+          <li>Whether we're writing the words or you are</li>
+          <li>How many systems need to talk to each other</li>
+          <li>Moving content from an existing website</li>
+        </ul>
+        <p class="muted small">Anything outside the agreed scope is quoted in writing before we do it. No surprise bills.</p>
+      </div>
+      <div>
+        <h2 class="h3">What's not included</h2>
+        <ul>
+          <li>Your domain name and software subscriptions (paid by you, in your name)</li>
+          <li>Professional photography</li>
+          <li>Copywriting on Pilot Presence (we'll give you a checklist and guidance)</li>
+          <li>Guaranteed Google rankings, leads or sales. No honest provider can promise those.</li>
+        </ul>
+      </div>
+      <div class="card care">
+        <h2 class="h3">After launch: Website Care</h2>
+        <p class="care-price">$49<span>/month</span></p>
+        <ul>
+          <li>Hosting and the HTTPS certificate (the padlock in the browser)</li>
+          <li>Monitoring and security updates</li>
+          <li>Backups of every version of your site</li>
+          <li>Up to 30 minutes of small changes each month</li>
+        </ul>
+        <p class="muted small">Cancel with 30 days' notice. If you leave, we'll transfer your website to you. Prefer to host it yourself? We'll hand everything over at launch. Your domain renewal is paid by you, directly to your registrar.</p>
+      </div>
+    </div>
+  </section>
+
+  <Faq heading="Pricing questions" items={faqs} />
+  <CtaBand heading="Not sure which package fits?" text="Book a free 15–25 minute discovery call and we'll recommend the right starting point for your business and budget." />
+</BaseLayout>
+
+<style>
+  .tiers { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); align-items: stretch; }
+  .tier { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 30px; display: flex; flex-direction: column; }
+  .tier.featured { border: 2px solid var(--indigo); background: var(--lav-tint); }
+  .tier-name { font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .featured .tier-name { color: var(--indigo); }
+  .tier-price { font-size: 46px; font-weight: 900; line-height: 1.1; margin: 6px 0 6px; }
+  .from { font-size: 20px; font-weight: 700; }
+  .tag { font-weight: 700; margin-bottom: 18px; }
+  .items { margin: 0 0 20px; padding-left: 20px; display: grid; gap: 8px; align-content: start; color: var(--ink-2); font-size: 15px; flex: 1; }
+  dl { margin: 0 0 24px; display: grid; gap: 10px; font-size: 15px; }
+  dt { font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  dd { margin: 0; }
+
+  .narrow { max-width: 860px; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-card); margin-top: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 14px 20px; text-align: left; border-top: 1px solid var(--border); vertical-align: top; }
+  thead th { border-top: 0; background: var(--navy-800); color: var(--white); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+  .p { font-weight: 800; color: var(--indigo); white-space: nowrap; }
+  .note { margin-top: 18px; font-size: 15px; color: var(--ink-2); }
+
+  .three { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: start; }
+  .h3 { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 14px; }
+  .three ul { margin: 0 0 14px; padding-left: 20px; display: grid; gap: 8px; color: var(--ink-2); }
+  .small { font-size: 15px; line-height: 1.6; }
+  .care { border: 2px solid var(--indigo); }
+  .care-price { font-size: 40px; font-weight: 900; line-height: 1; margin-bottom: 14px; }
+  .care-price span { font-size: 16px; font-weight: 700; color: var(--muted); }
+  @media (max-width: 560px) { .p { white-space: normal; } }
+</style>

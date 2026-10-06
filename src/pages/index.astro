@@ -1,71 +1,316 @@
 ---
-const pageTitle = "Pilot Systems — Work in Progress";
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import headshot from '../assets/declan-headshot.jpg';
+import { site } from '../data/site';
+
+const flow = [
+  { title: 'They find you.', text: 'A clear, fast website shows up when locals search.' },
+  { title: 'They reach out on the spot.', text: 'Tap to call, or a quick quote form.' },
+  { title: 'They get a reply straight away.', text: "Even when you're on the tools." },
+  { title: "You're first to respond.", text: 'The enquiry is waiting for you, with all the details.' },
+];
+
+const pains = [
+  { quote: "I miss calls while I'm on the tools.", fix: 'Missed-call text-back' },
+  { quote: 'I send quotes and never hear back.', fix: 'Automatic quote follow-up' },
+  { quote: "My website's outdated, or I don't have one.", fix: 'A proper website built for your trade' },
+  { quote: "I'm still doing admin at 9pm.", fix: 'Automatic confirmations and reminders' },
+  { quote: 'Enquiries come in by text, Facebook and email, and some get lost.', fix: 'Every enquiry in one place' },
+  { quote: 'Chasing unpaid invoices takes forever.', fix: 'Overdue invoice reminders' },
+];
+
+const pillars = [
+  { label: '01 · The front door', title: 'Your website', text: 'A fast, mobile-friendly site that makes it obvious what you do, where you work and how to get a quote.' },
+  { label: '02 · The work behind the door', title: 'Automations', text: 'Simple workflows that reply to enquiries, follow up quotes and send reminders, so nothing falls through the cracks.' },
+  { label: '03 · Keeping it running', title: 'Support', text: 'Every project includes a 30-day defect warranty. After that, Website Care keeps your site online, secure and up to date for $49 a month.' },
+];
+
+const steps = [
+  { title: 'Get in touch', text: "Call, email or send the form. We'll reply within one business day." },
+  { title: 'Free discovery call', text: '15–25 minutes. We learn how your business runs, where work gets stuck and what you need.' },
+  { title: 'Written proposal', text: 'Exact scope, price, timeline and payment milestones. Nothing starts until you approve it.' },
+  { title: 'Build and test', text: 'We design, build and test on phones and computers. You review it and request changes in agreed revision rounds.' },
+  { title: 'Launch and support', text: 'We go live together, walk you through how everything works, and fix any defects in the first 30 days at no cost.' },
+];
+
+const tiers = [
+  { name: 'Pilot Presence', price: '$1,790', from: false, best: 'Looking professional and getting quote requests' },
+  { name: 'Pilot Lead Engine', price: '$3,490', from: false, best: 'Winning and tracking more enquiries', featured: true },
+  { name: 'Pilot Digital HQ', price: '$5,990', from: true, best: 'Growing businesses that need one advanced feature' },
+];
+
+const reasons = [
+  { title: 'You own everything.', text: 'Your domain, website and accounts are in your name. No lock-in contracts.' },
+  { title: 'Built for your business, not from a template.', text: 'Every project starts with a discovery call and a written plan.' },
+  { title: 'Fixed price, written scope.', text: "You know exactly what you're getting, and what it costs, before work starts." },
+  { title: 'Built with security in mind.', text: "Secure connections (HTTPS), security settings and careful handling of your customers' details." },
+  { title: 'Easy to use on any phone.', text: 'Readable text, big buttons and pages that load quickly.' },
+  { title: 'Local and accountable.', text: 'A registered Melbourne business with its ABN on show, working with tradies Australia-wide. You deal directly with the founder.' },
+];
+
+const faqs = [
+  { q: 'Do I own my website?', a: "Yes. Your domain is registered in your business's name, your accounts are in your name, and we get access to work on them. If you ever move on, we'll hand everything over." },
+  { q: 'How long does it take?', a: 'Pilot Presence takes about a week (5 business days). Pilot Lead Engine takes about two weeks (10 business days). Pilot Digital HQ takes about 3–4 weeks. All are counted from when we have your content and deposit. Automations usually add a few days.' },
+  { q: 'What do I need to provide?', a: "Your logo, photos of your work, your services and service areas, licence details and any reviews you already have. We'll send you a simple checklist." },
+  { q: "Can you guarantee I'll rank first on Google?", a: 'No, and be wary of anyone who does. We build every site on solid search foundations, but rankings also depend on your competition, your reviews and Google itself.' },
+  { q: 'How do payments work?', a: "A deposit to book, then the balance before launch. Bigger projects are split into milestones. Pilot Systems isn't registered for GST, so no GST is charged." },
+  { q: 'Do I have to change my job software?', a: "No. We start with the tools you already use, and only build something new if they can't do the job." },
+];
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{pageTitle}</title>
-    <meta
-      name="description"
-      content="We're building something useful for Australian trade businesses. Check back soon."
-    />
-    <style>
-      :root {
-        color-scheme: light dark;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      }
+<BaseLayout
+  title="Websites & Automations for Tradies | Pilot Systems"
+  description="Melbourne-based websites and practical automations for Australian tradies. Fewer missed enquiries, faster follow-up, less admin. Free discovery call."
+  schema
+>
+  <!-- HERO -->
+  <section class="hero section--dark on-dark">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">Websites + automations for Australian tradies</p>
+        <h1 class="h1">Simple systems.<br /><span class="lav">Clearer days.</span></h1>
+        <p class="lead">A proper website that turns visitors into enquiries, plus simple automations that handle the follow-up, so you're not doing admin on your phone at 9pm.</p>
+        <div class="btn-row">
+          <a class="btn btn--light" href="/contact">{site.cta}</a>
+          <a class="btn btn--ghost" href={site.phoneHref}>Call {site.phoneDisplay}</a>
+        </div>
+        <p class="small-print">Melbourne-based <span aria-hidden="true">·</span> Reply within one business day <span aria-hidden="true">·</span> You own your website</p>
+      </div>
 
-      body {
-        min-height: 100vh;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: radial-gradient(circle at top left, #4a455c 0, #111 55%);
-        color: #f5f5f5;
-        text-align: center;
-        padding: 2rem;
-      }
-
-      .wrapper {
-        max-width: 32rem;
-      }
-
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 0.75rem;
-      }
-
-      p {
-        margin: 0.25rem 0;
-        line-height: 1.6;
-      }
-
-      .tagline {
-        margin-top: 1rem;
-        font-weight: 500;
-        opacity: 0.85;
-      }
-
-      .note {
-        margin-top: 1.5rem;
-        font-size: 0.9rem;
-        opacity: 0.7;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrapper">
-      <h1>Pilot Systems</h1>
-      <p>Our website is currently a work in progress.</p>
-      <p>We’re building a new home for simple systems and clearer days for Aussie tradies.</p>
-      <p class="tagline">Check back soon — we’re working on something genuinely useful.</p>
-      <p class="note">
-        In the meantime, you can reach us at<br />
-        <strong>declan@pilotsystems.com.au</strong>
-      </p>
+      <div class="flow-card" aria-labelledby="flow-heading">
+        <p id="flow-heading" class="flow-label">What a connected website and automations do for you</p>
+        <ol class="flow">
+          {flow.map((s, i) => (
+            <li style={`--d:${i * 140}ms`}>
+              <span class:list={['num', { last: i === flow.length - 1 }]} aria-hidden="true">{i + 1}</span>
+              <div>
+                <p class="flow-title">{s.title}</p>
+                <p class="flow-text">{s.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="payoff">Fewer missed enquiries. Faster replies. Less admin.</p>
+      </div>
     </div>
-  </body>
-</html>
+  </section>
+
+  <!-- TRADES -->
+  <section class="trades" aria-label="Trades we work with">
+    <p class="container">Electricians · Plumbers · Builders · Carpenters · Landscapers · Painters · Roofers · Handymen · And more</p>
+  </section>
+
+  <!-- SOUNDS LIKE YOU -->
+  <section class="section" aria-labelledby="pains-heading">
+    <div class="container">
+      <p class="kicker">The problem</p>
+      <h2 id="pains-heading" class="h2">Sounds like you?</h2>
+      <p class="lead">These are the places trade businesses most often lose work and time.</p>
+      <ul class="grid-auto pains" role="list">
+        {pains.map((p) => (
+          <li class="card pain">
+            <p class="quote">“{p.quote}”</p>
+            <p class="fix"><span class="sr-only">How we fix it: </span><span aria-hidden="true">→ </span>{p.fix}</p>
+          </li>
+        ))}
+      </ul>
+      <a class="btn btn--solid" href="/contact">{site.cta}</a>
+    </div>
+  </section>
+
+  <!-- HOW IT FITS -->
+  <section class="section section--white" aria-labelledby="fits-heading">
+    <div class="container">
+      <p class="kicker">What we do</p>
+      <h2 id="fits-heading" class="h2">How it fits together</h2>
+      <div class="pillars">
+        {pillars.map((p) => (
+          <div class="pillar">
+            <p class="pillar-label">{p.label}</p>
+            <h3>{p.title}</h3>
+            <p class="muted">{p.text}</p>
+          </div>
+        ))}
+      </div>
+      <a class="text-link" href="/services">See what we do →</a>
+    </div>
+  </section>
+
+  <!-- MISSED CALL -->
+  <section class="section section--dark on-dark" aria-labelledby="missed-heading">
+    <div class="container split">
+      <div>
+        <p class="kicker">Built for tradies who can't answer the phone</p>
+        <h2 id="missed-heading" class="h2 big">You can't answer on a roof. This can.</h2>
+        <p class="lead">Missed-call text-back replies for you the moment you can't pick up, so the job doesn't go to the next number on Google.</p>
+        <p class="price-note">Part of the Lead Capture Pack, from <strong>$1,490</strong>.</p>
+      </div>
+      <div>
+        <ol class="missed" role="list">
+          <li>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 1 17 7M17 1l6 6"></path><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg>
+            <p><strong>1.</strong> You miss a call because you're working.</p>
+          </li>
+          <li>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <p><strong>2.</strong> The caller gets a text straight away, with a link to your quote form.</p>
+          </li>
+          <li class="done">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"></path></svg>
+            <p><strong>3.</strong> Their details land in one place, ready for when you're off the tools.</p>
+          </li>
+        </ol>
+        <p class="bundles">Other bundles: <a href="/services#automations">Quote Conversion · Job Communication · Cashflow · Reputation · Operations</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" aria-labelledby="process-heading">
+    <div class="container">
+      <p class="kicker">The process</p>
+      <h2 id="process-heading" class="h2">How it works</h2>
+      <ol class="steps" role="list">
+        {steps.map((s, i) => (
+          <li class="card">
+            <p class="step-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+            <h3><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
+            <p class="muted">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- PRICING PREVIEW -->
+  <section class="section section--white" aria-labelledby="pricing-heading">
+    <div class="container">
+      <p class="kicker">Pricing</p>
+      <h2 id="pricing-heading" class="h2">Clear prices, up front</h2>
+      <p class="lead">Founding-client rates for our first five projects. No GST is added.</p>
+      <ul class="tiers" role="list">
+        {tiers.map((t) => (
+          <li class:list={['tier', { featured: t.featured }]}>
+            <h3 class="tier-name">{t.name}</h3>
+            <p class="tier-price">{t.from && <span class="from">From </span>}{t.price}</p>
+            <p class="muted">{t.best}</p>
+          </li>
+        ))}
+      </ul>
+      <a class="text-link" href="/pricing">See full pricing →</a>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="section" aria-labelledby="why-heading">
+    <div class="container">
+      <p class="kicker">Why us</p>
+      <h2 id="why-heading" class="h2">Why Pilot Systems</h2>
+      <ul class="reasons" role="list">
+        {reasons.map((r) => (
+          <li>
+            <h3>{r.title}</h3>
+            <p class="muted">{r.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section class="section section--white" aria-labelledby="founder-heading">
+    <div class="container founder">
+      <Image src={headshot} alt="Declan Cawthorn, founder of Pilot Systems" widths={[320, 480, 640]} sizes="(max-width: 700px) 80vw, 320px" class="headshot" />
+      <div>
+        <p class="kicker">Meet the founder</p>
+        <h2 id="founder-heading" class="h2">You'll deal with me, start to finish</h2>
+        <p class="lead">I'm Declan Cawthorn, founder of Pilot Systems. I'm passionate about good website design, cybersecurity and helping trade businesses run better. From the first call to launch day, you deal with the person doing the work.</p>
+        <a class="text-link" href="/about">More about me →</a>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faqs} />
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(56px, 8vw, 96px); }
+  .hero-grid { display: grid; gap: 48px; align-items: center; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+  .h1 { margin-bottom: 26px; }
+  .lav { color: var(--lav); }
+  .hero .lead { margin-bottom: 34px; max-width: 560px; }
+  .hero .btn-row { margin-bottom: 24px; }
+  .small-print { font-size: 14px; color: var(--on-dark-2); font-weight: 500; }
+
+  .flow-card { background: var(--navy-700); border: 1px solid var(--navy-600); border-radius: 16px; padding: clamp(22px, 3vw, 30px); }
+  .flow-label { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lav); margin-bottom: 22px; }
+  .flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+  .flow li { display: flex; gap: 16px; animation: rise .5s ease both; animation-delay: var(--d); }
+  .num { flex: 0 0 36px; height: 36px; border-radius: 50%; background: var(--navy-600); color: var(--white); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .num.last { background: var(--white); color: var(--indigo); }
+  .flow-title { font-weight: 800; font-size: 17px; margin-bottom: 2px; }
+  .flow-text { color: #c9c5e2; font-size: 15px; line-height: 1.55; }
+  .payoff { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--navy-600); font-weight: 800; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .trades { background: var(--indigo); color: var(--white); }
+  .trades p { padding-block: 18px; text-align: center; font-weight: 800; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.9; }
+
+  .section > .container > .lead { margin-bottom: 40px; }
+  .pains { list-style: none; padding: 0; margin: 0 0 36px; }
+  .pain { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; }
+  .quote { font-size: 19px; font-weight: 700; line-height: 1.4; }
+  .fix { align-self: flex-start; background: var(--lav-soft); color: var(--indigo); font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 8px; }
+
+  .pillars { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin: 40px 0; }
+  .pillar { border-top: 4px solid var(--indigo); padding-top: 24px; }
+  .pillar-label { font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .pillar h3 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+
+  .split { display: grid; gap: 48px; align-items: center; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+  .big { font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 22px; }
+  .split .lead { margin-bottom: 24px; }
+  .price-note { color: var(--on-dark-2); }
+  .price-note strong { color: var(--white); }
+  .missed { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .missed li { display: flex; gap: 16px; align-items: center; background: var(--navy-700); border: 1px solid var(--navy-600); border-radius: var(--radius-card); padding: 20px 22px; }
+  .missed svg { flex: 0 0 26px; color: var(--lav); }
+  .missed li.done { background: var(--white); color: var(--ink); border-color: var(--white); }
+  .missed li.done svg { color: var(--indigo); }
+  .bundles { margin-top: 16px; font-size: 14px; color: var(--on-dark-2); line-height: 1.8; }
+  .bundles a { color: var(--on-dark); }
+
+  .steps { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+  .step-num { font-size: 34px; font-weight: 900; color: var(--indigo); margin-bottom: 12px; line-height: 1; }
+  .steps h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+  .steps .muted { font-size: 15px; line-height: 1.6; }
+
+  .tiers { list-style: none; padding: 0; margin: 0 0 32px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  .tier { border: 1px solid var(--border); border-radius: 14px; padding: 30px; }
+  .tier.featured { border: 2px solid var(--indigo); background: var(--lav-tint); }
+  .tier-name { font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .tier.featured .tier-name { color: var(--indigo); }
+  .tier-price { font-size: 44px; font-weight: 900; margin: 6px 0 8px; line-height: 1.1; }
+  .from { font-size: 20px; font-weight: 700; }
+
+  .reasons { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 34px 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+  .reasons h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+
+  .founder { display: grid; gap: 48px; align-items: center; grid-template-columns: 320px minmax(0, 1fr); }
+  .founder :global(.headshot) { width: 100%; height: auto; border-radius: 16px; aspect-ratio: 4 / 5; object-fit: cover; }
+  .founder .lead { margin-bottom: 22px; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .founder { grid-template-columns: 1fr; }
+    .founder :global(.headshot) { max-width: 320px; }
+  }
+  @media (max-width: 480px) {
+    .btn-row .btn { width: 100%; }
+    .tier-price { font-size: 38px; }
+  }
+</style>

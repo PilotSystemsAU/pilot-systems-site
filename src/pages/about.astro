@@ -1,0 +1,91 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import headshot from '../assets/declan-headshot.jpg';
+import { site } from '../data/site';
+
+const principles = [
+  { t: 'Plain English.', d: "No jargon. If I use a technical term, I'll explain it." },
+  { t: 'Written scope, fixed price.', d: "You'll know what you're getting and what it costs before work starts." },
+  { t: 'You own it.', d: 'Your domain, website and accounts stay in your name. No lock-in.' },
+  { t: "Use what you've got first.", d: "I switch on what your existing software can already do before building anything new." },
+  { t: 'Honest advice.', d: "If something won't help your business, I'll tell you, even if it means a smaller job for me." },
+  { t: 'One point of contact.', d: 'You deal with me, start to finish.' },
+];
+---
+
+<BaseLayout
+  title="About Declan Cawthorn | Pilot Systems, Melbourne"
+  description="Meet Declan, founder of Pilot Systems: fast, secure websites and simple systems for Australian tradies, built in Melbourne."
+>
+  <section class="about-hero section--dark on-dark">
+    <div class="container hero-grid">
+      <div>
+        <p class="kicker">About Pilot Systems</p>
+        <h1 class="h1">G'day, I'm Declan.</h1>
+        <p class="lead">I build websites and simple systems that help tradies win more of the work they're already being offered, and spend less time on admin.</p>
+      </div>
+      <Image src={headshot} alt="Declan Cawthorn, founder of Pilot Systems" widths={[320, 480, 720]} sizes="(max-width: 900px) 70vw, 380px" class="headshot" loading="eager" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="why-heading">
+    <div class="container prose">
+      <h2 id="why-heading" class="h2">Why I started Pilot Systems</h2>
+      <p>Tradies are good at their work, but plenty of good work slips away before it starts. A call gets missed on a roof. A quote goes out and nobody follows it up. An outdated website sends people to the next business on Google. Then the admin waits until 9pm.</p>
+      <p>None of that needs a big, expensive system. It needs a clear website and a few simple rules running in the background. That's what Pilot Systems does.</p>
+
+      <h2 class="h2 spaced">A bit about me</h2>
+      <p>I'm passionate about three things: good website design, cybersecurity and helping small businesses run better. Pilot Systems brings them together: websites and systems that look sharp, stay secure and save tradies time.</p>
+      <p>That security focus shapes how I build: secure connections, careful handling of your customers' details, and only the access I actually need to your accounts.</p>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="how-heading">
+    <div class="container">
+      <h2 id="how-heading" class="h2">How I work</h2>
+      <ul class="principles" role="list">
+        {principles.map((p) => <li><h3>{p.t}</h3><p class="muted">{p.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="details-heading">
+    <div class="container narrow">
+      <h2 id="details-heading" class="h2">The details</h2>
+      <dl class="details">
+        <div><dt>Business name</dt><dd>Pilot Systems (registered business name)</dd></div>
+        <div><dt>ABN</dt><dd>{site.abn}</dd></div>
+        <div><dt>Based in</dt><dd>{site.location}</dd></div>
+        <div><dt>Working with</dt><dd>Tradies Australia-wide</dd></div>
+        <div><dt>Phone</dt><dd><a href={site.phoneHref}>{site.phoneDisplay}</a></dd></div>
+        <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <CtaBand heading="Let's talk about your business" text="A free 15–25 minute call. No pressure, no jargon, just an honest recommendation." />
+</BaseLayout>
+
+<style>
+  .about-hero { padding-block: clamp(56px, 8vw, 96px); }
+  .hero-grid { display: grid; gap: 48px; align-items: center; grid-template-columns: minmax(0, 1fr) 380px; }
+  .h1 { font-size: clamp(40px, 6vw, 80px); margin-bottom: 22px; }
+  .about-hero :global(.headshot) { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; }
+  .prose { max-width: 780px; }
+  .prose p { font-size: 18px; line-height: 1.75; color: var(--ink-2); margin-bottom: 18px; }
+  .spaced { margin-top: 48px; }
+  .principles { list-style: none; margin: 36px 0 0; padding: 0; display: grid; gap: 30px 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .principles h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .narrow { max-width: 780px; }
+  .details { margin: 24px 0 0; border-top: 1px solid var(--border-2); }
+  .details div { display: grid; grid-template-columns: 180px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border-2); }
+  dt { font-weight: 800; }
+  dd { margin: 0; color: var(--ink-2); }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .about-hero :global(.headshot) { max-width: 340px; }
+  }
+  @media (max-width: 520px) { .details div { grid-template-columns: 1fr; gap: 2px; } }
+</style>

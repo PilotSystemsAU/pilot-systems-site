@@ -1,37 +1,44 @@
-<footer class="site-footer">
-  <div class="footer-inner">
-    <p>© {new Date().getFullYear()} Pilot Systems. Melbourne, Victoria.</p>
-    <p>
-      <a href="/privacy">Privacy Policy</a> ·
-      <a href="/terms">Terms of Use</a>
-    </p>
+---
+import { site, nav } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer on-dark">
+  <div class="container cols">
+    <div>
+      <p class="name">PILOT SYSTEMS</p>
+      <p>{site.tagline}</p>
+    </div>
+    <div>
+      <p>{site.location}</p>
+      <p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
+      <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      <p>ABN {site.abn}</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Use</a></li>
+      </ul>
+    </nav>
   </div>
-
-  <style>
-    .site-footer {
-      margin-top: 3rem;
-      padding: 1.5rem 1rem;
-      background: #f0eff8;
-      color: #4a455c;
-    }
-
-    .footer-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 0.75rem;
-      font-size: 0.85rem;
-    }
-
-    .footer-inner a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .footer-inner a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <p class="legal">© {year} Pilot Systems. Pilot Systems is a registered business name of {site.owner}.</p>
 </footer>
+
+<style>
+  .site-footer { background: var(--navy-900); color: var(--on-dark-2); font-size: 14px; line-height: 1.9; }
+  .cols {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    padding-block: 48px;
+  }
+  .name { color: var(--white); font-weight: 800; letter-spacing: 0.12em; margin-bottom: 6px; }
+  a { color: var(--white); text-decoration: none; }
+  a:hover { color: var(--lav); text-decoration: underline; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  ul a { color: var(--on-dark); }
+  .legal { border-top: 1px solid #241d48; padding: 18px var(--gutter); text-align: center; font-size: 13px; }
+  @media (max-width: 700px) { .site-footer { padding-bottom: 76px; } }
+</style>

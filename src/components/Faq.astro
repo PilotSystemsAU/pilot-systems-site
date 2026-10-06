@@ -1,0 +1,29 @@
+---
+interface Props {
+  heading?: string;
+  items: { q: string; a: string }[];
+}
+const { heading = 'Common questions', items } = Astro.props;
+---
+
+<section class="section faq" aria-labelledby="faq-heading">
+  <div class="container">
+    <h2 id="faq-heading" class="h2">{heading}</h2>
+    <div class="list">
+      {items.map((item) => (
+        <div class="item">
+          <h3>{item.q}</h3>
+          <p>{item.a}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .h2 { margin-bottom: 32px; }
+  .list { display: grid; gap: 0 48px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+  .item { border-top: 1px solid var(--border-2); padding: 24px 0; }
+  h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; line-height: 1.35; }
+  p { color: var(--ink-2); line-height: 1.7; }
+</style>

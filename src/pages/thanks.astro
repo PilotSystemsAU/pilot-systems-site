@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title="Enquiry received | Pilot Systems" description="Thanks for your enquiry." noindex>
+  <section class="section msg">
+    <div class="container narrow">
+      <p class="kicker">Enquiry received</p>
+      <h1 class="h2">Thanks, your enquiry's in.</h1>
+      <p class="lead">We'll be in touch within one business day to set up your free discovery call. We've also sent a confirmation to your email. If you can't see it, check your junk folder.</p>
+      <p class="lead">Need to talk sooner? Call <a href={site.phoneHref}>{site.phoneDisplay}</a>.</p>
+      <div class="btn-row">
+        <a class="btn btn--solid" href="/">Back to home</a>
+        <a class="btn btn--outline" href="/pricing">See pricing</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .msg { min-height: 60vh; }
+  .narrow { max-width: 760px; }
+  .h2 { font-size: clamp(34px, 5vw, 56px); margin-bottom: 20px; }
+  .lead { margin-bottom: 16px; }
+  .btn-row { margin-top: 28px; }
+</style>

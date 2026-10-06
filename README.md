@@ -1,46 +1,24 @@
-# Astro Starter Kit: Basics
+# Pilot Systems website
 
-```sh
-npm create astro@latest -- --template basics
-```
+Marketing site for Pilot Systems (pilotsystems.com.au), built with Astro and deployed on Vercel.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command | What it does |
+| --- | --- |
+| `npm install` | Install packages (run after pulling changes to package.json) |
+| `npm run dev` | Local preview at http://localhost:4321 |
+| `npm run build` | Build the production site into `dist/` |
+| `npm run preview` | Preview the production build locally |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Where things live
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+- `src/data/site.ts`: phone, email, ABN and menu links (change them here once)
+- `src/styles/global.css`: brand colours, fonts, buttons and shared layout
+- `src/components/`: header, footer, call-to-action band, page hero, FAQ, mobile call bar
+- `src/pages/`: one file per page (`index` = Home)
+- `src/assets/`: logo SVGs and headshot (optimised automatically at build)
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Deploying
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Work on the `redesign` branch. Every push gets a Vercel preview link. Production deploys only from `main`.

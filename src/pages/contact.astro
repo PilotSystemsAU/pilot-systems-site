@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+
+const fields = [
+  { id: 'name', label: 'Your name', type: 'text', autocomplete: 'name', hint: '', error: 'Please enter your name.' },
+  { id: 'phone', label: 'Phone', type: 'tel', autocomplete: 'tel', hint: 'So we can call you back', error: 'Please enter a phone number so we can call you back.' },
+  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', hint: '', error: 'Please enter a valid email address, like name@example.com.' },
+  { id: 'trade', label: 'Your trade', type: 'text', autocomplete: 'organization-title', hint: 'e.g. Electrician, Plumber', error: "Please tell us what trade you're in." },
+  { id: 'suburb', label: 'Suburb', type: 'text', autocomplete: 'address-level2', hint: "Where you're based", error: 'Please enter your suburb.' },
+];
+---
+
+<BaseLayout
+  title="Book a Free Discovery Call | Pilot Systems"
+  description="Book a free 15–25 minute discovery call about your website or admin. Call 0457 471 392 or send an enquiry. Reply within one business day."
+>
+  <PageHero
+    kicker="Get in touch"
+    title="Book a free discovery call"
+    intro="A 15–25 minute chat about your business: how enquiries come in, where time gets lost, and what you'd like to fix. Afterwards we'll recommend what will be most useful. No cost, no obligation."
+  />
+
+  <section class="section">
+    <div class="container grid">
+      <div class="side">
+        <div class="card call">
+          <h2 class="h3">Prefer to talk?</h2>
+          <a class="btn btn--solid call-btn" href={site.phoneHref}>Call {site.phoneDisplay}</a>
+          <p class="muted">Call any time. If we can't pick up, leave a message and we'll call you back within one business day.</p>
+        </div>
+
+        <div class="next">
+          <h2 class="h3">What happens next</h2>
+          <ol>
+            <li><strong>We'll reply within one business day</strong> for a quick chat about what you need and what we offer.</li>
+            <li><strong>We book your free discovery call</strong> and send you a calendar invite: 15–25 minutes on how your business runs and what's slowing you down.</li>
+            <li><strong>We recommend what will help most</strong>, with clear pricing if you want to go ahead.</li>
+          </ol>
+        </div>
+
+        <div class="other">
+          <h2 class="h3">Other ways to reach us</h2>
+          <p>Email: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p>Phone: <a href={site.phoneHref}>{site.phoneDisplay}</a></p>
+          <p class="muted">Based in {site.location} · ABN {site.abn}</p>
+        </div>
+      </div>
+
+      <form class="card form" id="enquiry-form" action="/api/enquiry" method="post" novalidate>
+        <h2 class="h3">Or send an enquiry</h2>
+        <p class="muted req-note">All fields are required.</p>
+
+        {fields.map((f) => (
+          <div class="field">
+            <label for={f.id}>{f.label}</label>
+            {f.hint && <p class="hint" id={`${f.id}-hint`}>{f.hint}</p>}
+            <input
+              id={f.id}
+              name={f.id}
+              type={f.type}
+              autocomplete={f.autocomplete}
+              required
+              aria-describedby={[f.hint ? `${f.id}-hint` : '', `${f.id}-error`].filter(Boolean).join(' ')}
+            />
+            <p class="error" id={`${f.id}-error`} data-msg={f.error} hidden></p>
+          </div>
+        ))}
+
+        <div class="field">
+          <label for="message">What do you need help with?</label>
+          <p class="hint" id="message-hint">e.g. New website, missed calls, quote follow-up</p>
+          <textarea id="message" name="message" rows="5" required aria-describedby="message-hint message-error"></textarea>
+          <p class="error" id="message-error" data-msg="Please tell us a little about what you need." hidden></p>
+        </div>
+
+        <!-- Honeypot: hidden from people, bots tend to fill it in -->
+        <div class="hp" aria-hidden="true">
+          <label for="company_website">Leave this field empty</label>
+          <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <p class="consent">By sending this form, you agree to Pilot Systems using your details to respond to your enquiry. Read the <a href="/privacy">Privacy Policy</a>.</p>
+
+        <button class="btn btn--solid submit" type="submit">Send my enquiry</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('enquiry-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector<HTMLElement>('.status')!;
+    const button = form.querySelector<HTMLButtonElement>('.submit')!;
+    const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+    const check = (el: HTMLInputElement | HTMLTextAreaElement) => {
+      const err = document.getElementById(`${el.id}-error`);
+      const v = el.value.trim();
+      const bad = !v || (el.type === 'email' && !emailOk(v)) || (el.type === 'tel' && v.replace(/\D/g, '').length < 8);
+      el.setAttribute('aria-invalid', String(bad));
+      if (err) {
+        err.hidden = !bad;
+        err.textContent = bad ? err.dataset.msg ?? '' : '';
+      }
+      return !bad;
+    };
+
+    const inputs = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[required], textarea[required]'));
+    inputs.forEach((el) => el.addEventListener('blur', () => el.value && check(el)));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const results = inputs.map(check);
+      if (results.includes(false)) {
+        inputs[results.indexOf(false)].focus();
+        status.textContent = 'Please fix the highlighted fields.';
+        return;
+      }
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      status.textContent = '';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        window.location.href = '/thanks';
+      } catch {
+        status.textContent = "Sorry, your enquiry didn't go through. Please call 0457 471 392 or email declan@pilotsystems.com.au, and we'll get straight back to you.";
+        status.classList.add('fail');
+        button.disabled = false;
+        button.textContent = 'Send my enquiry';
+      }
+    });
+  }
+</script>
+
+<style>
+  .grid { display: grid; gap: 40px; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: start; }
+  .side { display: grid; gap: 36px; }
+  .h3 { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 14px; }
+  .call-btn { width: 100%; font-size: 16px; margin-bottom: 14px; }
+  .next ol { margin: 0; padding-left: 22px; display: grid; gap: 12px; color: var(--ink-2); }
+  .next strong { color: var(--ink); }
+  .other p { margin-bottom: 4px; }
+
+  .form { padding: clamp(22px, 3vw, 34px); }
+  .req-note { font-size: 14px; margin: -6px 0 18px; }
+  .field { margin-bottom: 18px; }
+  label { display: block; font-weight: 700; margin-bottom: 4px; }
+  .hint { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  input, textarea {
+    width: 100%;
+    font: 400 16px/1.5 var(--font);
+    color: var(--ink);
+    background: var(--white);
+    border: 1.5px solid #9c98b3;
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    min-height: 48px;
+  }
+  input:focus-visible, textarea:focus-visible { outline: 3px solid var(--indigo); outline-offset: 1px; border-color: var(--indigo); }
+  [aria-invalid='true'] { border-color: #b3261e; }
+  .error { color: #b3261e; font-size: 14px; font-weight: 600; margin-top: 6px; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .consent { font-size: 14px; color: var(--ink-2); margin: 6px 0 18px; }
+  .submit { width: 100%; }
+  .submit:disabled { opacity: .7; cursor: progress; }
+  .status { margin-top: 14px; font-weight: 600; }
+  .status.fail { color: #b3261e; }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

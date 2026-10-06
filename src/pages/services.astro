@@ -1,35 +1,175 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import TierComparisonTable from '../components/TierComparisonTable.astro';
-import AutomationCatalogue from '../components/AutomationCatalogue.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
+
+const packages = [
+  { name: 'Pilot Presence', price: 'From $1,790', text: 'For sole traders and small teams that need to look professional online and get quote requests. Up to 5 pages, a mobile-first design built for your trade, tap-to-call, and a quote form that goes straight to your inbox.' },
+  { name: 'Pilot Lead Engine', price: 'From $3,490', text: 'For established businesses that want their website to win and track more enquiries. Up to 10 pages, including service and suburb pages, copywriting included, a multi-step quote form with photo uploads, and an editing system so you can update the site yourself.' },
+  { name: 'Pilot Digital HQ', price: 'From $5,990 (quoted)', text: 'For growing businesses that want a more tailored site with one advanced feature, such as a quote calculator, a project gallery with filters or a booking request system.' },
+];
+
+const Y = '✓';
+const N = '—';
+const rows: [string, string, string, string][] = [
+  ['Pages', 'Up to 5', 'Up to 10', 'Up to 15'],
+  ['Discovery', 'One discovery session', 'Discovery workshop and customer journey map', 'Discovery workshop and feature plan'],
+  ['Words on the page', 'You supply them, using our checklist', 'Included (agreed allowance)', 'Included (larger allowance)'],
+  ['Mobile-first design built for your trade', Y, Y, Y],
+  ['Tap-to-call and quote buttons', Y, Y, Y],
+  ['Quote form', 'Simple form', 'Multi-step form with photo uploads', 'Advanced form or quote wizard'],
+  ['Spam protection', Y, Y, Y],
+  ['Edit your own content', N, Y, Y],
+  ['Service and suburb pages', N, 'Up to 5 service and 3 suburb pages', Y],
+  ['Google search basics (titles, sitemap, Search Console)', Y, Y, Y],
+  ['Keyword and local search research', N, Y, Y],
+  ['Enquiry tracking (analytics)', N, Y, Y],
+  ['Advanced feature (calculator, booking tool and so on)', N, N, '1 advanced feature'],
+  ['Revision rounds', '2', '3', '4'],
+  ['Defect warranty', '30 days', '30 days, plus a 30-day review', '60 days, plus a 30-day review'],
+  ['Typical timeline', 'About 1 week', 'About 2 weeks', 'About 3–4 weeks'],
+];
+
+const bundles = [
+  { name: 'Lead Capture Pack', price: 'From $1,490', does: 'Responds to and organises every enquiry', includes: 'Missed-call text-back, instant enquiry reply, new-lead alert to your phone, every enquiry in one place, tracking which ads and pages bring in leads' },
+  { name: 'Quote Conversion Pack', price: 'Quoted', does: 'Stops good quotes going cold', includes: 'Quote-sent confirmation, follow-up reminders, accepted quote turned into a job, alerts for big quotes' },
+  { name: 'Job Communication Pack', price: 'Quoted', does: 'Keeps customers and your team informed', includes: 'Booking confirmations, appointment reminders, "on my way" texts, job updates' },
+  { name: 'Cashflow Pack', price: 'Quoted', does: 'Invoice faster, chase less', includes: "Invoice prompt when a job's done, deposit requests, overdue reminders, payment confirmations" },
+  { name: 'Reputation Pack', price: 'Quoted', does: 'Collects genuine feedback and referrals', includes: "Thank-you message, review request, follow-up if something wasn't right, testimonial permission, referral request" },
+  { name: 'Operations Pack', price: 'Quoted', does: 'Less admin and fewer things forgotten', includes: 'Daily summary, licence and insurance reminders, email filing, alerts if an automation stops working' },
+];
+
+const includes = [
+  'A discovery call and a written scope before any work starts',
+  'A fixed price and milestone payments',
+  'Testing before anything goes live',
+  'A plain-English guide to what runs automatically and what still needs you',
+  'A defect warranty after launch',
+  'Accounts in your name, with no lock-in',
+];
 ---
 
-<BaseLayout title="What We Do | Pilot Systems" description="Websites and practical automations for Australian trade businesses.">
-  <main>
-    <section class="page-hero" aria-labelledby="page-title">
-      <div class="hero-inner">
-        <p class="kicker">Pilot Systems services</p>
-        <h1 id="page-title">What we do</h1>
-        <p class="intro">Websites that make your trade business easier to trust and contact, plus practical automations that keep work moving after the enquiry arrives.</p>
-        <a class="button button-primary" href="/contact">Talk about your business</a>
-      </div>
-    </section>
+<BaseLayout
+  title="What We Do: Websites & Automations | Pilot Systems"
+  description="Three website packages and six automation bundles for trade businesses, from missed-call text-back to quote follow-up and invoice reminders."
+>
+  <PageHero
+    kicker="What we do"
+    title="Websites and automations for tradies"
+    intro="A website that makes your business easy to find, trust and contact, plus practical automations that keep work moving once an enquiry comes in."
+  >
+    <a class="btn btn--light" href="/contact">{site.cta}</a>
+  </PageHero>
 
-    <TierComparisonTable />
-    <AutomationCatalogue />
-  </main>
+  <section class="section" aria-labelledby="packages-heading">
+    <div class="container">
+      <p class="kicker">Websites</p>
+      <h2 id="packages-heading" class="h2">Three website packages</h2>
+      <p class="lead intro">Each package builds on the one before it. Not sure which fits? That's what the discovery call is for.</p>
+      <ul class="packages" role="list">
+        {packages.map((p) => (
+          <li class="card">
+            <h3>{p.name}</h3>
+            <p class="price">{p.price}</p>
+            <p class="muted">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+
+      <div class="table-wrap" role="region" aria-labelledby="compare-caption" tabindex="0">
+        <table>
+          <caption id="compare-caption">Compare the website packages</caption>
+          <thead>
+            <tr><th scope="col">Feature</th><th scope="col">Presence</th><th scope="col">Lead Engine</th><th scope="col">Digital HQ</th></tr>
+          </thead>
+          <tbody>
+            {rows.map(([label, a, b, c]) => (
+              <tr>
+                <th scope="row">{label}</th>
+                {[a, b, c].map((v) => (
+                  <td>
+                    {v === Y ? <><span aria-hidden="true" class="yes">✓</span><span class="sr-only">Included</span></> :
+                     v === N ? <><span aria-hidden="true" class="no">—</span><span class="sr-only">Not included</span></> : v}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="scroll-hint" aria-hidden="true">Swipe sideways to compare →</p>
+      <p class="note">Timelines run from when we have your content and deposit. Every package includes secure hosting setup, connecting your domain, testing on phones and computers, and a handover session.</p>
+    </div>
+  </section>
+
+  <section id="automations" class="section section--white" aria-labelledby="auto-heading">
+    <div class="container">
+      <p class="kicker">Automations</p>
+      <h2 id="auto-heading" class="h2">Automations that do the boring bits</h2>
+      <p class="lead intro">An automation is a simple "when this happens, do that" rule that runs on its own: when a call is missed, send a text; when a quote is sent, follow it up in three days. You only pay for the ones your business needs.</p>
+      <ul class="bundles" role="list">
+        {bundles.map((b, i) => (
+          <li class:list={['card', { featured: i === 0 }]}>
+            <div class="bundle-top">
+              <h3>{b.name}</h3>
+              <p class="bundle-price">{b.price}</p>
+            </div>
+            <p class="does">{b.does}</p>
+            <p class="muted small">{b.includes}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="note">Every part of a bundle is also available on its own. Bundles other than the Lead Capture Pack are quoted after your discovery call. SMS and software subscriptions are billed to you at cost.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="existing-heading">
+    <div class="container two-col">
+      <div>
+        <p class="kicker">We start with what you already use</p>
+        <h2 id="existing-heading" class="h2">No new software unless you need it</h2>
+        <p class="lead">Most job management and accounting software already has reminders and automations built in. They're often just not switched on. We set up what you already pay for first, and only build something new when it can't do the job.</p>
+      </div>
+      <div class="card includes">
+        <h2 class="h3">What every project includes</h2>
+        <ul role="list">
+          {includes.map((i) => <li>{i}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand heading="Not sure what you need?" text="Book a free discovery call and we'll map out where your business is losing time, then recommend only what will help." />
 </BaseLayout>
 
 <style>
-  .page-hero { background: #fff; color: #181532; font-family: Montserrat, Arial, sans-serif; padding: 6rem 1.5rem; }
-  .hero-inner { margin: 0 auto; max-width: 1040px; }
-  .kicker { color: #181582; font-size: .74rem; font-weight: 800; letter-spacing: .12em; line-height: 1.35; margin: 0; text-transform: uppercase; }
-  h1 { font-size: clamp(3rem, 7vw, 5.65rem); letter-spacing: -.065em; line-height: .98; margin: .65rem 0 1.15rem; text-transform: uppercase; }
-  .intro { color: #4a455c; font-size: clamp(1.02rem, 1.8vw, 1.2rem); line-height: 1.7; margin: 0 0 1.7rem; max-width: 720px; }
-  .button { align-items: center; border: 1px solid #4a455c; border-radius: .45rem; display: inline-flex; font-size: .78rem; font-weight: 800; justify-content: center; letter-spacing: .035em; min-height: 2.85rem; padding: .75rem 1.05rem; text-decoration: none; text-transform: uppercase; transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .2s ease; }
-  .button-primary { background: #4a455c; color: #fff; }
-  .button-primary:hover { background: #181582; border-color: #181582; transform: translateY(-1px); }
-  @media (max-width: 900px) { .page-hero { padding: 4.5rem 1.25rem; } }
-  @media (max-width: 480px) { .page-hero { padding-inline: 1rem; } h1 { font-size: 3rem; } .button { width: 100%; } }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+  .intro { margin-bottom: 36px; }
+  .packages, .bundles { list-style: none; padding: 0; margin: 0 0 40px; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .packages h3, .bundles h3 { font-size: 20px; font-weight: 800; }
+  .price { font-size: 26px; font-weight: 900; color: var(--indigo); margin: 4px 0 10px; }
+
+  .table-wrap { position: relative; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--white); }
+  table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: 15px; }
+  caption { text-align: left; padding: 18px 20px; font-weight: 800; font-size: 16px; }
+  th, td { padding: 14px 20px; text-align: left; vertical-align: top; border-top: 1px solid var(--border); }
+  thead th { background: var(--navy-800); color: var(--white); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; }
+  tbody th { font-weight: 700; width: 32%; }
+  td { color: var(--ink-2); }
+  .yes { color: var(--indigo); font-weight: 900; font-size: 18px; }
+  .no { color: var(--muted); }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .note { margin-top: 18px; font-size: 15px; color: var(--ink-2); max-width: 760px; }
+
+  .bundles .featured { border: 2px solid var(--indigo); background: var(--lav-tint); }
+  .bundle-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .bundle-price { font-weight: 800; color: var(--indigo); font-size: 14px; }
+  .does { font-weight: 700; margin: 8px 0 6px; }
+  .small { font-size: 15px; line-height: 1.6; }
+
+  .two-col { display: grid; gap: 48px; align-items: start; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+  .h3 { font-size: 20px; font-weight: 800; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .02em; }
+  .includes ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: var(--ink-2); }
+
+  @media (max-width: 760px) { .scroll-hint { display: block; } }
 </style>
