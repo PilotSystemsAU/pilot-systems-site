@@ -1,5 +1,8 @@
 ---
 import '@fontsource-variable/montserrat';
+// Same file the font CSS uses (Latin, all weights). Preloading it lets the
+// browser fetch it straight away instead of after the CSS, so text settles sooner.
+import fontLatin from '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -41,6 +44,7 @@ const localBusiness = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={fontLatin} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

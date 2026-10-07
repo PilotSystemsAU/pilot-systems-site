@@ -10,23 +10,23 @@ import { site } from '../data/site';
 import { homeFaqs } from '../data/faqs';
 
 const pains = [
-  { quote: "I miss calls when I'm on the tools.", text: "You can't answer with a drill in your hand. By the time you call back, they've rung someone else.", fix: 'missed-call text-back' },
-  { quote: "I don't have a website, or it's embarrassing.", text: 'Customers check you out before they call. If they can\'t find you, or what they find looks dated, they move on.', fix: 'a proper website' },
+  { quote: "I miss calls when I’m on the tools.", text: "You can’t answer with a drill in your hand. By the time you call back, they’ve rung someone else.", fix: 'missed-call text-back' },
+  { quote: "I don’t have a website, or it’s embarrassing.", text: 'Customers check you out before they call. If they can’t find you, or what they find looks dated, they move on.', fix: 'a proper website' },
   { quote: 'Enquiries are all over the place.', text: 'Texts, emails, Facebook messages and voicemails, and something always slips through.', fix: 'your enquiries in one place' },
-  { quote: 'I send quotes and never hear back.', text: "Following up feels awkward and there's never time, so good quotes go cold.", fix: 'automatic quote follow-ups' },
-  { quote: "I'm doing paperwork at 9pm.", text: "Reminders, confirmations, chasing. The admin piles up after the real work's done.", fix: 'reminders that send themselves' },
-  { quote: "I'm chasing people to pay.", text: 'Sending "just a reminder" messages to customers is nobody\'s favourite job.', fix: 'automatic invoice reminders' },
+  { quote: 'I send quotes and never hear back.', text: "Following up feels awkward and there’s never time, so good quotes go cold.", fix: 'automatic quote follow-ups' },
+  { quote: "I’m doing paperwork at 9pm.", text: "Reminders, confirmations, chasing. The admin piles up after the real work’s done.", fix: 'reminders that send themselves' },
+  { quote: "I’m chasing people to pay.", text: 'Sending “just a reminder” messages to customers is nobody’s favourite job.', fix: 'automatic invoice reminders' },
 ];
 
 const pillars = [
   { label: 'Websites', title: 'The front door', text: 'A fast, clear website that shows what you do, where you work and how to reach you, and makes getting in touch easy on a phone.' },
   { label: 'Systems', title: 'The work behind it', text: 'Simple automations that reply to enquiries, follow up quotes and send reminders. We set up the software you already use first, and only build something new when we need to.' },
-  { label: 'Care', title: 'Keeping it running', text: "Hosting, checks and fixes, so your website and systems keep working while you're on the tools." },
+  { label: 'Care', title: 'Keeping it running', text: "Hosting, checks and fixes, so your website and systems keep working while you’re on the tools." },
 ];
 
 const steps = [
-  { title: 'Free discovery call', text: '15–25 minutes. You tell us what\'s going on, and we tell you honestly what would help.' },
-  { title: 'Written proposal', text: "A fixed price, exactly what's included, what we need from you, and the timeline." },
+  { title: 'Free discovery call', text: '15–25 minutes. You tell us what’s going on, and we tell you honestly what would help.' },
+  { title: 'Written proposal', text: "A fixed price, exactly what’s included, what we need from you, and the timeline." },
   { title: 'Build and test', text: 'For websites, you approve the design first. We build it and test it before anything goes live.' },
   { title: 'Launch and handover', text: 'We go live, walk you through it, and give you a short guide.' },
   { title: 'Support', text: 'Covered by the consumer guarantees under the Australian Consumer Law, with care plans to keep it running.' },
@@ -41,10 +41,10 @@ const tiers = [
 const reasons = [
   { icon: 'key', title: 'You own it. No lock-in.', text: 'Your domain stays in your name, and the work we create for you is yours once paid. If you ever leave, we move your site to your own hosting at no charge.' },
   { icon: 'cog', title: 'Your software first', text: 'If the software you already pay for can do the job, we set that up properly before building anything new.' },
-  { icon: 'file', title: 'Fixed price, written scope', text: "You know exactly what you're getting and what it costs before we start." },
-  { icon: 'access', title: 'Built for everyone', text: "We check every site for keyboard use, colour contrast, clear headings and labelled forms, so it's easier for every customer to use." },
+  { icon: 'file', title: 'Fixed price, written scope', text: "You know exactly what you’re getting and what it costs before we start." },
+  { icon: 'access', title: 'Built for everyone', text: "We check every site for keyboard use, colour contrast, clear headings and labelled forms, so it’s easier for every customer to use." },
   { icon: 'shield', title: 'Security built in', text: 'Secure connections, security headers, no risky plugins, and accounts protected with two-step login.' },
-  { icon: 'pin', title: 'A real person in Melbourne', text: `You deal directly with the person building your website. ABN ${site.abn}.` },
+  { icon: 'pin', title: 'A real person in Melbourne', text: `You deal directly with the person building your website. ABN ${site.abn.replace(/ /g, '\u00a0')}.` },
 ];
 const icons: Record<string, string> = {
   key: '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
@@ -67,8 +67,8 @@ const icons: Record<string, string> = {
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="kicker rise" style="--d:0ms">Websites + automations for Australian tradies</p>
-        <h1 class="h1 rise" style="--d:80ms">Simple Systems.<br /><span class="accent">Clearer Days.</span></h1>
-        <p class="lead rise" style="--d:160ms">A proper website that makes you easy to find and contact, plus simple systems that answer enquiries and handle the follow-ups, so you're not doing admin on your phone at 9pm.</p>
+        <h1 class="h1 hero-title rise" style="--d:80ms"><span>Simple</span> <span>Systems.</span> <span class="accent">Clearer</span> <span class="accent">Days.</span></h1>
+        <p class="lead rise" style="--d:160ms">A proper website that makes you easy to find and contact, plus simple systems that answer enquiries and handle the follow-ups, so you’re not doing admin on your phone at 9pm.</p>
         <div class="btn-row rise" style="--d:240ms">
           <a class="btn btn--primary" href="/contact">{site.cta}</a>
           <a class="btn btn--ghost" href={site.phoneHref}>Call {site.phoneDisplay}</a>
@@ -93,7 +93,7 @@ const icons: Record<string, string> = {
       <div data-reveal>
         <p class="kicker">Sounds like you?</p>
         <h2 id="pains-heading" class="h2">The stuff that eats your day</h2>
-        <p class="lead intro">Most tradies don't need more software. They need the things they already do to happen without them chasing.</p>
+        <p class="lead intro">Most tradies don’t need more software. They need the things they already do to happen without them chasing.</p>
       </div>
       <ul class="grid-auto pains" role="list">
         {pains.map((p, i) => (
@@ -118,13 +118,13 @@ const icons: Record<string, string> = {
       <div class="pillars">
         {pillars.map((p, i) => (
           <div class="pillar" data-reveal style={`--reveal-delay:${i * 110}ms`}>
-            <p class="pillar-label">{String(i + 1).padStart(2, '0')} · {p.label}</p>
+            <p class="pillar-label">{p.label}</p>
             <h3>{p.title}</h3>
             <p class="muted">{p.text}</p>
           </div>
         ))}
       </div>
-      <a class="text-link" href="/services" data-reveal>See what we do →</a>
+      <a class="text-link" href="/services" data-reveal>See what we do</a>
     </div>
   </section>
 
@@ -134,7 +134,7 @@ const icons: Record<string, string> = {
       <div data-reveal>
         <p class="kicker">The one tradies ask about first</p>
         <h2 id="missed-heading" class="h2 big">Missed the call? They still hear from you.</h2>
-        <p class="lead">When you can't answer, the caller automatically gets a text from your business. It lets them know you'll call back and gives them a link to send through their job details. You get an alert, and the enquiry is saved in one place.</p>
+        <p class="lead">When you can’t answer, the caller automatically gets a text from your business. It lets them know you’ll call back and gives them a link to send through their job details. You get an alert, and the enquiry is saved in one place.</p>
         <a class="btn btn--primary" href="/services#lead-capture">See the Lead Capture Pack</a>
       </div>
       <div>
@@ -166,10 +166,12 @@ const icons: Record<string, string> = {
       </div>
       <ol class="steps" role="list">
         {steps.map((s, i) => (
-          <li class="card card--hover" data-reveal style={`--reveal-delay:${i * 90}ms`}>
-            <p class="step-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
-            <h3><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
-            <p class="muted">{s.text}</p>
+          <li class="step" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+            <span class="step-num" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3><span class="sr-only">Step {i + 1}: </span>{s.title}</h3>
+              <p class="muted">{s.text}</p>
+            </div>
           </li>
         ))}
       </ol>
@@ -193,12 +195,12 @@ const icons: Record<string, string> = {
               <span class="tier-label">{t.label}</span>
               <span class="tier-price">{t.price}</span>
               <span class="tier-best">{t.best}</span>
-              <span class="tier-more">See what's included <span aria-hidden="true">→</span></span>
+              <span class="tier-more">See what’s included <span class="arrow" aria-hidden="true"></span></span>
             </a>
           </li>
         ))}
       </ul>
-      <a class="text-link" href="/pricing" data-reveal>See full pricing →</a>
+      <a class="text-link" href="/pricing" data-reveal>See full pricing</a>
     </div>
   </section>
 
@@ -230,10 +232,10 @@ const icons: Record<string, string> = {
         <Image src={headshot} alt="Declan Cawthorn, founder of Pilot Systems, smiling in front of a light blue wall" widths={[320, 480, 640]} sizes="(max-width: 700px) 80vw, 320px" class="headshot" />
       </div>
       <div data-reveal style="--reveal-delay:120ms">
-        <p class="kicker">Who you'll work with</p>
-        <h2 id="founder-heading" class="h2">G'day, I'm Declan</h2>
-        <p class="lead">I started Pilot Systems because good tradies lose work for reasons that have nothing to do with their workmanship: a missed call, a quote nobody followed up, a website that hasn't been touched in years. I build websites and simple systems that fix those things, with security and reliability built in from the start. You'll deal with me from the first call to launch.</p>
-        <a class="text-link" href="/about">More about me →</a>
+        <p class="kicker">Who you’ll work with</p>
+        <h2 id="founder-heading" class="h2">G’day, I’m Declan</h2>
+        <p class="lead">I started Pilot Systems because good tradies lose work for reasons that have nothing to do with their workmanship: a missed call, a quote nobody followed up, a website that hasn’t been touched in years. I build websites and simple systems that fix those things, with security and reliability built in from the start. You’ll deal with me from the first call to launch.</p>
+        <a class="text-link" href="/about">More about me</a>
       </div>
     </div>
   </section>
@@ -246,12 +248,15 @@ const icons: Record<string, string> = {
   /* Hero */
   .hero { position: relative; overflow: hidden; padding-block: clamp(56px, 8vw, 100px); }
   .glow {
-    position: absolute; top: -30%; right: -10%; width: 65%; height: 150%;
+    /* Fixed offsets (not % of the hero) so it doesn't move while the font loads */
+    position: absolute; top: -240px; right: -10%; width: 65%; height: 1200px;
     background: radial-gradient(closest-side, rgba(245, 165, 36, .18), transparent 70%);
     pointer-events: none;
   }
   .hero-grid { position: relative; display: grid; gap: 56px; align-items: center; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
   .h1 { margin-bottom: 26px; }
+  .hero-title span { display: block; }
+  @media (max-width: 900px) { .hero-title { font-size: clamp(48px, 14.5vw, 84px); } }
   .accent { color: var(--amber); }
   .hero .lead { margin-bottom: 34px; max-width: 580px; }
   .hero .btn-row { margin-bottom: 26px; }
@@ -270,7 +275,7 @@ const icons: Record<string, string> = {
   /* Pains */
   .pains { list-style: none; padding: 0; margin: 0 0 36px; }
   .pain { display: flex; flex-direction: column; gap: 12px; }
-  .quote { font-size: 19px; font-weight: 800; line-height: 1.35; }
+  .quote { font-size: 19px; font-weight: 800; line-height: 1.35; text-indent: -0.42em; }
   .pain-text { font-size: 15px; line-height: 1.6; flex: 1; }
   .fix { align-self: flex-start; background: var(--amber-tint); color: var(--amber-ink); font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 8px; margin-top: 6px; }
 
@@ -292,11 +297,29 @@ const icons: Record<string, string> = {
   .missed li.done svg { color: var(--ink-900); }
   .small-print { margin-top: 16px; font-size: 14px; color: var(--on-dark-2); line-height: 1.7; }
 
-  /* Steps */
-  .steps { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
-  .step-num { font-size: 34px; font-weight: 900; color: var(--amber-ink); margin-bottom: 12px; line-height: 1; }
-  .steps h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+  /* Steps: a numbered line. Across on wide screens, down the left on phones. */
+  .steps { --dot: 44px; list-style: none; margin: 44px 0 0; padding: 0; display: grid; gap: 28px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .step { position: relative; }
+  .step::before {
+    content: ''; position: absolute; top: calc(var(--dot) / 2); left: var(--dot); right: -28px; height: 2px;
+    background: var(--border-2);
+  }
+  .step:last-child::before { display: none; }
+  .step-num {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    width: var(--dot); height: var(--dot); border-radius: 50%; margin-bottom: 18px;
+    background: var(--ink-900); color: var(--amber); font-size: 18px; font-weight: 900; line-height: 1;
+  }
+  .steps h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
   .steps .muted { font-size: 15px; line-height: 1.6; }
+  @media (max-width: 1100px) {
+    .steps { grid-template-columns: 1fr; gap: 0; max-width: 620px; }
+    .step { display: grid; grid-template-columns: var(--dot) minmax(0, 1fr); column-gap: 18px; padding-bottom: 26px; }
+    .step:last-child { padding-bottom: 0; }
+    .step::before { top: var(--dot); bottom: 0; left: calc(var(--dot) / 2 - 1px); right: auto; width: 2px; height: auto; }
+    .step-num { margin-bottom: 0; }
+    .steps h3 { padding-top: 10px; }
+  }
 
   /* Pricing preview: every card lights up on hover; the featured one is lit by
      default unless another card is being hovered. */

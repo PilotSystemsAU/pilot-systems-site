@@ -6,7 +6,7 @@ import { site } from '../data/site';
 // Cloudflare Turnstile site key (public by design). The secret key lives in Vercel.
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAFO08JJwJUhDeGDc';
 
-type Field = { id: string; label: string; type: string; autocomplete?: string; inputmode?: string; hint?: string; required: boolean; max: number; error: string; invalid?: string };
+type Field = { id: string; label: string; type: 'text' | 'tel' | 'email'; autocomplete?: string; inputmode?: 'text' | 'tel' | 'email'; hint?: string; required: boolean; max: number; error: string; invalid?: string };
 // `max` matches the limits the server enforces in /api/enquiry.
 const fields: Field[] = [
   { id: 'name', label: 'Your name', type: 'text', autocomplete: 'name', required: true, max: 100, error: 'Please add your name.' },
@@ -220,8 +220,9 @@ const fields: Field[] = [
       status.classList.toggle('fail', failed);
     };
     const resetSpamCheck = () => {
-      // @ts-ignore Turnstile adds this global when its script has loaded
-      try { window.turnstile?.reset?.(); } catch { /* ignore */ }
+      // Turnstile adds this global once its script has loaded
+      const ts = (window as Window & { turnstile?: { reset?: () => void } }).turnstile;
+      try { ts?.reset?.(); } catch { /* ignore */ }
     };
     const finishWith = (text: string) => {
       sending = false;

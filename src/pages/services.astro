@@ -45,10 +45,10 @@ const projectIncludes = [
     <div class="container pillars">
       {pillars.map((p, i) => (
         <a class="pillar" href={`#${p.id}`} data-reveal style={`--reveal-delay:${i * 110}ms`}>
-          <span class="pillar-label">{String(i + 1).padStart(2, '0')} · {p.label}</span>
+          <span class="pillar-label">{p.label}</span>
           <span class="pillar-title">{p.title}</span>
           <span class="muted">{p.text}</span>
-          <span class="pillar-more">Jump to {p.label} <span aria-hidden="true">↓</span></span>
+          <span class="pillar-more">Jump to {p.label} <span class="arrow arrow--down" aria-hidden="true"></span></span>
         </a>
       ))}
     </div>
@@ -99,7 +99,7 @@ const projectIncludes = [
           </tbody>
         </table>
       </div>
-      <p class="see-pricing" data-reveal><a class="text-link" href="/pricing">See prices, timelines and payment stages →</a></p>
+      <p class="see-pricing" data-reveal><a class="text-link" href="/pricing">See prices, timelines and payment stages</a></p>
     </div>
   </section>
 

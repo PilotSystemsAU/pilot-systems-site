@@ -55,6 +55,10 @@ import { trades } from '../data/site';
   .marquee.paused .i-play { display: block; }
   .marquee.paused .i-pause { display: none; }
   @media (prefers-reduced-motion: reduce) {
+    /* Still list: no edge fade, and no dot after the last item */
+    .viewport { -webkit-mask-image: none; mask-image: none; padding-inline: var(--gutter); }
+    .dot { display: none; }
+    .group { column-gap: 28px; }
     .track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
     .group:nth-child(2) { display: none; }
     .group { flex-wrap: wrap; justify-content: center; row-gap: 6px; }

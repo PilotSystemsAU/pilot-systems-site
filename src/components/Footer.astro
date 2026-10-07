@@ -71,7 +71,7 @@ const liveSocials = socials.filter((s) => s.url);
       <p class="strong"><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
       <p class="strong"><a href="/contact">Contact us</a></p>
       <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
-      <p class="muted-dark">Based in {site.location}.<br />Working with tradies Australia-wide.</p>
+      <p class="muted-dark">Based in {site.location}.<br />Working with tradies <span class="nowrap">Australia-wide</span>.</p>
     </div>
   </div>
 
@@ -82,7 +82,7 @@ const liveSocials = socials.filter((s) => s.url);
 
   <div class="container bottom">
     <p>© {year} Pilot Systems</p>
-    <p>Pilot Systems is a registered business name of {site.legalName}.</p>
+    <p>Pilot Systems is a registered business name of <span class="nowrap">{site.legalName}</span>.</p>
   </div>
 </footer>
 
@@ -98,8 +98,9 @@ const liveSocials = socials.filter((s) => s.url);
   .brand :global(.mark) { width: 44px; }
   .tag { line-height: 1.6; margin-bottom: 18px; max-width: 300px; }
   .tag strong { color: var(--on-dark); }
-  .socials { list-style: none; margin: 0 0 18px; padding: 0; display: flex; gap: 14px; }
-  .socials a { color: var(--on-dark-2); display: inline-flex; padding: 4px; border-radius: 6px; transition: color .18s ease, transform .18s ease; }
+  /* 44px tap targets; the negative margin keeps the first icon lined up with the text above */
+  .socials { list-style: none; margin: 0 0 14px -11px; padding: 0; display: flex; flex-wrap: wrap; gap: 0; }
+  .socials a { color: var(--on-dark-2); display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 8px; transition: color .18s ease, transform .18s ease; }
   .socials a:hover { color: var(--amber); transform: translateY(-2px); }
   .abn { color: var(--on-dark); }
   .col-head { font-size: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); margin-bottom: 18px; }
@@ -112,11 +113,12 @@ const liveSocials = socials.filter((s) => s.url);
   .top p { margin-bottom: 12px; }
   .muted-dark { line-height: 1.6; }
 
-  .who { border-top: 1px solid var(--ink-800); padding-block: 36px; }
+  .who, .bottom { position: relative; }
+  .who::before, .bottom::before { content: ''; position: absolute; top: 0; left: var(--gutter); right: var(--gutter); height: 1px; background: var(--ink-800); }
+  .who { padding-block: 36px; }
   .trades { display: flex; flex-wrap: wrap; gap: 10px 24px; color: var(--on-dark); }
 
   .bottom {
-    border-top: 1px solid var(--ink-800);
     padding-block: 22px;
     display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px;
     font-size: 13px;
