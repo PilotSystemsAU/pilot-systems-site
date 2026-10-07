@@ -58,7 +58,7 @@ We use a small number of service providers to run our business. They may handle 
 | Website hosting | Hosts our website and processes form submissions | Vercel Inc. |
 | Email delivery | Sends form enquiries to our inbox | Resend |
 | Spam protection | Checks that form submissions are from real people | Cloudflare Turnstile |
-| Website analytics | Counts visits and page views | [to be confirmed] |
+| Website analytics | Counts visits and page views | Vercel Web Analytics |
 | Email | Our business email | [to be confirmed] |
 | Invoicing | Sends invoices and records payments | Zoho Invoice |
 | Phone and SMS | Our business phone and missed-call text service | [to be confirmed] |
@@ -76,7 +76,7 @@ Where we use overseas providers, we choose established providers and take reason
 
 ## 8. Cookies and analytics
 
-[To be confirmed once the analytics tool is chosen.]
+Our website uses analytics that don't use cookies to track you across websites. They give us total counts of visits and pages viewed, so we can see what's useful.
 
 Our spam protection may set a small technical cookie or run a check in your browser to confirm a form is being filled in by a person.
 
