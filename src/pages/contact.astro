@@ -6,13 +6,13 @@ import { site } from '../data/site';
 // Cloudflare Turnstile site key (public by design). The secret key lives in Vercel.
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAFO08JJwJUhDeGDc';
 
-type Field = { id: string; label: string; type: 'text' | 'tel' | 'email'; autocomplete?: string; inputmode?: 'text' | 'tel' | 'email'; hint?: string; required: boolean; max: number; error: string; invalid?: string };
+type Field = { id: string; label: string; type: 'text' | 'tel' | 'email'; autocomplete?: string; inputmode?: 'text' | 'tel' | 'email'; placeholder?: string; required: boolean; max: number; error: string; invalid?: string };
 // `max` matches the limits the server enforces in /api/enquiry.
 const fields: Field[] = [
   { id: 'name', label: 'Your name', type: 'text', autocomplete: 'name', required: true, max: 100, error: 'Please add your name.' },
-  { id: 'phone', label: 'Best number to reach you', type: 'tel', autocomplete: 'tel', inputmode: 'tel', required: true, max: 30, error: 'Please add your phone number.', invalid: 'That number looks too short. Please check it.' },
-  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', required: false, max: 200, error: "That email doesn't look right. Please check it." },
-  { id: 'trade', label: 'Your trade', type: 'text', hint: 'e.g. electrician', required: true, max: 100, error: 'Please add your trade.' },
+  { id: 'phone', label: 'Best number to reach you', type: 'tel', autocomplete: 'tel', inputmode: 'tel', required: false, max: 30, error: 'That number looks too short. Please check it.', invalid: 'That number looks too short. Please check it.' },
+  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', required: true, max: 200, error: 'Please add your email.', invalid: "That email doesn't look right. Please check it." },
+  { id: 'trade', label: 'Your trade', type: 'text', placeholder: 'e.g. electrician', required: true, max: 100, error: 'Please add your trade.' },
   { id: 'suburb', label: "Suburb you're based in", type: 'text', autocomplete: 'address-level2', required: true, max: 100, error: 'Please add your suburb.' },
 ];
 ---
@@ -68,10 +68,8 @@ const fields: Field[] = [
         {fields.map((f) => (
           <div class="field">
             <label for={f.id}>
-              {f.label}
-              <span class:list={['req', { opt: !f.required }]}>{f.required ? 'Required' : 'Optional'}</span>
+              {f.label}{' '}<span class:list={['req', { opt: !f.required }]}>{f.required ? 'Required' : 'Optional'}</span>
             </label>
-            {f.hint && <p class="hint" id={`${f.id}-hint`}>{f.hint}</p>}
             <input
               id={f.id}
               name={f.id}
@@ -79,17 +77,18 @@ const fields: Field[] = [
               autocomplete={f.autocomplete}
               inputmode={f.inputmode}
               maxlength={f.max}
+              placeholder={f.placeholder}
               required={f.required}
-              aria-describedby={[f.hint ? `${f.id}-hint` : '', `${f.id}-error`].filter(Boolean).join(' ')}
+              aria-describedby={f.type === 'email' ? 'email-error email-suggest' : `${f.id}-error`}
             />
             <p class="error" id={`${f.id}-error`} data-msg={f.error} data-msg-invalid={f.invalid} hidden></p>
+            {f.type === 'email' && <p class="suggest" id="email-suggest" aria-live="polite" hidden></p>}
           </div>
         ))}
 
         <div class="field">
           <label for="message">What do you need help with? <span class="req">Required</span></label>
-          <p class="hint" id="message-hint">e.g. "I need a website", "I keep missing calls", "Not sure, want to talk it through"</p>
-          <textarea id="message" name="message" rows="5" maxlength="3000" required aria-describedby="message-hint message-error"></textarea>
+          <textarea id="message" name="message" rows="5" maxlength="3000" required placeholder={'e.g. "I need a website", "I keep missing calls", "Not sure, want to talk it through"'} aria-describedby="message-error"></textarea>
           <p class="error" id="message-error" data-msg="Please add what you need help with." hidden></p>
         </div>
 
@@ -119,6 +118,7 @@ const fields: Field[] = [
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
+  import { emailProblem, emailSuggestion } from '../lib/email-check';
   // Enquiry form behaviour:
   // - checks fields in the browser (the server checks them again)
   // - can only send once at a time, and every enquiry carries an ID so a repeat
@@ -149,7 +149,6 @@ const fields: Field[] = [
       spamFailed: "The spam check didn't go through. Please wait a moment for it to finish, then press Send again.",
     };
 
-    const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
     const newId = () => {
       if (crypto.randomUUID) return crypto.randomUUID();
       const b = crypto.getRandomValues(new Uint8Array(16));
@@ -193,7 +192,7 @@ const fields: Field[] = [
       const v = el.value.trim();
       let text = '';
       if (el.required && !v) text = err?.dataset.msg ?? 'Please fill this in.';
-      else if (el.type === 'email' && v && !emailOk(v)) text = err?.dataset.msg ?? 'Please check this.';
+      else if (el.type === 'email' && v && emailProblem(v)) text = emailProblem(v);
       else if (el.type === 'tel' && v && v.replace(/\D/g, '').length < 8) text = err?.dataset.msgInvalid || err?.dataset.msg || 'Please check this.';
       setError(el, text);
       return !text;
@@ -202,6 +201,33 @@ const fields: Field[] = [
       el.addEventListener('blur', () => el.value && check(el));
       el.addEventListener('input', () => el.getAttribute('aria-invalid') === 'true' && check(el));
     });
+
+    // ---- "Did you mean …@gmail.com?" ----
+    // Only a suggestion: it never stops the form sending.
+    const emailInput = form.querySelector<HTMLInputElement>('#email');
+    const suggestBox = form.querySelector<HTMLElement>('#email-suggest');
+    const updateSuggestion = () => {
+      if (!emailInput || !suggestBox) return;
+      const fix = emailSuggestion(emailInput.value);
+      suggestBox.hidden = !fix;
+      suggestBox.replaceChildren();
+      if (!fix) return;
+      const use = document.createElement('button');
+      use.type = 'button';
+      use.className = 'suggest-btn';
+      use.textContent = fix; // textContent, so a typed address can never become markup
+      use.addEventListener('click', () => {
+        emailInput.value = fix;
+        suggestBox.hidden = true;
+        suggestBox.replaceChildren();
+        check(emailInput);
+        draft.save();
+        emailInput.focus();
+      });
+      suggestBox.append('Did you mean ', use, '?');
+    };
+    emailInput?.addEventListener('blur', updateSuggestion);
+    emailInput?.addEventListener('input', () => { if (suggestBox && !suggestBox.hidden) updateSuggestion(); });
 
     // ---- sending ----
     let sending = false;
@@ -297,7 +323,7 @@ const fields: Field[] = [
           if (data.fields.includes(el.id)) {
             const err = document.getElementById(`${el.id}-error`);
             const v = el.value.trim();
-            const text = !v ? err?.dataset.msg : el.type === 'tel' ? err?.dataset.msgInvalid : el.type === 'email' ? err?.dataset.msg : '';
+            const text = !v ? err?.dataset.msg : el.type === 'tel' ? err?.dataset.msgInvalid : el.type === 'email' ? err?.dataset.msgInvalid : '';
             setError(el, text || 'Please check this.');
             first ??= el;
           }
@@ -335,11 +361,16 @@ const fields: Field[] = [
   .other p { margin-bottom: 4px; }
 
   .form { padding: clamp(22px, 3vw, 34px); }
-  .field { margin-bottom: 18px; }
-  label { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 700; margin-bottom: 6px; }
-  .req { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--amber-ink); background: var(--amber-tint); padding: 2px 8px; border-radius: 999px; }
-  .req.opt { color: var(--muted); background: var(--paper); }
+  /* More space between fields than inside one, so each label clearly belongs to its own input */
+  .field { margin-bottom: 24px; }
+  /* Label and its Required/Optional tag flow as one line of text. On a narrow phone the tag
+     wraps with the last word instead of dropping onto its own floating row. */
+  label { display: block; font-weight: 700; line-height: 1.35; margin-bottom: 8px; }
+  .req { display: inline-block; margin-left: 4px; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; vertical-align: 1px; color: var(--amber-ink); }
+  .req.opt { color: var(--muted); }
   .hint { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  /* Examples sit inside the box. Kept as a hint only: the label above still names the field. */
+  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
   input, textarea {
     width: 100%;
     font: 400 16px/1.5 var(--font);
@@ -353,9 +384,14 @@ const fields: Field[] = [
     /* When a phone keyboard opens, leave room to see the field's error message */
     scroll-margin-block: 90px 72px;
   }
+  /* Stop the browser's autofill tint (pale yellow) clashing with the form */
+  input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px var(--white) inset; -webkit-text-fill-color: var(--text); }
   input:hover, textarea:hover { border-color: var(--plum); }
   input:focus-visible, textarea:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; border-color: var(--amber-ink); }
   [aria-invalid='true'] { border-color: #b3261e; }
+  .suggest { font-size: 14px; color: var(--text-2); margin-top: 6px; }
+  .suggest :global(.suggest-btn) { font: inherit; font-weight: 700; color: var(--amber-ink); background: none; border: 0; padding: 4px 0; min-height: 32px; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; word-break: break-all; }
+  .suggest :global(.suggest-btn:focus-visible) { outline: 3px solid var(--amber); outline-offset: 2px; border-radius: 2px; }
   .error { color: #b3261e; font-size: 14px; font-weight: 600; margin-top: 6px; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   .spam { margin-top: 4px; }
