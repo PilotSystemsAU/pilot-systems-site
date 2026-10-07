@@ -48,8 +48,8 @@ export const websites = [
       '3 rounds of changes',
       "A 30-day review: we look at what's working and fine-tune it",
     ],
-    timeline: 'Usually 3–5 weeks from deposit to launch.',
-    pricingTimeline: 'Usually 3–5 weeks',
+    timeline: 'Usually 2–4 weeks from deposit to launch.',
+    pricingTimeline: 'Usually 2–4 weeks',
     payments: '40% to book, 40% at design approval, 20% before launch',
   },
 ];

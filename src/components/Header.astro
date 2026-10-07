@@ -136,10 +136,12 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
   }
 
   @media (max-width: 960px) {
-    .bar { grid-template-columns: 1fr auto; }
+    /* Phone/tablet: header scrolls away with the page, slimmer, all items centred */
+    .site-header { position: relative; backdrop-filter: none; background: var(--ink-900); }
+    .bar { display: flex; align-items: center; justify-content: space-between; min-height: 62px; gap: 12px; }
     .menu-btn { display: inline-flex; }
     .header-cta { display: none; }
-    .nav { position: static; grid-column: 1 / -1; grid-row: 2; justify-self: stretch; }
+    .nav { position: static; }
     .nav-list {
       display: none;
       position: absolute;
@@ -155,6 +157,12 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
     .nav-list li a::after { display: none; }
     .nav-cta-mobile { display: block; padding-top: 16px; }
     .nav-list .nav-cta-mobile a { display: flex; border-bottom: 0; padding: 15px 22px; font-size: 14px; color: var(--ink-900); }
+  }
+
+  @media (max-width: 700px) {
+    .phone { display: none; }
+    .brand :global(.brand-mark) { width: 36px; }
+    .brand-name { font-size: 15px; }
   }
 
   @media (max-width: 420px) {

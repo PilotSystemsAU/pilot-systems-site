@@ -162,6 +162,15 @@ html.js [data-reveal] {
 }
 html.js [data-reveal].is-visible { opacity: 1; transform: none; }
 
+/* Phones: a little more breathing room, slightly smaller body copy */
+@media (max-width: 700px) {
+  :root { --gutter: 20px; --section-y: 56px; }
+  html { scroll-padding-top: 16px; }
+  .kicker { font-size: 12px; letter-spacing: 0.14em; }
+  .lead { font-size: 16px; line-height: 1.6; }
+  .card { padding: 22px 20px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   html.js [data-reveal] { opacity: 1; transform: none; transition: none; }
