@@ -22,3 +22,11 @@ Marketing site for Pilot Systems (pilotsystems.com.au), built with Astro and dep
 ## Deploying
 
 Work on the `redesign` branch. Every push gets a Vercel preview link. Production deploys only from `main`.
+
+## Contact form
+
+`src/pages/api/enquiry.ts` runs as a Vercel function. It needs `RESEND_API_KEY` and `TURNSTILE_SECRET_KEY` set in Vercel (Production and Preview). Each enquiry carries a `submission_id`, which is sent to Resend as an idempotency key, so the same enquiry is never emailed twice.
+
+## Third-party notices
+
+Several outline icons (phone, social and similar) are based on [Feather Icons](https://github.com/feathericons/feather), © Cole Bemis, used under the MIT licence. The Montserrat font is self-hosted from `@fontsource-variable/montserrat` under the SIL Open Font License 1.1.

@@ -45,10 +45,10 @@ const projectIncludes = [
     <div class="container pillars">
       {pillars.map((p, i) => (
         <a class="pillar" href={`#${p.id}`} data-reveal style={`--reveal-delay:${i * 110}ms`}>
-          <span class="pillar-label">{String(i + 1).padStart(2, '0')} · {p.label}</span>
+          <span class="pillar-label">{p.label}</span>
           <span class="pillar-title">{p.title}</span>
           <span class="muted">{p.text}</span>
-          <span class="pillar-more">Jump to {p.label} <span aria-hidden="true">↓</span></span>
+          <span class="pillar-more">Jump to {p.label} <span class="arrow arrow--down" aria-hidden="true"></span></span>
         </a>
       ))}
     </div>
@@ -99,7 +99,7 @@ const projectIncludes = [
           </tbody>
         </table>
       </div>
-      <p class="see-pricing" data-reveal><a class="text-link" href="/pricing">See prices, timelines and payment stages →</a></p>
+      <p class="see-pricing" data-reveal><a class="text-link" href="/pricing">See prices, timelines and payment stages</a></p>
     </div>
   </section>
 
@@ -119,7 +119,7 @@ const projectIncludes = [
             <p class="sys-price">from $1,490</p>
           </div>
           <p class="best"><strong>Best for:</strong> tradies who already have a decent website but miss calls and lose track of enquiries.</p>
-          <div class="rule" aria-label="How it works">
+          <div class="rule" role="group" aria-label="How it works">
             <p><span class="rule-tag">When</span>You miss a call or a website enquiry comes in</p>
             <p><span class="rule-tag then">Then</span>They get an automatic text or reply, and you get an alert</p>
           </div>
@@ -141,7 +141,7 @@ const projectIncludes = [
             <p class="sys-price">from $690</p>
           </div>
           <p class="best"><strong>Best for:</strong> businesses already using job management or accounting software that aren't using its automatic features.</p>
-          <div class="rule" aria-label="How it works">
+          <div class="rule" role="group" aria-label="How it works">
             <p><span class="rule-tag">When</span>A quote, booking or invoice is waiting on a customer</p>
             <p><span class="rule-tag then">Then</span>Your software sends the follow-up for you, and stops when they reply</p>
           </div>

@@ -3,7 +3,7 @@
 // Steps light up in turn; with reduced motion, all steps show at once.
 const steps = [
   { time: '7:42 am', title: 'New quote request', text: 'Hot water system, Box Hill. Photos attached.', icon: 'inbox' },
-  { time: '7:42 am', title: 'Sarah gets an automatic reply', text: '"Thanks Sarah, we\'ll call you back today."', icon: 'reply' },
+  { time: '7:42 am', title: 'Sarah gets an automatic reply', text: '“Thanks Sarah, we’ll call you back today.”', icon: 'reply' },
   { time: '12:10 pm', title: 'You get a reminder to call', text: 'Right when you stop for lunch.', icon: 'bell' },
   { time: '3 days later', title: 'Quote follow-up sent for you', text: 'No more quotes going quiet.', icon: 'repeat' },
   { time: 'Done', title: 'Job booked', text: 'And no admin on your phone at 9pm.', icon: 'check' },
@@ -20,8 +20,15 @@ const paths: Record<string, string> = {
 <div class="flow-wrap">
   <div class="flow-card" data-flow>
     <div class="head">
-      <p class="label">While you're on the tools</p>
-      <span class="tag">Example</span>
+      <p class="label">While you’re on the tools</p>
+      <div class="head-right">
+        <span class="tag">Example</span>
+        <button class="flow-toggle" type="button" aria-pressed="false">
+          <span class="sr-only">Pause animation</span>
+          <svg class="i-pause" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="5" height="16" rx="1"></rect><rect x="14" y="4" width="5" height="16" rx="1"></rect></svg>
+          <svg class="i-play" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg>
+        </button>
+      </div>
     </div>
     <ol class="steps">
       {steps.map((s, i) => (
@@ -42,31 +49,60 @@ const paths: Record<string, string> = {
 </div>
 
 <script>
+  // Steps light up in turn. It keeps moving, so it has a pause button
+  // (WCAG 2.2.2), and it also stops while off-screen or in a background tab.
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll<HTMLElement>('[data-flow]').forEach((card) => {
+    const toggle = card.querySelector<HTMLButtonElement>('.flow-toggle');
     const steps = Array.from(card.querySelectorAll<HTMLElement>('.step'));
     if (reduce || steps.length === 0) {
       steps.forEach((s) => s.classList.add('seen'));
+      toggle?.remove();
       return;
     }
     let i = 0;
-    const tick = () => {
+    let timer: number | undefined;
+    let userPaused = false;
+    let onScreen = true;
+    const show = () => {
       steps.forEach((s, n) => {
         s.classList.toggle('active', n === i);
         s.classList.toggle('seen', n < i);
       });
+    };
+    const tick = () => {
+      show();
       i = (i + 1) % (steps.length + 1);
       // Pause briefly on the finished state before starting again
-      const wait = i === 0 ? 2600 : 1700;
-      setTimeout(tick, wait);
+      timer = window.setTimeout(tick, i === 0 ? 2600 : 1700);
     };
-    tick();
+    const update = () => {
+      const run = !userPaused && onScreen && !document.hidden;
+      window.clearTimeout(timer);
+      timer = undefined;
+      if (run) tick();
+    };
+    toggle?.addEventListener('click', () => {
+      userPaused = !userPaused;
+      toggle.setAttribute('aria-pressed', String(userPaused));
+      const label = toggle.querySelector('.sr-only');
+      if (label) label.textContent = userPaused ? 'Play animation' : 'Pause animation';
+      if (userPaused) {
+        // Show the whole example while paused, so nothing is half-hidden
+        i = steps.length;
+        steps.forEach((s) => { s.classList.remove('active'); s.classList.add('seen'); });
+      }
+      update();
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; update(); }).observe(card);
+    }
+    document.addEventListener('visibilitychange', update);
+    update();
   });
 </script>
 
 <style>
-  .flow-wrap { animation: float 6s ease-in-out infinite; }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
   .flow-card {
     position: relative;
@@ -78,6 +114,18 @@ const paths: Record<string, string> = {
   }
   .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
   .label { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+  .head-right { display: flex; align-items: center; gap: 8px; }
+  .flow-toggle {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: transparent; color: var(--on-dark); border: 1.5px solid var(--on-dark-2);
+    cursor: pointer; transition: color .2s ease, border-color .2s ease;
+  }
+  .flow-toggle:hover { color: var(--amber); border-color: var(--amber); }
+  .flow-toggle:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .i-play { display: none; }
+  .flow-toggle[aria-pressed='true'] .i-play { display: block; }
+  .flow-toggle[aria-pressed='true'] .i-pause { display: none; }
   .tag { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--on-dark-2); border: 1px solid var(--ink-700); border-radius: 999px; padding: 3px 9px; }
 
   .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; position: relative; }
@@ -105,8 +153,18 @@ const paths: Record<string, string> = {
   .title { font-weight: 800; font-size: 16px; color: var(--white); line-height: 1.3; }
   .text { font-size: 14px; color: #c9c3dc; line-height: 1.5; }
 
+  /* Phones: tighter steps so the example doesn't run to a whole screen */
+  @media (max-width: 560px) {
+    .head { margin-bottom: 12px; }
+    .label { font-size: 11px; }
+    .steps { gap: 2px; }
+    .step { padding: 9px 10px; gap: 12px; }
+    .icon { flex-basis: 32px; height: 32px; }
+    .title { font-size: 15px; }
+    .text { font-size: 13.5px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .flow-wrap { animation: none; }
     .step { opacity: 1; transform: none !important; }
   }
 </style>

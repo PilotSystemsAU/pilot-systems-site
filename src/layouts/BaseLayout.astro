@@ -1,11 +1,14 @@
 ---
 import '@fontsource-variable/montserrat';
+// Same file the font CSS uses (Latin, all weights). Preloading it lets the
+// browser fetch it straight away instead of after the CSS, so text settles sooner.
+import fontLatin from '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileCallBar from '../components/MobileCallBar.astro';
 import Analytics from '@vercel/analytics/astro';
-import { site } from '../data/site';
+import { site, socials } from '../data/site';
 
 interface Props {
   title: string;
@@ -21,7 +24,11 @@ const ogImage = new URL('/og-image.png', site.url).href;
 const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': `${site.url}/#business`,
   name: site.name,
+  logo: new URL('/apple-touch-icon.png', site.url).href,
+  image: ogImage,
+  sameAs: socials.filter((s) => s.url).map((s) => s.url),
   description: site.description,
   url: site.url,
   telephone: site.phoneIntl,
@@ -37,11 +44,15 @@ const localBusiness = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={fontLatin} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#1c1726" />
+    <!-- The site has one deliberate colour scheme. "only light" stops browsers
+         (Chrome/Samsung auto dark mode) from force-darkening and clashing it. -->
+    <meta name="color-scheme" content="only light" />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />

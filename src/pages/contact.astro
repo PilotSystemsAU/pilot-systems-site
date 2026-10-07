@@ -6,13 +6,14 @@ import { site } from '../data/site';
 // Cloudflare Turnstile site key (public by design). The secret key lives in Vercel.
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAFO08JJwJUhDeGDc';
 
-type Field = { id: string; label: string; type: string; autocomplete?: string; hint?: string; required: boolean; error: string };
+type Field = { id: string; label: string; type: 'text' | 'tel' | 'email'; autocomplete?: string; inputmode?: 'text' | 'tel' | 'email'; hint?: string; required: boolean; max: number; error: string; invalid?: string };
+// `max` matches the limits the server enforces in /api/enquiry.
 const fields: Field[] = [
-  { id: 'name', label: 'Your name', type: 'text', autocomplete: 'name', required: true, error: 'Please add your name.' },
-  { id: 'phone', label: 'Best number to reach you', type: 'tel', autocomplete: 'tel', required: true, error: 'Please add your phone number.' },
-  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', required: false, error: "That email doesn't look right. Please check it." },
-  { id: 'trade', label: 'Your trade', type: 'text', hint: 'e.g. electrician', required: true, error: 'Please add your trade.' },
-  { id: 'suburb', label: "Suburb you're based in", type: 'text', autocomplete: 'address-level2', required: true, error: 'Please add your suburb.' },
+  { id: 'name', label: 'Your name', type: 'text', autocomplete: 'name', required: true, max: 100, error: 'Please add your name.' },
+  { id: 'phone', label: 'Best number to reach you', type: 'tel', autocomplete: 'tel', inputmode: 'tel', required: true, max: 30, error: 'Please add your phone number.', invalid: 'That number looks too short. Please check it.' },
+  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', required: false, max: 200, error: "That email doesn't look right. Please check it." },
+  { id: 'trade', label: 'Your trade', type: 'text', hint: 'e.g. electrician', required: true, max: 100, error: 'Please add your trade.' },
+  { id: 'suburb', label: "Suburb you're based in", type: 'text', autocomplete: 'address-level2', required: true, max: 100, error: 'Please add your suburb.' },
 ];
 ---
 
@@ -53,7 +54,15 @@ const fields: Field[] = [
         </div>
       </div>
 
-      <form class="card form" id="enquiry-form" action="/api/enquiry" method="post" novalidate>
+      <form
+        class="card form"
+        id="enquiry-form"
+        action="/api/enquiry"
+        method="post"
+        novalidate
+        data-phone={site.phoneDisplay}
+        data-email={site.email}
+      >
         <h2 class="h3">Or send an enquiry</h2>
 
         {fields.map((f) => (
@@ -68,17 +77,19 @@ const fields: Field[] = [
               name={f.id}
               type={f.type}
               autocomplete={f.autocomplete}
+              inputmode={f.inputmode}
+              maxlength={f.max}
               required={f.required}
               aria-describedby={[f.hint ? `${f.id}-hint` : '', `${f.id}-error`].filter(Boolean).join(' ')}
             />
-            <p class="error" id={`${f.id}-error`} data-msg={f.error} hidden></p>
+            <p class="error" id={`${f.id}-error`} data-msg={f.error} data-msg-invalid={f.invalid} hidden></p>
           </div>
         ))}
 
         <div class="field">
           <label for="message">What do you need help with? <span class="req">Required</span></label>
           <p class="hint" id="message-hint">e.g. "I need a website", "I keep missing calls", "Not sure, want to talk it through"</p>
-          <textarea id="message" name="message" rows="5" required aria-describedby="message-hint message-error"></textarea>
+          <textarea id="message" name="message" rows="5" maxlength="3000" required aria-describedby="message-hint message-error"></textarea>
           <p class="error" id="message-error" data-msg="Please add what you need help with." hidden></p>
         </div>
 
@@ -87,6 +98,9 @@ const fields: Field[] = [
           <label for="company_website">Leave this field empty</label>
           <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
         </div>
+
+        <!-- One ID per enquiry, so a repeat send of the same enquiry is only delivered once -->
+        <input type="hidden" name="submission_id" id="submission_id" />
 
         <div class="field spam">
           <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" data-response-field-name="cf-turnstile-response"></div>
@@ -105,70 +119,204 @@ const fields: Field[] = [
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
+  // Enquiry form behaviour:
+  // - checks fields in the browser (the server checks them again)
+  // - can only send once at a time, and every enquiry carries an ID so a repeat
+  //   send of the same enquiry is only delivered once (see /api/enquiry)
+  // - shows plain-English messages, never raw technical errors, and never says
+  //   "sent" unless the server confirmed it
+  // - keeps a draft in this tab only (sessionStorage), so going Back, a reload or
+  //   the phone unloading the tab doesn't lose what was typed. The draft is
+  //   deleted after a successful send and when the tab is closed.
+  type Field = HTMLInputElement | HTMLTextAreaElement;
+
   const form = document.getElementById('enquiry-form') as HTMLFormElement | null;
   if (form) {
     const status = form.querySelector<HTMLElement>('.status')!;
     const button = form.querySelector<HTMLButtonElement>('.submit')!;
-    const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-
-    const check = (el: HTMLInputElement | HTMLTextAreaElement) => {
-      const err = document.getElementById(`${el.id}-error`);
-      const v = el.value.trim();
-      let bad = false;
-      if (el.required && !v) bad = true;
-      else if (el.type === 'email' && v && !emailOk(v)) bad = true;
-      else if (el.type === 'tel' && v && v.replace(/\D/g, '').length < 8) bad = true;
-      el.setAttribute('aria-invalid', String(bad));
-      if (err) {
-        err.hidden = !bad;
-        err.textContent = bad ? err.dataset.msg ?? '' : '';
-      }
-      return !bad;
+    const idField = form.querySelector<HTMLInputElement>('#submission_id')!;
+    const phone = form.dataset.phone ?? '';
+    const email = form.dataset.email ?? '';
+    const SEND_LABEL = button.textContent?.trim() || 'Send my enquiry';
+    const TIMEOUT_MS = 20000;
+    const DRAFT_KEY = 'pilot-enquiry-draft';
+    const msg = {
+      check: 'Please check the highlighted fields.',
+      offline: `You seem to be offline. Your details are still here. Please try again when you have signal, or call ${phone}.`,
+      timeout: `Sending is taking too long. Your details are still here, so please try again in a moment, or call ${phone}.`,
+      failed: `Sorry, that didn't send. Please call ${phone} or email ${email} and we'll sort it out.`,
+      spamWait: `The spam check hasn't finished yet. Please wait a few seconds and press Send again. If this keeps happening, call ${phone} or email ${email}.`,
+      spamFailed: "The spam check didn't go through. Please wait a moment for it to finish, then press Send again.",
     };
 
-    const inputs = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.field input, .field textarea')).filter((el) => el.id !== 'company_website');
-    inputs.forEach((el) => el.addEventListener('blur', () => el.value && check(el)));
+    const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    const newId = () => {
+      if (crypto.randomUUID) return crypto.randomUUID();
+      const b = crypto.getRandomValues(new Uint8Array(16));
+      return Array.from(b, (x) => x.toString(16).padStart(2, '0')).join('');
+    };
+
+    const inputs = Array.from(form.querySelectorAll<Field>('.field input, .field textarea')).filter((el) => el.id !== 'company_website' && el.type !== 'hidden');
+
+    // ---- draft (this tab only) ----
+    const draft = {
+      read(): Record<string, string> | null {
+        try { return JSON.parse(sessionStorage.getItem(DRAFT_KEY) ?? 'null'); } catch { return null; }
+      },
+      save() {
+        try {
+          const d: Record<string, string> = { submission_id: idField.value };
+          inputs.forEach((el) => (d[el.id] = el.value));
+          sessionStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+        } catch { /* storage blocked: the form still works, it just won't remember */ }
+      },
+      clear() {
+        try { sessionStorage.removeItem(DRAFT_KEY); } catch { /* ignore */ }
+      },
+    };
+    const saved = draft.read();
+    if (saved) {
+      inputs.forEach((el) => { if (!el.value && typeof saved[el.id] === 'string') el.value = saved[el.id]; });
+      if (!idField.value && saved.submission_id) idField.value = saved.submission_id;
+    }
+    if (!idField.value) idField.value = newId();
+    inputs.forEach((el) => el.addEventListener('input', draft.save));
+
+    // ---- field checks ----
+    const setError = (el: Field, text: string) => {
+      const err = document.getElementById(`${el.id}-error`);
+      el.setAttribute('aria-invalid', String(Boolean(text)));
+      if (err) { err.hidden = !text; err.textContent = text; }
+    };
+    const check = (el: Field) => {
+      const err = document.getElementById(`${el.id}-error`);
+      const v = el.value.trim();
+      let text = '';
+      if (el.required && !v) text = err?.dataset.msg ?? 'Please fill this in.';
+      else if (el.type === 'email' && v && !emailOk(v)) text = err?.dataset.msg ?? 'Please check this.';
+      else if (el.type === 'tel' && v && v.replace(/\D/g, '').length < 8) text = err?.dataset.msgInvalid || err?.dataset.msg || 'Please check this.';
+      setError(el, text);
+      return !text;
+    };
+    inputs.forEach((el) => {
+      el.addEventListener('blur', () => el.value && check(el));
+      el.addEventListener('input', () => el.getAttribute('aria-invalid') === 'true' && check(el));
+    });
+
+    // ---- sending ----
+    let sending = false;
+    // What was in the form on the last attempt that didn't confirm. A retry of
+    // the same details keeps the same enquiry ID (so it can't arrive twice);
+    // if they've changed the details since, it's a new enquiry with a new ID.
+    let lastAttempt = '';
+    const snapshot = () => inputs.map((el) => el.value.trim()).join('\u0000');
+    const setBusy = (busy: boolean) => {
+      button.disabled = busy;
+      button.setAttribute('aria-disabled', String(busy));
+      button.textContent = busy ? 'Sending…' : SEND_LABEL;
+    };
+    const showMessage = (text: string, failed = true) => {
+      status.textContent = text;
+      status.classList.toggle('fail', failed);
+    };
+    const resetSpamCheck = () => {
+      // Turnstile adds this global once its script has loaded
+      const ts = (window as Window & { turnstile?: { reset?: () => void } }).turnstile;
+      try { ts?.reset?.(); } catch { /* ignore */ }
+    };
+    const finishWith = (text: string) => {
+      sending = false;
+      setBusy(false);
+      showMessage(text);
+    };
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (sending) return; // a second tap or Enter while sending does nothing
+
       const results = inputs.map(check);
       if (results.includes(false)) {
         inputs[results.indexOf(false)].focus();
-        status.textContent = 'Please check the highlighted fields.';
-        status.classList.remove('fail');
+        showMessage(msg.check, false);
         return;
       }
-      button.disabled = true;
-      button.textContent = 'Sending…';
-      status.textContent = '';
+      const token = (form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value ?? '').trim();
+      if (!token) {
+        showMessage(msg.spamWait);
+        return;
+      }
+      if (!navigator.onLine) {
+        showMessage(msg.offline);
+        return;
+      }
+
+      const now = snapshot();
+      if (lastAttempt && lastAttempt !== now) idField.value = newId();
+      lastAttempt = now;
+
+      sending = true;
+      setBusy(true);
+      showMessage('', false);
+      draft.save();
+
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), TIMEOUT_MS);
+      let res: Response;
+      let data: { ok?: boolean; error?: string; fields?: string[] } = {};
       try {
-        const res = await fetch(form.action, {
+        res = await fetch(form.action, {
           method: 'POST',
           headers: { Accept: 'application/json' },
           body: new FormData(form),
+          signal: controller.signal,
         });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.ok) {
-          window.location.href = '/thanks';
-          return;
-        }
-        if (data.error === 'spam_check_failed') {
-          status.textContent = "The spam check didn't go through. Please wait a moment for it to finish, then press Send again.";
-          status.classList.add('fail');
-          // @ts-ignore Turnstile adds this global
-          window.turnstile?.reset?.();
-          button.disabled = false;
-          button.textContent = 'Send my enquiry';
-          return;
-        }
-        throw new Error(String(res.status));
+        data = await res.json().catch(() => ({}));
       } catch {
-        // Never show success unless the enquiry was actually sent.
-        status.textContent = "Sorry, that didn't send. Please call 0457 471 392 or email declan@pilotsystems.com.au and we'll sort it out.";
-        status.classList.add('fail');
-        button.disabled = false;
-        button.textContent = 'Send my enquiry';
+        // Network dropped or took too long. The same enquiry ID is kept, so
+        // trying again can't create a second enquiry if the first got through.
+        resetSpamCheck();
+        return finishWith(controller.signal.aborted ? msg.timeout : navigator.onLine ? msg.failed : msg.offline);
+      } finally {
+        window.clearTimeout(timer);
       }
+
+      if (res.ok && data.ok) {
+        // Clear personal details before leaving, so Back doesn't show them again.
+        draft.clear();
+        form.reset();
+        idField.value = newId();
+        lastAttempt = '';
+        window.location.assign('/thanks');
+        return; // stay "sending" until the next page loads
+      }
+
+      resetSpamCheck();
+      if (data.error === 'invalid' && Array.isArray(data.fields)) {
+        let first: Field | null = null;
+        for (const el of inputs) {
+          if (data.fields.includes(el.id)) {
+            const err = document.getElementById(`${el.id}-error`);
+            const v = el.value.trim();
+            const text = !v ? err?.dataset.msg : el.type === 'tel' ? err?.dataset.msgInvalid : el.type === 'email' ? err?.dataset.msg : '';
+            setError(el, text || 'Please check this.');
+            first ??= el;
+          }
+        }
+        finishWith(msg.check);
+        first?.focus();
+        return;
+      }
+      finishWith(data.error === 'spam_check_failed' ? msg.spamFailed : msg.failed);
+    });
+
+    // Coming Back to this page from the browser's memory (bfcache): make the
+    // button usable again and get a fresh spam-check token.
+    window.addEventListener('pageshow', (e) => {
+      if (!e.persisted) return;
+      sending = false;
+      setBusy(false);
+      showMessage('', false);
+      resetSpamCheck();
     });
   }
 </script>
@@ -202,6 +350,8 @@ const fields: Field[] = [
     padding: 12px 14px;
     min-height: 48px;
     transition: border-color .18s ease, box-shadow .18s ease;
+    /* When a phone keyboard opens, leave room to see the field's error message */
+    scroll-margin-block: 90px 72px;
   }
   input:hover, textarea:hover { border-color: var(--plum); }
   input:focus-visible, textarea:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; border-color: var(--amber-ink); }
