@@ -68,8 +68,7 @@ const fields: Field[] = [
         {fields.map((f) => (
           <div class="field">
             <label for={f.id}>
-              {f.label}
-              <span class:list={['req', { opt: !f.required }]}>{f.required ? 'Required' : 'Optional'}</span>
+              {f.label}{' '}<span class:list={['req', { opt: !f.required }]}>{f.required ? 'Required' : 'Optional'}</span>
             </label>
             {f.hint && <p class="hint" id={`${f.id}-hint`}>{f.hint}</p>}
             <input
@@ -335,10 +334,13 @@ const fields: Field[] = [
   .other p { margin-bottom: 4px; }
 
   .form { padding: clamp(22px, 3vw, 34px); }
-  .field { margin-bottom: 18px; }
-  label { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 700; margin-bottom: 6px; }
-  .req { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--amber-ink); background: var(--amber-tint); padding: 2px 8px; border-radius: 999px; }
-  .req.opt { color: var(--muted); background: var(--paper); }
+  /* More space between fields than inside one, so each label clearly belongs to its own input */
+  .field { margin-bottom: 24px; }
+  /* Label and its Required/Optional tag flow as one line of text. On a narrow phone the tag
+     wraps with the last word instead of dropping onto its own floating row. */
+  label { display: block; font-weight: 700; line-height: 1.35; margin-bottom: 8px; }
+  .req { display: inline-block; margin-left: 4px; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; vertical-align: 1px; color: var(--amber-ink); }
+  .req.opt { color: var(--muted); }
   .hint { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
   input, textarea {
     width: 100%;
@@ -353,6 +355,8 @@ const fields: Field[] = [
     /* When a phone keyboard opens, leave room to see the field's error message */
     scroll-margin-block: 90px 72px;
   }
+  /* Stop the browser's autofill tint (pale yellow) clashing with the form */
+  input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px var(--white) inset; -webkit-text-fill-color: var(--text); }
   input:hover, textarea:hover { border-color: var(--plum); }
   input:focus-visible, textarea:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; border-color: var(--amber-ink); }
   [aria-invalid='true'] { border-color: #b3261e; }
