@@ -19,7 +19,7 @@ This policy explains how we handle personal information in enquiries, client rel
 
 We do not ask for health information or other sensitive information in general enquiries. Please do not send it, or passwords or payment-card details, through our enquiry form. If we receive information we do not need, we decide whether we may lawfully keep it and otherwise delete or de-identify it.
 
-We do not collect or store payment-card details. Clients pay by bank transfer. We keep the bank-transfer references and payment records needed to match payments to invoices and to process refunds. [VERIFY: card payments through Zoho, if offered.]
+We do not collect or store payment-card details. Clients pay by bank transfer only. We keep the bank-transfer references and payment records needed to match payments to invoices and to process refunds.
 
 ## How we collect information
 
@@ -53,16 +53,16 @@ We use the providers below. Some information is handled outside Australia. A pro
 
 | Provider | What it does and what information it handles | Where information is handled |
 |---|---|---|
-| Vercel | Hosts the Website and processes enquiry form submissions; handles technical request information and enquiry fields | United States, with pages delivered through a global network. [VERIFY: function region] |
+| Vercel | Hosts the Website and processes enquiry form submissions; handles technical request information and enquiry fields | United States, with pages delivered through a global network |
 | Resend | Sends enquiries to our inbox and, where you give an email address, a confirmation to you; handles email content and delivery records | United States |
 | Cloudflare Turnstile | Spam protection using technical browser, device and request signals, including IP address | Global network, including the United States |
 | Vercel Web Analytics | Combined Website usage statistics | United States |
-| Microsoft 365 (Outlook and OneDrive) | Business email, including enquiries and client correspondence; contracts and project files | [VERIFY: tenant data location from the Microsoft 365 admin centre] |
-| Zoho Invoice | Invoicing and payment records | [VERIFY: Australia if the account is on zoho.com.au] |
+| Microsoft 365 (Outlook and OneDrive) | Business email, including enquiries and client correspondence; contracts and project files | Australia (with some support and service processing possible overseas) |
+| Zoho Invoice | Invoicing and payment records | Australia |
 | NAB | Business banking and payment matching | Australia |
 | GoDaddy | Domain registration and DNS; domain and account contact details and technical records | United States and other countries |
 | GitHub | Stores website source code; does not store enquiry or client customer personal information | United States |
-| [VERIFY: phone carrier] | Business phone calls and ordinary text messages | Australia |
+| Felix Mobile | Business phone calls and ordinary text messages | Australia |
 
 If we set up missed-call text-back or other automated text messaging for a client, we will tell that client which messaging provider is used, and where it handles information, in their Proposal before the service starts. We will update this policy when we add a messaging provider for our own business.
 
@@ -74,7 +74,7 @@ When we choose and use providers, we consider what information they need, their 
 
 Our Website uses Vercel Web Analytics for combined visit and page statistics, not cross-site advertising tracking. It does not use cookies, but it does use request information to tell visits apart.
 
-We use Cloudflare Turnstile to tell genuine enquiries apart from automated abuse. It processes technical signals about your request and browser. [VERIFY: whether the deployed Turnstile sets a cookie.]
+We use Cloudflare Turnstile to tell genuine enquiries apart from automated abuse. It processes technical signals about your request and browser, and may use a short-lived technical cookie needed for the spam check. It is not used for advertising.
 
 We do not send enquiry content, names, email addresses or other identifying details in analytics events or web addresses.
 
