@@ -17,7 +17,9 @@ const company = [
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
   { href: '/privacy', label: 'Privacy Policy' },
+  { href: '/privacy#cookies-analytics-and-spam-protection', label: 'Cookies' },
   { href: '/terms', label: 'Terms of Use' },
+  { href: '/pricing#cancellations', label: 'Cancellations and refunds' },
 ];
 
 // Simple outline icons, drawn in the current text colour.
@@ -122,5 +124,6 @@ const liveSocials = socials.filter((s) => s.url);
 
   @media (max-width: 900px) { .top { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .top { grid-template-columns: 1fr; gap: 32px; } }
-  @media (max-width: 700px) { .site-footer { padding-bottom: 76px; } }
+  /* Room for the phone call bar, only on pages that show it */
+  @media (max-width: 700px) { :global(body:has(.call-bar)) .site-footer { padding-bottom: 76px; } }
 </style>

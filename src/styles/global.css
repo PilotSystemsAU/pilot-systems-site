@@ -38,6 +38,10 @@
   --section-y: clamp(64px, 9vw, 104px);
 }
 
+/* One intentional colour scheme in every OS mode; also opts out of browser
+   "auto dark" so form fields, Turnstile and brand colours stay consistent. */
+:root { color-scheme: only light; }
+
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 90px; }
 body {

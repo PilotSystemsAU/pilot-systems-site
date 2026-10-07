@@ -5,6 +5,11 @@
 // (only if they gave an email). Responds with JSON; the page only goes to
 // /thanks when this returns ok.
 //
+// Duplicates: the form sends a random submission_id with each enquiry. It is
+// passed to Resend as an Idempotency-Key, and Resend delivers a given key only
+// once within 24 hours. So a double tap, a retry after a dropped connection, or
+// a resend after pressing Back can't email the same enquiry twice.
+//
 // Settings (Vercel → Project → Settings → Environment Variables):
 //   RESEND_API_KEY        required  Resend API key (sending access)
 //   TURNSTILE_SECRET_KEY  required  Cloudflare Turnstile secret key
@@ -34,12 +39,20 @@ async function verifyTurnstile(token: string, ip: string | null, secret: string)
   return data.success === true;
 }
 
-async function sendEmail(apiKey: string, payload: Record<string, unknown>) {
+async function sendEmail(apiKey: string, payload: Record<string, unknown>, idempotencyKey?: string) {
+  const headers: Record<string, string> = { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' };
+  if (idempotencyKey) headers['Idempotency-Key'] = idempotencyKey;
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(payload),
   });
+  // 409 with an idempotency key means Resend already has this exact enquiry
+  // (sent, or still sending from the first attempt). Don't send it again.
+  if (res.status === 409 && idempotencyKey) {
+    console.warn('Duplicate enquiry suppressed');
+    return true;
+  }
   if (!res.ok) {
     // Log the status only, never the response body (it can echo enquiry details).
     console.error('Resend error', res.status);
@@ -90,6 +103,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return json({ ok: false, error: 'not_configured' }, 500);
   }
 
+  // Client-made ID for this enquiry (letters, digits and dashes only). Older
+  // cached pages may not send one; they still work, just without the dedupe.
+  const submissionId = /^[A-Za-z0-9-]{16,64}$/.test(get('submission_id')) ? get('submission_id') : '';
+
   const token = get('cf-turnstile-response');
   let ip: string | null = null;
   try { ip = clientAddress; } catch { ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null; }
@@ -101,6 +118,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const from = env('ENQUIRY_FROM') || 'Pilot Systems Website <website@pilotsystems.com.au>';
   const page = request.headers.get('referer') ?? 'pilotsystems.com.au/contact';
   const sentAt = new Date().toLocaleString('en-AU', { timeZone: 'Australia/Melbourne', dateStyle: 'medium', timeStyle: 'short' });
+  const key = (kind: string) => (submissionId ? `enquiry-${kind}/${submissionId}` : undefined);
   const tel = data.phone.replace(/[^\d+]/g, '');
 
   const e = {
@@ -132,7 +150,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       <p style="margin-top:16px;color:#6b6577">Aim to reply within 24 hours.</p>
     </div>`,
     text: `New website enquiry\n\nName: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email || 'Not given'}\nTrade: ${data.trade}\nSuburb: ${data.suburb}\n\nMessage:\n${data.message}\n\nSent: ${sentAt}\nFrom page: ${page}`,
-  });
+  }, key('alert'));
 
   if (!alertOk) return json({ ok: false, error: 'send_failed' }, 502);
 
@@ -152,7 +170,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         <p>Cheers,<br>Declan<br>Pilot Systems<br><a href="https://www.pilotsystems.com.au">pilotsystems.com.au</a></p>
       </div>`,
       text: `Hi ${data.name.split(/\s+/)[0] || data.name},\n\nThanks for your enquiry. It's come through, and we aim to be in touch within 24 hours to set up your free discovery call.\n\nIf it's urgent, call us on 0457 471 392.\n\nCheers,\nDeclan\nPilot Systems\npilotsystems.com.au`,
-    });
+    }, key('confirm'));
   }
 
   return json({ ok: true });

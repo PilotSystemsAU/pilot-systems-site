@@ -1,9 +1,16 @@
 ---
+// Sticky "Book a free call" bar for phones. Not shown on the contact page
+// (it would only link to itself and sit over the form), and hidden whenever a
+// form field has focus so it can't cover what someone is typing into.
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const show = !['/contact', '/thanks'].includes(path);
 ---
 
-<div class="call-bar" role="region" aria-label="Quick contact">
-  <a class="btn btn--primary" href="/contact">Book a free call</a>
-</div>
+{show && (
+  <div class="call-bar" role="region" aria-label="Quick contact">
+    <a class="btn btn--primary" href="/contact">Book a free call</a>
+  </div>
+)}
 
 <style>
   .call-bar { display: none; }
@@ -18,5 +25,6 @@
       border-top: 1px solid var(--ink-700);
     }
     .call-bar .btn { width: 100%; min-height: 48px; padding: 12px; }
+    :global(body:has(:is(input, textarea, select):focus)) .call-bar { display: none; }
   }
 </style>

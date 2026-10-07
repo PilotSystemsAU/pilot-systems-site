@@ -5,7 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileCallBar from '../components/MobileCallBar.astro';
 import Analytics from '@vercel/analytics/astro';
-import { site } from '../data/site';
+import { site, socials } from '../data/site';
 
 interface Props {
   title: string;
@@ -21,7 +21,11 @@ const ogImage = new URL('/og-image.png', site.url).href;
 const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': `${site.url}/#business`,
   name: site.name,
+  logo: new URL('/apple-touch-icon.png', site.url).href,
+  image: ogImage,
+  sameAs: socials.filter((s) => s.url).map((s) => s.url),
   description: site.description,
   url: site.url,
   telephone: site.phoneIntl,
@@ -42,6 +46,9 @@ const localBusiness = {
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#1c1726" />
+    <!-- The site has one deliberate colour scheme. "only light" stops browsers
+         (Chrome/Samsung auto dark mode) from force-darkening and clashing it. -->
+    <meta name="color-scheme" content="only light" />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
