@@ -79,9 +79,10 @@ const fields: Field[] = [
               maxlength={f.max}
               placeholder={f.placeholder}
               required={f.required}
-              aria-describedby={`${f.id}-error`}
+              aria-describedby={f.type === 'email' ? 'email-error email-suggest' : `${f.id}-error`}
             />
             <p class="error" id={`${f.id}-error`} data-msg={f.error} data-msg-invalid={f.invalid} hidden></p>
+            {f.type === 'email' && <p class="suggest" id="email-suggest" aria-live="polite" hidden></p>}
           </div>
         ))}
 
@@ -117,6 +118,7 @@ const fields: Field[] = [
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
+  import { emailProblem, emailSuggestion } from '../lib/email-check';
   // Enquiry form behaviour:
   // - checks fields in the browser (the server checks them again)
   // - can only send once at a time, and every enquiry carries an ID so a repeat
@@ -147,7 +149,6 @@ const fields: Field[] = [
       spamFailed: "The spam check didn't go through. Please wait a moment for it to finish, then press Send again.",
     };
 
-    const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
     const newId = () => {
       if (crypto.randomUUID) return crypto.randomUUID();
       const b = crypto.getRandomValues(new Uint8Array(16));
@@ -191,7 +192,7 @@ const fields: Field[] = [
       const v = el.value.trim();
       let text = '';
       if (el.required && !v) text = err?.dataset.msg ?? 'Please fill this in.';
-      else if (el.type === 'email' && v && !emailOk(v)) text = err?.dataset.msgInvalid || err?.dataset.msg || 'Please check this.';
+      else if (el.type === 'email' && v && emailProblem(v)) text = emailProblem(v);
       else if (el.type === 'tel' && v && v.replace(/\D/g, '').length < 8) text = err?.dataset.msgInvalid || err?.dataset.msg || 'Please check this.';
       setError(el, text);
       return !text;
@@ -200,6 +201,33 @@ const fields: Field[] = [
       el.addEventListener('blur', () => el.value && check(el));
       el.addEventListener('input', () => el.getAttribute('aria-invalid') === 'true' && check(el));
     });
+
+    // ---- "Did you mean …@gmail.com?" ----
+    // Only a suggestion: it never stops the form sending.
+    const emailInput = form.querySelector<HTMLInputElement>('#email');
+    const suggestBox = form.querySelector<HTMLElement>('#email-suggest');
+    const updateSuggestion = () => {
+      if (!emailInput || !suggestBox) return;
+      const fix = emailSuggestion(emailInput.value);
+      suggestBox.hidden = !fix;
+      suggestBox.replaceChildren();
+      if (!fix) return;
+      const use = document.createElement('button');
+      use.type = 'button';
+      use.className = 'suggest-btn';
+      use.textContent = fix; // textContent, so a typed address can never become markup
+      use.addEventListener('click', () => {
+        emailInput.value = fix;
+        suggestBox.hidden = true;
+        suggestBox.replaceChildren();
+        check(emailInput);
+        draft.save();
+        emailInput.focus();
+      });
+      suggestBox.append('Did you mean ', use, '?');
+    };
+    emailInput?.addEventListener('blur', updateSuggestion);
+    emailInput?.addEventListener('input', () => { if (suggestBox && !suggestBox.hidden) updateSuggestion(); });
 
     // ---- sending ----
     let sending = false;
@@ -361,6 +389,9 @@ const fields: Field[] = [
   input:hover, textarea:hover { border-color: var(--plum); }
   input:focus-visible, textarea:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; border-color: var(--amber-ink); }
   [aria-invalid='true'] { border-color: #b3261e; }
+  .suggest { font-size: 14px; color: var(--text-2); margin-top: 6px; }
+  .suggest :global(.suggest-btn) { font: inherit; font-weight: 700; color: var(--amber-ink); background: none; border: 0; padding: 4px 0; min-height: 32px; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; word-break: break-all; }
+  .suggest :global(.suggest-btn:focus-visible) { outline: 3px solid var(--amber); outline-offset: 2px; border-radius: 2px; }
   .error { color: #b3261e; font-size: 14px; font-weight: 600; margin-top: 6px; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   .spam { margin-top: 4px; }
