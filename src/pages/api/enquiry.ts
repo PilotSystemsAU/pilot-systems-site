@@ -41,8 +41,8 @@ async function sendEmail(apiKey: string, payload: Record<string, unknown>) {
     body: JSON.stringify(payload),
   });
   if (!res.ok) {
-    // Log the status only, never the enquiry contents.
-    console.error('Resend error', res.status, await res.text().catch(() => ''));
+    // Log the status only, never the response body (it can echo enquiry details).
+    console.error('Resend error', res.status);
     return false;
   }
   return true;
@@ -129,7 +129,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         ${row('Sent', escapeHtml(sentAt))}
         ${row('From page', escapeHtml(page))}
       </table>
-      <p style="margin-top:16px;color:#6b6577">Reply within 1 business day.</p>
+      <p style="margin-top:16px;color:#6b6577">Aim to reply within 24 hours.</p>
     </div>`,
     text: `New website enquiry\n\nName: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email || 'Not given'}\nTrade: ${data.trade}\nSuburb: ${data.suburb}\n\nMessage:\n${data.message}\n\nSent: ${sentAt}\nFrom page: ${page}`,
   });
@@ -147,11 +147,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       subject: 'Thanks for getting in touch, Pilot Systems',
       html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#1c1726">
         <p>Hi ${first},</p>
-        <p>Thanks for your enquiry. It's come through, and we'll be in touch within 1 business day to set up your free discovery call.</p>
+        <p>Thanks for your enquiry. It's come through, and we aim to be in touch within 24 hours to set up your free discovery call.</p>
         <p>If it's urgent, call us on <a href="tel:+61457471392">0457 471 392</a>.</p>
         <p>Cheers,<br>Declan<br>Pilot Systems<br><a href="https://www.pilotsystems.com.au">pilotsystems.com.au</a></p>
       </div>`,
-      text: `Hi ${data.name.split(/\s+/)[0] || data.name},\n\nThanks for your enquiry. It's come through, and we'll be in touch within 1 business day to set up your free discovery call.\n\nIf it's urgent, call us on 0457 471 392.\n\nCheers,\nDeclan\nPilot Systems\npilotsystems.com.au`,
+      text: `Hi ${data.name.split(/\s+/)[0] || data.name},\n\nThanks for your enquiry. It's come through, and we aim to be in touch within 24 hours to set up your free discovery call.\n\nIf it's urgent, call us on 0457 471 392.\n\nCheers,\nDeclan\nPilot Systems\npilotsystems.com.au`,
     });
   }
 

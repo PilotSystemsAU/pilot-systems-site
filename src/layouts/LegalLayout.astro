@@ -7,9 +7,11 @@ interface Props {
   heading: string;
 }
 const { title, description, heading } = Astro.props;
-// DRAFT flag: set to false once the lawyer has reviewed the text and every
-// [to be confirmed] item is filled in. While true, the page is hidden from Google.
+// DRAFT flag: set to false once the solicitor has signed off the text and every
+// [VERIFY] item is filled in. While true, the page is hidden from Google.
 const draft = true;
+// Effective date of the current legal text (Version 1.0).
+const updated = '14 October 2026';
 ---
 
 <BaseLayout title={title} description={description} noindex={draft}>
@@ -17,7 +19,7 @@ const draft = true;
     <div class="container narrow">
       <p class="kicker">Legal</p>
       <h1 class="h2">{heading}</h1>
-      <p class="updated">Last updated: {draft ? 'draft, not yet published' : '[date]'}</p>
+      <p class="updated">Last updated: {draft ? 'draft, not yet published' : updated}</p>
     </div>
   </section>
   <section class="section">

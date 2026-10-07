@@ -19,8 +19,8 @@ const projectIncludes = [
   'Your approval of the design before we build',
   'Testing on phones and computers before launch',
   'A walkthrough and a short guide',
-  '30 days of free fixes after launch',
-  'Everything in your name, with no lock-in',
+  'Consumer guarantees under the Australian Consumer Law',
+  'Your domain in your name, and a free move if you leave',
 ];
 ---
 
@@ -74,6 +74,7 @@ const projectIncludes = [
             <p class="inc-intro">{w.includesIntro}</p>
             <ul class="ticks" role="list">{w.includes.map((x) => <li>{x}</li>)}</ul>
             <p class="timeline"><strong>Timeline:</strong> {w.timeline}</p>
+            {w.ongoing && <p class="timeline"><strong>Ongoing:</strong> {w.ongoing.replace(/^\+ /, '')}</p>}
           </li>
         ))}
       </ul>
@@ -124,8 +125,8 @@ const projectIncludes = [
           </div>
           <p class="inc-intro">What's included:</p>
           <ul class="ticks" role="list">
-            <li>Missed-call text-back (where your phone plan supports it; we check first)</li>
-            <li>An instant reply to website enquiries</li>
+            <li>Missed-call text-back (we check your carrier, plan and phone before you pay)</li>
+            <li>An automatic reply to website enquiries</li>
             <li>An alert to you for every new enquiry</li>
             <li>All enquiries in one place, with where they came from</li>
             <li>Testing, a short guide, and an off switch you control</li>
@@ -149,7 +150,7 @@ const projectIncludes = [
             <li>Quote follow-ups that stop when the customer replies or accepts</li>
             <li>Booking confirmations and reminders</li>
             <li>Overdue invoice reminders</li>
-            <li>Review requests after every completed job</li>
+            <li>Review requests after completed jobs, respecting opt-outs</li>
           </ul>
           <p class="meta"><strong>What's included:</strong> we set the features up, write your customer messages, test them, and walk you through how it works.</p>
           <p class="single">Just need one thing set up? <strong>Single feature from $390.</strong></p>
@@ -181,7 +182,7 @@ const projectIncludes = [
           </li>
         ))}
       </ul>
-      <p class="note" data-reveal>Month to month. Cancel with 30 days' notice. If you leave, we hand over everything.</p>
+      <p class="note" data-reveal>Month to month. Cancel with 30 days' notice. Website Care is required while we host your site. If you leave, we transfer your site to your own hosting at no charge.</p>
     </div>
   </section>
 
