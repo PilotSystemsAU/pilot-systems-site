@@ -10,7 +10,7 @@ export default defineConfig({
   // Pages stay static; only /api/enquiry runs on the server (a Vercel function).
   adapter: vercel(),
   integrations: [
-    sitemap({ filter: (page) => !['/thanks', '/privacy', '/terms'].some((p) => page.includes(p)) }),
+    sitemap({ filter: (page) => !['/thanks'].some((p) => page.includes(p)) }),
   ],
   redirects: {
     '/home': '/',
