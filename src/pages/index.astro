@@ -29,20 +29,20 @@ const steps = [
   { title: 'Written proposal', text: "A fixed price, exactly what's included, what we need from you, and when it'll be done." },
   { title: 'Build and test', text: 'You approve the design first. We build it, then test it on phones and computers.' },
   { title: 'Launch and handover', text: 'We go live, walk you through it, and give you a short guide.' },
-  { title: 'Support', text: '30 days of free fixes after launch, then optional care so it keeps running.' },
+  { title: 'Support', text: 'Covered by the consumer guarantees under the Australian Consumer Law, with care plans to keep it running.' },
 ];
 
 const tiers = [
   { href: '/pricing#presence', name: 'Pilot Presence', label: 'Fixed price', price: '$1,790', best: 'A professional website that makes you easy to find, trust and contact.' },
   { href: '/pricing#lead-engine', name: 'Pilot Lead Engine', label: 'Fixed price', price: '$4,490', best: 'A bigger website, plus missed-call text-back and lead capture, so fewer enquiries slip through.', featured: true },
-  { href: '/pricing#systems', name: 'Lead Capture Pack', label: 'From', price: '$1,490', best: 'Already have a good website? Add missed-call text-back and instant enquiry replies.' },
+  { href: '/pricing#systems', name: 'Lead Capture Pack', label: 'From', price: '$1,490', best: 'Already have a good website? Add missed-call text-back and automatic enquiry replies.' },
 ];
 
 const reasons = [
-  { icon: 'key', title: 'You own it. No lock-in.', text: 'Your domain, your content and your accounts stay in your name. If you ever leave, we hand everything over.' },
+  { icon: 'key', title: 'You own it. No lock-in.', text: 'Your domain stays in your name, and the website we build is yours once paid. If you ever leave, we move it to your own hosting at no charge.' },
   { icon: 'cog', title: 'Your software first', text: 'If the software you already pay for can do the job, we set that up properly before building anything new.' },
   { icon: 'file', title: 'Fixed price, written scope', text: "You know exactly what you're getting and what it costs before we start." },
-  { icon: 'access', title: 'Built for everyone', text: "Websites built to WCAG 2.2 AA accessibility guidelines, so they're easier for every customer to use." },
+  { icon: 'access', title: 'Built for everyone', text: "We check every site for keyboard use, colour contrast, clear headings and labelled forms, so it's easier for every customer to use." },
   { icon: 'shield', title: 'Security built in', text: 'Secure connections, security headers, no risky plugins, and accounts protected with two-step login.' },
   { icon: 'pin', title: 'A real person in Melbourne', text: `You deal directly with the person building your website. ABN ${site.abn}.` },
 ];
@@ -75,7 +75,7 @@ const icons: Record<string, string> = {
         </div>
         <ul class="assurances rise" style="--d:320ms" role="list">
           <li>Melbourne-based</li>
-          <li>Replies within 1 business day</li>
+          <li>We aim to reply within 24 hours</li>
           <li>No lock-in</li>
         </ul>
       </div>
@@ -152,7 +152,7 @@ const icons: Record<string, string> = {
             <p><strong>3.</strong> You get an alert, with the enquiry logged</p>
           </li>
         </ol>
-        <p class="small-print" data-reveal>It works with most Australian mobile plans that allow call forwarding. We check your phone setup on the discovery call before you pay anything.</p>
+        <p class="small-print" data-reveal>It needs a phone plan that allows call forwarding. We check your phone setup on the discovery call before you pay anything.</p>
       </div>
     </div>
   </section>
@@ -181,8 +181,8 @@ const icons: Record<string, string> = {
     <div class="container">
       <div data-reveal>
         <p class="kicker">Clear prices</p>
-        <h2 id="pricing-heading" class="h2">Founding rates for our first 5 clients</h2>
-        <p class="lead intro">Fixed prices with a written scope. No GST is added.</p>
+        <h2 id="pricing-heading" class="h2">Founding rates for our first 5 projects</h2>
+        <p class="lead intro">Fixed prices with a written scope. No GST is added. Websites are hosted through Website Care at $49/month from launch.</p>
       </div>
       <ul class="tiers" role="list">
         {tiers.map((t, i) => (

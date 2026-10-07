@@ -1,92 +1,83 @@
-## 1. About these terms
+## About these terms
 
-These Terms of Use apply when you use the website at pilotsystems.com.au (the **website**). By using the website, you agree to these terms. If you don't agree, please don't use the website.
+1. These Terms of Use apply to the website at pilotsystems.com.au, including www.pilotsystems.com.au (the **Website**). They explain how you may use the Website.
 
-These terms cover use of the website only. If you engage us to do work for you, that work is covered by a separate written proposal and Client Service Agreement.
+2. These terms cover Website use only. Services you buy from us are governed by our Client Service Agreement and the Proposal you accept. These terms do not change those documents, and an update to these terms does not change an existing service contract.
 
-## 2. Who we are
+3. Our Privacy Policy explains how we handle personal information. Nothing in these terms or a Proposal removes privacy obligations or other rights that cannot lawfully be excluded.
 
-In these terms, **Pilot Systems**, **we**, **us** and **our** means Declan Thomas Cawthorn trading as Pilot Systems, ABN 19 717 753 395, based in Melbourne, Victoria.
+## Who we are
 
-Contact: declan@pilotsystems.com.au · 0457 471 392
+4. **Pilot Systems**, **we**, **us** and **our** mean Declan Thomas Cawthorn, a sole trader trading as Pilot Systems, ABN 19 717 753 395. We are based in Melbourne, Victoria, and provide services online to clients across Australia.
 
-## 3. Using the website
+5. You can contact us at declan@pilotsystems.com.au or on 0457 471 392.
 
-You may use the website to learn about our services and to contact us. You must not:
+## Using the Website
 
-- use the website in a way that breaks any law;
-- try to gain unauthorised access to the website, its servers or any connected system;
-- interfere with the website's security or performance, including by sending spam, malicious code or automated requests through our forms;
-- copy or reuse the website's content or design for commercial purposes without our written permission.
+6. You may use the Website to learn about our services, keep a copy of information for your own reference, and contact us. You must not:
+   - use it unlawfully;
+   - try to gain unauthorised access to it, its servers or connected systems;
+   - interfere with its security or performance, including by sending spam, malicious code or abusive automated requests through our forms;
+   - commercially reproduce our protected content or branding without permission, except where the law or an applicable licence permits it.
 
-## 4. Information on the website
+7. These restrictions do not prevent uses permitted by law. Please do not send passwords, payment-card details, health information or other sensitive information through our enquiry form.
 
-The information on the website is general information about our services. It isn't legal, financial, tax or other professional advice, and it doesn't take your particular business into account.
+## Information about our services
 
-We work to keep the website accurate and up to date, but services, features and third-party software change. Before relying on anything on the website for a decision, talk to us and confirm it in writing.
+8. The Website gives general information about our services. It is not legal, financial, tax or other professional advice for your circumstances.
 
-Examples, descriptions and diagrams on the website show how our services generally work. They aren't promises about results for your business. We don't guarantee search rankings, enquiries, jobs or revenue.
+9. We work to keep information accurate and current. Your Proposal sets out the services, deliverables, price, assumptions and timing agreed for your project. If anything is unclear, please ask us before accepting it.
 
-## 5. Prices
+10. Examples and diagrams show possible workflows, not guaranteed business results. We do not guarantee search rankings, numbers of enquiries, jobs won or revenue. This does not reduce our responsibility for accurate descriptions, agreed deliverables, or the rights you have under the Australian Consumer Law.
 
-Prices on the website are in Australian dollars. Pilot Systems is not currently registered for GST, so no GST is added to our prices. If that changes, we'll update the website and tell you before you agree to any work.
+## Prices and engaging us
 
-Prices shown as "from" are starting prices. The final price for any project is set out in a written proposal, which is based on the scope we agree with you.
+11. Prices are in Australian dollars. Pilot Systems is not currently registered for GST, so no GST is charged.
 
-Founding rates shown on the website apply to a limited number of early projects, as stated on the Pricing page.
+12. Prices described as "from" are starting prices for the described base scope. We will explain any extra scope, required subscriptions and third-party costs before you accept a Proposal. Optional services need your agreement.
 
-A project only begins when you've accepted a written proposal and Client Service Agreement, and paid any deposit.
+13. **Founding rates** apply to our first five projects. A project takes a founding-rate place when its deposit is paid. If a project is cancelled before work is completed, its place is released. Founding rates apply to project prices only. Care plan prices are our standard prices.
 
-## 6. Enquiries
+14. **Website Care** is $49 per month and is required while we host your website. It includes hosting. **Systems Care** is $79 per month for each automation package listed in your Proposal and is optional. Care plans run month to month and can be cancelled with 30 calendar days' written notice. The Proposal and Client Service Agreement set out what each plan includes, billing, and how we hand over your website if you leave.
 
-When you send an enquiry, please give accurate details. Sending an enquiry doesn't create a contract between us.
+15. If our GST status changes, we will update our price information and tell you before you accept a new Proposal. Changes to an existing contract are governed by that contract, not by a Website update.
 
-We aim to reply to enquiries within one business day (Monday to Friday, excluding Victorian public holidays).
+16. Sending an enquiry does not commit you to buying anything. A service contract is formed when both parties sign the Proposal and Client Service Agreement. Work starts once the deposit is paid and the agreed starting information and access have been provided.
 
-How we handle the personal information in your enquiry is explained in our [Privacy Policy](/privacy).
+## Enquiries
 
-## 7. Intellectual property
+17. Please give accurate contact details so we can respond. We aim to reply to enquiries within 24 hours, including weekends. This is a target, not a guarantee.
 
-We own, or have permission to use, the content on the website, including its text, design, graphics, logos and code. Nothing in these terms gives you ownership of, or a licence to use, that content beyond viewing the website for your own reference.
+18. Our Privacy Policy at pilotsystems.com.au/privacy explains how we handle enquiry information. Contacting us about a project does not, by itself, subscribe you to marketing.
 
-"Pilot Systems" and our logo are used to identify our business. You must not use them in a way that suggests we endorse you or are connected with you without our written permission.
+## Intellectual property
 
-Other businesses' names and products mentioned on the website (for example, software we may set up for clients) belong to their owners. Mentioning them doesn't mean they endorse us or that we have a formal partnership with them.
+19. We own, or have permission to use, the content on the Website, including text, graphics, logos and code. Apart from permitted Website use and rights allowed by law or a relevant licence, these terms do not transfer intellectual property to you.
 
-## 8. Links to other websites
+20. Do not use the Pilot Systems name or logo in a way that falsely suggests endorsement of, or a connection with, us. Other businesses' names and products belong to their owners. Mentioning them does not mean they endorse us or that we are their partner or certified provider.
 
-The website may link to other websites. We don't control those websites and aren't responsible for their content, availability or privacy practices.
+## External links and availability
 
-## 9. Availability
+21. Links may lead to third-party websites with their own terms and privacy practices. We do not operate those websites, but this does not exclude any responsibility we have under law for our own conduct or statements.
 
-We aim to keep the website available, but we don't guarantee that it will always be available, uninterrupted or free of errors. We may change, suspend or remove any part of the website at any time.
+22. We aim to keep the Website available but cannot promise uninterrupted or error-free access. We may maintain, update or remove parts of the Website. Doing so does not cancel services we have agreed to supply under a Client Service Agreement.
 
-## 10. Liability
+## Your rights
 
-Nothing in these terms excludes, restricts or changes any right or remedy you have under the Australian Consumer Law or any other law that can't be excluded.
+23. Nothing in these terms excludes, restricts or modifies a right or remedy under the Australian Consumer Law or any other law that cannot lawfully be excluded.
 
-Subject to that, and to the extent the law allows:
+24. We do not use these Website terms to impose a blanket exclusion of liability for Website use or reliance. Responsibility for any loss is decided by applicable law. Liability terms for services you buy are in the Client Service Agreement.
 
-- the website is provided "as is" for general information;
-- we aren't liable for any loss arising from your use of, or reliance on, the website, or from the website being unavailable.
+## Updates and governing law
 
-## 11. Privacy
+25. We may update these terms by publishing a new version with its effective date. Changes apply from that date only. They do not remove rights that have already accrued or change an existing service contract.
 
-Our [Privacy Policy](/privacy) explains how we collect, use and protect personal information.
+26. Victorian law governs these terms. The courts of Victoria have non-exclusive jurisdiction, without limiting any mandatory right to use another court, tribunal or complaints process.
 
-## 12. Changes to these terms
+## Contact
 
-We may update these terms from time to time. The updated version applies from the date it's published on the website. The "last updated" date at the top shows when they last changed.
-
-## 13. Governing law
-
-These terms are governed by the laws of Victoria, Australia. You and we submit to the non-exclusive jurisdiction of the courts of Victoria.
-
-## 14. Contact us
-
-Questions about these terms:
-
-**Pilot Systems**
-Email: declan@pilotsystems.com.au
-Phone: 0457 471 392
-Melbourne, Victoria
+Declan Thomas Cawthorn trading as Pilot Systems  
+ABN 19 717 753 395  
+Email: declan@pilotsystems.com.au  
+Phone: 0457 471 392  
+Melbourne, Victoria, Australia

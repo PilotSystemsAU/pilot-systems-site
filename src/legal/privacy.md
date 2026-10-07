@@ -1,134 +1,132 @@
-## 1. Who we are
+In this policy, **business days** are Monday to Friday, excluding Victorian public holidays. Other periods are calendar days, except the statutory five-working-day period for marketing unsubscribe requests.
 
-This policy explains how **Declan Thomas Cawthorn trading as Pilot Systems** (ABN 19 717 753 395) (**we**, **us**, **our**) handles personal information.
+## Who we are
 
-We're a small business based in Melbourne, Victoria. Even where the law may not strictly require it, we aim to handle personal information in line with the Australian Privacy Principles in the *Privacy Act 1988* (Cth).
+Pilot Systems is the registered business name of Declan Thomas Cawthorn, sole trader, ABN 19 717 753 395. We are based in Melbourne, Victoria, and provide online services to clients across Australia.
 
-## 2. What this policy covers
+This policy explains how we handle personal information in enquiries, client relationships, and the systems we build or support for clients. We comply with the privacy laws that apply to us. The commitments in this policy apply whether or not a particular privacy law applies to a particular activity.
 
-This policy covers personal information we collect:
+## Information we collect
 
-- through our website, pilotsystems.com.au;
-- when you call, text or email us;
-- when you become a client and we work on your project;
-- when we set up or look after systems that handle your customers' information on your behalf (see section 10).
-
-## 3. What we collect
-
-| Situation | What we may collect |
+| Situation | Information handled |
 |---|---|
-| You send an enquiry through our website | Your name, phone number, email address, trade or type of business, suburb, and what you tell us in your message |
-| You call, text or email us | Your name, contact details, and what you tell us |
-| You become a client | Your business name, ABN, business contact details, billing details, the content you provide for your website, and access details you give us for accounts we need to work on |
-| You visit our website | Technical information such as pages viewed, approximate location (city level), device and browser type, and how you arrived at the site |
+| Website enquiry | Name, phone number, optional email address, trade or business type, suburb, your message, the time it was sent and the page it was sent from |
+| Calls, texts, emails or other direct contact | Contact details and whatever you include in the communication |
+| Client projects and support | Business and contact details, ABN, proposals, contracts, billing and payment records, content you supply, account-access information needed for the work, and support correspondence |
+| Website operation and spam protection | IP address, browser and device information, request and security information, and spam-check results |
+| Website analytics | Page and referral information, approximate location, and device and browser information, used for combined visitor statistics |
+| Client systems | Our clients' customer enquiries, contact details, message records and other fields needed for the services our client has asked us to provide |
 
-We don't collect sensitive information (such as health information) and ask that you don't include it in enquiries.
+We do not ask for health information or other sensitive information in general enquiries. Please do not send it, or passwords or payment-card details, through our enquiry form. If we receive information we do not need, we decide whether we may lawfully keep it and otherwise delete or de-identify it.
 
-We don't store credit card or bank card details.
+We do not collect or store payment-card details. Clients pay by bank transfer only. We keep the bank-transfer references and payment records needed to match payments to invoices and to process refunds.
 
-## 4. How we collect it
+## How we collect information
 
-We collect personal information directly from you: when you fill in our form, contact us, or provide information during a project.
+We collect information directly when you contact us or send us project materials. We also receive information from our clients and their authorised representatives, from systems they authorise us to set up or support, and from the hosting, email, security and analytics services used to run the Website.
 
-Some technical information is collected automatically when you use our website, through our hosting and analytics services (see sections 6 and 8).
+You can make a general enquiry without giving your name where that is practical, for example by phoning us. The form needs the fields marked "Required". Without enough information we may not be able to respond or provide a service.
 
-## 5. Why we collect it and how we use it
+## Why we use information
 
 We use personal information to:
 
-- reply to your enquiry and talk with you about your needs;
-- prepare proposals and deliver the services you engage us for;
-- invoice you and keep business records;
-- provide support and care plan services;
-- keep our website secure and stop spam or misuse;
-- understand how people use our website so we can improve it.
+- respond to enquiries and arrange discussions;
+- prepare proposals and deliver agreed services;
+- invoice, match payments and keep required business records;
+- provide support and care services;
+- protect our Website and systems against misuse;
+- understand overall Website use and improve the Website;
+- handle complaints and meet legal obligations.
 
-We'll only use your information for another purpose if you agree, or if the law allows or requires it.
+We only use information for another purpose where the law permits or requires it, or with appropriate permission. We do not sell personal information.
 
-**Marketing:** we won't send you marketing emails or texts unless you've agreed to receive them. Every marketing message will tell you who it's from and include a simple way to unsubscribe. We action unsubscribe requests within 5 working days.
+## Marketing
 
-## 6. Who we share it with
+We will not send you marketing emails or texts unless you have agreed to receive them. Every marketing message will identify us and include a working way to unsubscribe. We action unsubscribe requests within five working days.
 
-We don't sell personal information.
+We keep only the minimum information needed to respect an unsubscribe request. Replies to your enquiry and necessary service messages are separate from marketing. Sending an enquiry is not permission to market to you.
 
-We use a small number of service providers to run our business. They may handle personal information on our behalf:
+## Service providers and overseas handling
 
-| Provider type | What it does | Provider |
+We use the providers below. Some information is handled outside Australia. A provider's head office is not necessarily where all processing, support access or backups happen.
+
+| Provider | What it does and what information it handles | Where information is handled |
 |---|---|---|
-| Website hosting | Hosts our website and processes form submissions | Vercel Inc. |
-| Email delivery | Sends form enquiries to our inbox | Resend |
-| Spam protection | Checks that form submissions are from real people | Cloudflare Turnstile |
-| Website analytics | Counts visits and page views | Vercel Web Analytics |
-| Email | Our business email | [to be confirmed] |
-| Invoicing | Sends invoices and records payments | Zoho Invoice |
-| Phone and SMS | Our business phone and missed-call text service | [to be confirmed] |
+| Vercel | Hosts the Website and processes enquiry form submissions; handles technical request information and enquiry fields | United States, with pages delivered through a global network |
+| Resend | Sends enquiries to our inbox and, where you give an email address, a confirmation to you; handles email content and delivery records | United States |
+| Cloudflare Turnstile | Spam protection using technical browser, device and request signals, including IP address | Global network, including the United States |
+| Vercel Web Analytics | Combined Website usage statistics | United States |
+| Microsoft 365 (Outlook and OneDrive) | Business email, including enquiries and client correspondence; contracts and project files | Australia (with some support and service processing possible overseas) |
+| Zoho Invoice | Invoicing and payment records | Australia |
+| NAB | Business banking and payment matching | Australia |
+| GoDaddy | Domain registration and DNS; domain and account contact details and technical records | United States and other countries |
+| GitHub | Stores website source code; does not store enquiry or client customer personal information | United States |
+| Felix Mobile | Business phone calls and ordinary text messages | Australia |
 
-We may also share information:
+If we set up missed-call text-back or other automated text messaging for a client, we will tell that client which messaging provider is used, and where it handles information, in their Proposal before the service starts. We will update this policy when we add a messaging provider for our own business.
 
-- with professional advisers (such as our accountant, lawyer or insurer), where needed;
-- where the law requires or authorises it.
+We may also disclose information to professional advisers (such as our accountant, solicitor or insurer) where needed, and where the law permits or requires it. We do not use subcontractors without our client's written agreement.
 
-## 7. Overseas disclosure
+When we choose and use providers, we consider what information they need, their terms and their security. Where laws on sending information overseas apply to us, we take the steps those laws require. Using our Website does not mean you give up any of those protections.
 
-Some of our service providers store or process information outside Australia, including in the United States.
+## Cookies, analytics and spam protection
 
-Where we use overseas providers, we choose established providers and take reasonable steps to make sure they protect personal information.
+Our Website uses Vercel Web Analytics for combined visit and page statistics, not cross-site advertising tracking. It does not use cookies, but it does use request information to tell visits apart.
 
-## 8. Cookies and analytics
+We use Cloudflare Turnstile to tell genuine enquiries apart from automated abuse. It processes technical signals about your request and browser, and may use a short-lived technical cookie needed for the spam check. It is not used for advertising.
 
-Our website uses analytics that don't use cookies to track you across websites. They give us total counts of visits and pages viewed, so we can see what's useful.
+We do not send enquiry content, names, email addresses or other identifying details in analytics events or web addresses.
 
-Our spam protection may set a small technical cookie or run a check in your browser to confirm a form is being filled in by a person.
+## AI tools
 
-## 9. How we protect and store it
+We use Claude, an AI assistant made by Anthropic, to help with software development and drafting. No AI service runs on our Website. We do not enter enquiry details, or our clients' customers' personal information, into AI tools. This includes prompts, attachments, screenshots and logs. Before introducing any AI feature that would handle personal information, we would tell the affected client, get their approval and update this policy.
 
-We take reasonable steps to protect personal information from misuse, loss and unauthorised access. These steps include:
+## Storage, security and retention
 
-- encrypted (HTTPS) connections on our website;
-- multi-factor authentication on the business accounts we use;
-- limiting access to the people who need it;
-- storing keys and passwords securely, never in our website code.
+Website enquiries are delivered by email. They are not kept in a separate enquiry database. Copies and technical records can also exist in email-sending records, hosting logs, mailbox backups and synced devices.
 
-**How long we keep it:**
+We take reasonable steps to protect information, including encrypted Website connections, limited access, secure handling of logins, and two-step login (multi-factor authentication) on our business accounts.
 
-- Enquiries that don't become projects: deleted or de-identified after [24] months.
-- Client and invoicing records: kept for at least 5 years, because tax law requires us to keep business records.
+We keep information only while we need it for a lawful business purpose or as required by law, then take reasonable steps to delete or de-identify it.
 
-No system is completely secure. If a data breach is likely to cause serious harm, we'll tell the affected people and, where required, the OAIC.
+| Information | How long we keep it |
+|---|---|
+| Enquiries that don't become projects | Deleted within 12 months of the last contact. We review and delete these every three months. |
+| Tax and invoicing records | Five years from when the record was prepared or received, or the transaction was completed, whichever is later. Longer if a specific law requires it. |
+| Contracts and project records | Seven years after the project or care plan ends, so we can deal with any later questions, insurance matters or legal claims. |
+| Our clients' customer information and access logins | Only for the agreed service. Returned or deleted within 30 days after the service ends, unless the law requires us to keep it. |
+| Provider logs, backups and synced copies | Removed as each provider's retention settings allow. Some backups are deleted on the provider's own schedule rather than immediately. |
+| Marketing permissions and unsubscribe records | The minimum needed to show permission and respect opt-outs, for as long as that is needed. |
 
-## 10. When we handle your customers' information
+No system is completely secure. If we suspect a security incident, we investigate, take steps to contain any harm, and promptly tell any client whose information is involved. We notify affected individuals and regulators when the law requires it, and consider warning affected people even when the law doesn't require it.
 
-When we build or look after systems for a client (for example, a website form or a missed-call text service), those systems may handle the client's customers' personal information.
+## Information we handle for clients
 
-In that situation:
+Our clients are responsible for their own lawful collection of information, their messaging instructions and their own privacy notices. We handle their customers' information only for the agreed setup, testing, delivery and support, and we remain responsible for our own handling.
 
-- our client is responsible for how their business collects and uses their customers' information, including their own privacy policy;
-- we only access that information as needed to set up, test, fix or support the systems we've agreed to provide;
-- we follow the privacy and security terms in our Client Service Agreement.
+If you are a customer of one of our clients, contacting that business first may help it find your records. You can also contact us about our own handling of your information. We will not refuse a request just because a client is involved.
 
-If you're a customer of one of our clients, please contact that business first about your information.
+## Access and correction
 
-## 11. Accessing and correcting your information
+You can ask to see, or correct, personal information we hold about you by email or phone. We may take reasonable steps to confirm your identity without collecting more information than we need.
 
-You can ask to see the personal information we hold about you, or ask us to correct it. Email declan@pilotsystems.com.au.
+We will respond within 30 calendar days. If we can't give access or make a correction, we will explain why, where the law allows, and tell you how to complain.
 
-We'll respond within 30 days. If we can't give you access or make a correction, we'll explain why.
+## Questions and complaints
 
-## 12. Questions and complaints
+Contact declan@pilotsystems.com.au or 0457 471 392. We will acknowledge complaints within five business days and aim to resolve them within 30 calendar days. If we need longer, we will explain why and keep you updated.
 
-If you have a question or complaint about how we've handled your personal information:
+If you're not satisfied, you may contact the Office of the Australian Information Commissioner (oaic.gov.au) where it has jurisdiction, or another appropriate regulator. We can tell you which external complaint route applies.
 
-1. Contact us at declan@pilotsystems.com.au or 0457 471 392.
-2. We'll acknowledge your complaint within 5 business days and aim to resolve it within 30 days.
-3. If you're not satisfied with our response, you can contact the Office of the Australian Information Commissioner (OAIC) at [oaic.gov.au](https://www.oaic.gov.au).
+## Changes to this policy
 
-## 13. Changes to this policy
+We may update this policy when our practices or legal obligations change. Each version shows its effective date. Where required, we will give further notice or ask for consent. An update does not authorise a new use of information already collected, or change an existing service contract.
 
-We may update this policy from time to time. The "last updated" date shows when it last changed.
+## Contact
 
-## 14. Contact
-
-**Pilot Systems**
-Email: declan@pilotsystems.com.au
-Phone: 0457 471 392
-Melbourne, Victoria
+Declan Thomas Cawthorn trading as Pilot Systems  
+ABN 19 717 753 395  
+Email: declan@pilotsystems.com.au  
+Phone: 0457 471 392  
+Melbourne, Victoria, Australia

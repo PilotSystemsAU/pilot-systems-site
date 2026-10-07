@@ -9,7 +9,7 @@ import { pricingFaqs } from '../data/faqs';
 
 <BaseLayout
   title="Pricing | Pilot Systems: Websites & Automations for Tradies"
-  description="Clear, fixed prices for tradie websites, missed-call text-back, software tune-ups and care. Founding rates for our first 5 clients. No GST added."
+  description="Clear, fixed prices for tradie websites, missed-call text-back, software tune-ups and care. Founding rates for our first 5 projects. No GST added."
 >
   <PageHero
     kicker="Pricing"
@@ -18,7 +18,7 @@ import { pricingFaqs } from '../data/faqs';
   >
     <div class="founding">
       <span class="founding-tag">Founding rates</span>
-      <p><strong>Founding rates for our first 5 clients.</strong> These prices are for our first 5 projects while we build our portfolio. Pilot Systems isn't registered for GST, so no GST is added.</p>
+      <p><strong>Founding rates for our first 5 projects.</strong> These prices are for our first 5 projects while we build our portfolio. A place is reserved when your deposit is paid. Care plans are at standard prices. Pilot Systems isn't registered for GST, so no GST is added.</p>
     </div>
   </PageHero>
 
@@ -36,6 +36,7 @@ import { pricingFaqs } from '../data/faqs';
             <h3 class="tier-name">{w.name}</h3>
             <p class="tier-label">{w.priceLabel}</p>
             <p class="tier-price">{w.price}</p>
+            {w.ongoing && <p class="tier-ongoing">{w.ongoing}</p>}
             <dl>
               <div><dt>Best for</dt><dd>{w.pricingBestFor}</dd></div>
               <div><dt>Timeline</dt><dd>{w.pricingTimeline}</dd></div>
@@ -87,7 +88,7 @@ import { pricingFaqs } from '../data/faqs';
             </li>
           ))}
         </ul>
-        <p class="note">Month to month. Cancel with 30 days' notice.</p>
+        <p class="note">Website Care is required while we host your site. Systems Care is optional. Month to month. Cancel with 30 days' notice.</p>
       </div>
     </div>
   </section>
@@ -126,7 +127,7 @@ import { pricingFaqs } from '../data/faqs';
       </div>
       <div class="card card--hover own" data-reveal style="--reveal-delay:270ms">
         <h2 class="h3">Ownership</h2>
-        <p class="muted">You own your domain, your content and your accounts. Once your project is paid for, the website built for you is yours. If you leave Website Care, we'll move your site to your own hosting account.</p>
+        <p class="muted">Your domain, content and accounts stay in your name. Once your project is paid for, the website built for you is yours. If you leave Website Care, we'll transfer your site to your own hosting account at no charge.</p>
       </div>
     </div>
   </section>
@@ -157,6 +158,8 @@ import { pricingFaqs } from '../data/faqs';
   .tier-name { font-size: 14px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--text-2); }
   .tier-label { margin-top: 16px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
   .tier-price { font-size: 52px; font-weight: 900; line-height: 1.05; margin-bottom: 18px; }
+  .tier-price:has(+ .tier-ongoing) { margin-bottom: 6px; }
+  .tier-ongoing { font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 18px; }
   dl { margin: 0 0 24px; display: grid; gap: 14px; font-size: 16px; padding-top: 18px; border-top: 1px solid var(--border); flex: 1; }
   dt { font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   dd { margin: 2px 0 0; }
