@@ -2,7 +2,7 @@
 //
 // Flow: size check → validate fields → verify Cloudflare Turnstile →
 // email the enquiry to Declan (Resend) → send the enquirer a confirmation
-// (only if they gave an email). Responds with JSON; the page only goes to
+// (if not flagged as spam). Responds with JSON; the page only goes to
 // /thanks when this returns ok.
 //
 // Honeypot: the form has a hidden field people never see. A filled-in honeypot
@@ -147,8 +147,9 @@ export const POST: APIRoute = async (context) => {
 
   const errors = new Set<Field>(FIELDS.filter((k) => data[k].length > LIMITS[k]));
   if (!data.name) errors.add('name');
-  if (data.phone.replace(/\D/g, '').length < 8) errors.add('phone');
-  if (data.email && !EMAIL_RE.test(data.email)) errors.add('email');
+  // Email is required; phone is optional, but if given it must look like a number.
+  if (data.phone && data.phone.replace(/\D/g, '').length < 8) errors.add('phone');
+  if (!data.email || !EMAIL_RE.test(data.email)) errors.add('email');
   if (!data.trade) errors.add('trade');
   if (!data.suburb) errors.add('suburb');
   if (!data.message) errors.add('message');
@@ -195,13 +196,13 @@ export const POST: APIRoute = async (context) => {
   const alertOk = await sendEmail(apiKey, {
     from,
     to: [to],
-    reply_to: data.email || undefined,
+    reply_to: data.email,
     subject: `${flagged ? '[Possible spam] ' : ''}New enquiry: ${data.trade} in ${data.suburb}`,
     html: `<div style="font-family:Arial,sans-serif;font-size:15px;color:#1c1726">
       <h2 style="margin:0 0 12px">New website enquiry</h2>
       <table style="border-collapse:collapse;width:100%;max-width:600px">
         ${row('Name', e.name)}
-        ${row('Phone', `<a href="tel:${tel}">${e.phone}</a>`)}
+        ${row('Phone', e.phone ? `<a href="tel:${tel}">${e.phone}</a>` : 'Not given')}
         ${row('Email', e.email ? `<a href="mailto:${e.email}">${e.email}</a>` : 'Not given')}
         ${row('Trade', e.trade)}
         ${row('Suburb', e.suburb)}
@@ -211,12 +212,12 @@ export const POST: APIRoute = async (context) => {
       </table>
       <p style="margin-top:16px;color:#6b6577">Aim to reply within 24 hours.</p>
     </div>`,
-    text: `New website enquiry\n\nName: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email || 'Not given'}\nTrade: ${data.trade}\nSuburb: ${data.suburb}\n\nMessage:\n${data.message}\n\nSent: ${sentAt}\nFrom page: ${page}`,
+    text: `New website enquiry\n\nName: ${data.name}\nPhone: ${data.phone || 'Not given'}\nEmail: ${data.email}\nTrade: ${data.trade}\nSuburb: ${data.suburb}\n\nMessage:\n${data.message}\n\nSent: ${sentAt}\nFrom page: ${page}`,
   }, key('alert'));
 
   if (!alertOk) return json({ ok: false, error: 'send_failed' }, 502);
 
-  // 2. Confirmation to the enquirer (only if they gave an email). If this one
+  // 2. Confirmation to the enquirer (email is required, but not if flagged). If this one
   // fails, the enquiry still reached Declan, so we still report success.
   //
   // This email goes to an address a stranger typed in, so the only thing of
