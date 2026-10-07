@@ -1,6 +1,6 @@
 ## About these terms
 
-1. These Terms of Use apply to the website at pilotsystems.com.au, including www.pilotsystems.com.au (the **Website**). They explain how you may use the Website.
+1. These Terms of Use apply to the website at pilotsystems.com.au, including [www.pilotsystems.com.au](https://www.pilotsystems.com.au) (the **Website**). They explain how you may use the Website.
 
 2. These terms cover Website use only. Services you buy from us are governed by our Client Service Agreement and the Proposal you accept. These terms do not change those documents, and an update to these terms does not change an existing service contract.
 
