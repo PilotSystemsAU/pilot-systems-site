@@ -20,7 +20,7 @@ Key facts:
 - Prices are in Australian dollars. Founding rates apply to the first 5 projects. ${site.name} is not registered for GST, so no GST is added.
 ${websites.map((w) => `- ${w.name}: ${w.price} (${w.priceLabel.toLowerCase()}). ${w.oneLine} ${w.ongoing.replace(/^\+ /, 'Plus ')}.`).join('\n')}
 ${systemsPricing.map((s) => `- ${s.name}: ${s.price.charAt(0).toLowerCase() + s.price.slice(1)}.`).join('\n')}
-${care.map((c) => `- ${c.name}: ${c.price}${c.per}.`).join('\n')}
+${care.map((c) => `- ${c.name}: ${c.price}${c.per}. Renews automatically each month until cancelled; cancel any time by email with 30 days' notice.`).join('\n')}
 - ${site.name} does not guarantee search rankings, numbers of enquiries, jobs or revenue.
 
 ## Pages

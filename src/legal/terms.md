@@ -38,41 +38,49 @@
 
 13. **Founding rates** apply to our first five projects. A project takes a founding-rate place when its deposit is paid. If a project is cancelled before work is completed, its place is released. Founding rates apply to project prices only. Care plan prices are our standard prices.
 
-14. **Website Care** is $49 per month and is required while we host your website. It includes hosting. **Systems Care** is $79 per month for each automation package listed in your Proposal and is optional. Care plans run month to month and can be cancelled with 30 calendar days' written notice. The Proposal and Client Service Agreement set out what each plan includes, billing, and how we hand over your website if you leave.
+14. If our GST status changes, we will update our price information and tell you before you accept a new Proposal. Changes to an existing contract are governed by that contract, not by a Website update.
 
-15. If our GST status changes, we will update our price information and tell you before you accept a new Proposal. Changes to an existing contract are governed by that contract, not by a Website update.
+15. Sending an enquiry does not commit you to buying anything. A service contract is formed when both parties sign the Proposal and Client Service Agreement. Work starts once the deposit is paid and the agreed starting information and access have been provided.
 
-16. Sending an enquiry does not commit you to buying anything. A service contract is formed when both parties sign the Proposal and Client Service Agreement. Work starts once the deposit is paid and the agreed starting information and access have been provided.
+## Care plans (subscriptions)
+
+16. **Our care plans are subscriptions.** **Website Care** is $49 per month and is required while we host your website. It includes hosting. **Systems Care** is $79 per month for each automation package listed in your Proposal and is optional. The Proposal and Client Service Agreement set out what each plan includes.
+
+17. **They renew automatically.** Each care plan has no fixed end date. It renews automatically every month and is charged monthly in advance, by invoice, from the start date in your Proposal (usually your launch date) until it is cancelled. Before you sign, your Proposal shows, next to where you sign, the plans you're starting, their total monthly price and the start date.
+
+18. **Cancelling is as easy as signing up.** You can cancel a care plan at any time, with 30 calendar days' notice, by emailing declan@pilotsystems.com.au or replying to any care invoice. You don't need to give a reason, call us, fill in a form or hear an offer. We will confirm in writing the date your plan ends and your final charge, and refund any prepaid days after that date. If you cancel Website Care, we will move your website to hosting in your name at no extra charge, as set out in the Client Service Agreement.
+
+19. **We remind you.** Every care invoice states what you're paying for, the monthly price, that the plan renews monthly, the notice period and how to cancel. We also email you a separate reminder at least every six months. We give at least 30 days' written notice before any price increase, and you can cancel before the new price applies.
 
 ## Enquiries
 
-17. Please give accurate contact details so we can respond. We aim to reply to enquiries within 24 hours, including weekends. This is a target, not a guarantee.
+20. Please give accurate contact details so we can respond. We aim to reply to enquiries within 24 hours, including weekends. This is a target, not a guarantee.
 
-18. Our Privacy Policy at pilotsystems.com.au/privacy explains how we handle enquiry information. Contacting us about a project does not, by itself, subscribe you to marketing.
+21. Our Privacy Policy at pilotsystems.com.au/privacy explains how we handle enquiry information. Contacting us about a project does not, by itself, subscribe you to marketing.
 
 ## Intellectual property
 
-19. We own, or have permission to use, the content on the Website, including text, graphics, logos and code. Apart from permitted Website use and rights allowed by law or a relevant licence, these terms do not transfer intellectual property to you.
+22. We own, or have permission to use, the content on the Website, including text, graphics, logos and code. Apart from permitted Website use and rights allowed by law or a relevant licence, these terms do not transfer intellectual property to you.
 
-20. Do not use the Pilot Systems name or logo in a way that falsely suggests endorsement of, or a connection with, us. Other businesses' names and products belong to their owners. Mentioning them does not mean they endorse us or that we are their partner or certified provider.
+23. Do not use the Pilot Systems name or logo in a way that falsely suggests endorsement of, or a connection with, us. Other businesses' names and products belong to their owners. Mentioning them does not mean they endorse us or that we are their partner or certified provider.
 
 ## External links and availability
 
-21. Links may lead to third-party websites with their own terms and privacy practices. We do not operate those websites, but this does not exclude any responsibility we have under law for our own conduct or statements.
+24. Links may lead to third-party websites with their own terms and privacy practices. We do not operate those websites, but this does not exclude any responsibility we have under law for our own conduct or statements.
 
-22. We aim to keep the Website available but cannot promise uninterrupted or error-free access. We may maintain, update or remove parts of the Website. Doing so does not cancel services we have agreed to supply under a Client Service Agreement.
+25. We aim to keep the Website available but cannot promise uninterrupted or error-free access. We may maintain, update or remove parts of the Website. Doing so does not cancel services we have agreed to supply under a Client Service Agreement.
 
 ## Your rights
 
-23. Nothing in these terms excludes, restricts or modifies a right or remedy under the Australian Consumer Law or any other law that cannot lawfully be excluded.
+26. Nothing in these terms excludes, restricts or modifies a right or remedy under the Australian Consumer Law or any other law that cannot lawfully be excluded.
 
-24. We do not use these Website terms to impose a blanket exclusion of liability for Website use or reliance. Responsibility for any loss is decided by applicable law. Liability terms for services you buy are in the Client Service Agreement.
+27. We do not use these Website terms to impose a blanket exclusion of liability for Website use or reliance. Responsibility for any loss is decided by applicable law. Liability terms for services you buy are in the Client Service Agreement.
 
 ## Updates and governing law
 
-25. We may update these terms by publishing a new version with its effective date. Changes apply from that date only. They do not remove rights that have already accrued or change an existing service contract.
+28. We may update these terms by publishing a new version with its effective date. Changes apply from that date only. They do not remove rights that have already accrued or change an existing service contract.
 
-26. Victorian law governs these terms. The courts of Victoria have non-exclusive jurisdiction, without limiting any mandatory right to use another court, tribunal or complaints process.
+29. Victorian law governs these terms. The courts of Victoria have non-exclusive jurisdiction, without limiting any mandatory right to use another court, tribunal or complaints process.
 
 ## Contact
 
