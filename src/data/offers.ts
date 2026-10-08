@@ -26,7 +26,7 @@ export const websites = [
     timeline: 'Ready for your review 5 business days after we have your content and access. It goes live once you sign it off and the final payment is made.',
     pricingTimeline: 'Ready for your review 5 business days after your content and access are in',
     payments: '50% to book, 50% after you sign it off, before launch',
-    ongoing: '+ $49/month Website Care (includes hosting) from launch',
+    ongoing: '+ $49/month Website Care (includes hosting) from launch, renews monthly until cancelled',
   },
   {
     id: 'lead-engine',
@@ -52,7 +52,7 @@ export const websites = [
     timeline: 'Usually 2–4 weeks to launch, from when we have your content and access.',
     pricingTimeline: 'Usually 2–4 weeks once your content and access are in',
     payments: '40% to book, 40% at design approval, 20% after you sign it off, before launch',
-    ongoing: '+ $49/month Website Care (includes hosting) from launch',
+    ongoing: '+ $49/month Website Care (includes hosting) from launch, renews monthly until cancelled',
   },
 ];
 
