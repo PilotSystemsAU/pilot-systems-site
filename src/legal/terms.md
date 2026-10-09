@@ -56,31 +56,37 @@
 
 20. Please give accurate contact details so we can respond. We aim to reply to enquiries within 24 hours, including weekends. This is a target, not a guarantee.
 
-21. Our Privacy Policy at pilotsystems.com.au/privacy explains how we handle enquiry information. Contacting us about a project does not, by itself, subscribe you to marketing.
+21. To send an enquiry through our online form, you need to tick the box to agree to these Terms of Use. Agreeing to these terms does not sign you up to marketing, and sending an enquiry does not commit you to buying anything. Our Privacy Policy at pilotsystems.com.au/privacy explains how we handle enquiry information.
+
+## Free resources and emails
+
+22. We may offer free resources, such as the Tradie Follow-Up Kit. They are general information to help you run your business, not legal, financial or other professional advice, and we do not guarantee any particular result from using them. You may copy, change and use the templates in your own business. Please don't sell them or republish them as your own resource.
+
+23. Our emails are optional. Once our email list starts, you will only receive them if you choose to, by ticking the optional box on our enquiry form or by signing up for a free resource. Our Privacy Policy explains what you'll receive, how often, and how to unsubscribe at any time.
 
 ## Intellectual property
 
-22. We own, or have permission to use, the content on the Website, including text, graphics, logos and code. Apart from permitted Website use and rights allowed by law or a relevant licence, these terms do not transfer intellectual property to you.
+24. We own, or have permission to use, the content on the Website, including text, graphics, logos and code. Apart from permitted Website use and rights allowed by law or a relevant licence, these terms do not transfer intellectual property to you.
 
-23. Do not use the Pilot Systems name or logo in a way that falsely suggests endorsement of, or a connection with, us. Other businesses' names and products belong to their owners. Mentioning them does not mean they endorse us or that we are their partner or certified provider.
+25. Do not use the Pilot Systems name or logo in a way that falsely suggests endorsement of, or a connection with, us. Other businesses' names and products belong to their owners. Mentioning them does not mean they endorse us or that we are their partner or certified provider.
 
 ## External links and availability
 
-24. Links may lead to third-party websites with their own terms and privacy practices. We do not operate those websites, but this does not exclude any responsibility we have under law for our own conduct or statements.
+26. Links may lead to third-party websites with their own terms and privacy practices. We do not operate those websites, but this does not exclude any responsibility we have under law for our own conduct or statements.
 
-25. We aim to keep the Website available but cannot promise uninterrupted or error-free access. We may maintain, update or remove parts of the Website. Doing so does not cancel services we have agreed to supply under a Client Service Agreement.
+27. We aim to keep the Website available but cannot promise uninterrupted or error-free access. We may maintain, update or remove parts of the Website. Doing so does not cancel services we have agreed to supply under a Client Service Agreement.
 
 ## Your rights
 
-26. Nothing in these terms excludes, restricts or modifies a right or remedy under the Australian Consumer Law or any other law that cannot lawfully be excluded.
+28. Nothing in these terms excludes, restricts or modifies a right or remedy under the Australian Consumer Law or any other law that cannot lawfully be excluded.
 
-27. We do not use these Website terms to impose a blanket exclusion of liability for Website use or reliance. Responsibility for any loss is decided by applicable law. Liability terms for services you buy are in the Client Service Agreement.
+29. We do not use these Website terms to impose a blanket exclusion of liability for Website use or reliance. Responsibility for any loss is decided by applicable law. Liability terms for services you buy are in the Client Service Agreement.
 
 ## Updates and governing law
 
-28. We may update these terms by publishing a new version with its effective date. Changes apply from that date only. They do not remove rights that have already accrued or change an existing service contract.
+30. We may update these terms by publishing a new version with its effective date. Changes apply from that date only. They do not remove rights that have already accrued or change an existing service contract.
 
-29. Victorian law governs these terms. The courts of Victoria have non-exclusive jurisdiction, without limiting any mandatory right to use another court, tribunal or complaints process.
+31. Victorian law governs these terms. The courts of Victoria have non-exclusive jurisdiction, without limiting any mandatory right to use another court, tribunal or complaints process.
 
 ## Contact
 

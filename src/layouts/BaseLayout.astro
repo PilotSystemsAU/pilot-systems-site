@@ -79,6 +79,18 @@ const localBusiness = {
     <Footer />
     <MobileCallBar />
     <script>
+      import { track } from '@vercel/analytics';
+      // Count taps on phone and email links (Vercel Web Analytics custom events,
+      // Pro plan). Only the link type and the page path are sent: never the number,
+      // address or anything a visitor typed.
+      document.addEventListener('click', (e) => {
+        const link = (e.target as Element | null)?.closest?.('a[href]');
+        const href = link?.getAttribute('href') ?? '';
+        if (href.startsWith('tel:')) track('Phone tap', { page: location.pathname });
+        else if (href.startsWith('mailto:')) track('Email click', { page: location.pathname });
+      }, { capture: true });
+    </script>
+    <script>
       // Fade sections into view as they scroll into the window.
       const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
       if ('IntersectionObserver' in window) {

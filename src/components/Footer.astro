@@ -1,6 +1,7 @@
 ---
 import LogoMark from '../assets/logo-mark-light.svg';
 import { site, socials, trades } from '../data/site';
+import { EMAIL_MARKETING_LIVE } from '../data/consent';
 const year = new Date().getFullYear();
 
 const services = [
@@ -16,6 +17,7 @@ const company = [
   { href: '/pricing', label: 'Pricing' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  ...(EMAIL_MARKETING_LIVE ? [{ href: '/kit', label: 'Free Follow-Up Kit' }] : []),
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/privacy#cookies-analytics-and-spam-protection', label: 'Cookies' },
   { href: '/terms', label: 'Terms of Use' },

@@ -15,14 +15,24 @@
 // once within 24 hours. So a double tap, a retry after a dropped connection, or
 // a resend after pressing Back can't email the same enquiry twice.
 //
+// Checkboxes: "agree_terms" (required: agreeing to the Terms of Use) and
+// "subscribe" (optional, unticked by default: the free kit and monthly email).
+// Agreeing to the Terms is never treated as marketing consent. Only a ticked
+// "subscribe" box adds someone to MailerLite, and the alert to Declan records
+// what they agreed to, when, and which wording version they saw.
+//
 // Settings (Vercel → Project → Settings → Environment Variables):
 //   RESEND_API_KEY        required  Resend API key (sending access)
 //   TURNSTILE_SECRET_KEY  required  Cloudflare Turnstile secret key
 //   ENQUIRY_TO            optional  where enquiries go (default declan@…)
 //   ENQUIRY_FROM          optional  sender (default website@pilotsystems.com.au)
+//   MAILERLITE_API_KEY    optional  see src/lib/server/mailerlite.ts
+//   MAILERLITE_GROUP_ID   optional  see src/lib/server/mailerlite.ts
 
 import type { APIRoute } from 'astro';
 import { getSecret } from 'astro:env/server';
+import { addSubscriber, describeResult, type SubscribeResult } from '../../lib/server/mailerlite';
+import { CONSENT_VERSION, EMAIL_MARKETING_LIVE, enquiryOptIn, kit } from '../../data/consent';
 
 export const prerender = false;
 
@@ -145,7 +155,7 @@ export const POST: APIRoute = async (context) => {
     message: multiLine(get('message')),
   };
 
-  const errors = new Set<Field>(FIELDS.filter((k) => data[k].length > LIMITS[k]));
+  const errors = new Set<Field | 'agree_terms'>(FIELDS.filter((k) => data[k].length > LIMITS[k]));
   if (!data.name) errors.add('name');
   // Email is required; phone is optional, but if given it must look like a number.
   if (data.phone && data.phone.replace(/\D/g, '').length < 8) errors.add('phone');
@@ -153,6 +163,10 @@ export const POST: APIRoute = async (context) => {
   if (!data.trade) errors.add('trade');
   if (!data.suburb) errors.add('suburb');
   if (!data.message) errors.add('message');
+  // Required: agreeing to the Terms of Use. Optional: the kit and monthly email.
+  if (get('agree_terms') !== 'yes') errors.add('agree_terms');
+  // Ignored entirely until email marketing goes live.
+  const wantsEmails = EMAIL_MARKETING_LIVE && get('subscribe') === 'yes';
   if (errors.size) return json({ ok: false, error: 'invalid', fields: [...errors] }, 400);
 
   // Honeypot (see the note at the top): filled in means "treat with suspicion".
@@ -189,6 +203,21 @@ export const POST: APIRoute = async (context) => {
     trade: escapeHtml(data.trade), suburb: escapeHtml(data.suburb), message: escapeHtml(data.message).replace(/\n/g, '<br>'),
   };
 
+  // Optional marketing signup. Only if they ticked the box, and never for an
+  // enquiry flagged as possible spam. Done before the alert so the alert can say
+  // whether it worked. A failure never stops the enquiry going through.
+  let signup: SubscribeResult | 'skipped_spam' | null = null;
+  if (wantsEmails) {
+    signup = flagged ? 'skipped_spam' : await addSubscriber({ email: data.email, name: data.name, trade: data.trade, source: 'Enquiry form', ip });
+  }
+  const signupLine =
+    signup === null ? 'No'
+    : signup === 'skipped_spam' ? 'Ticked, but NOT added because this enquiry was flagged as possible spam.'
+    : describeResult(signup);
+  const consentLine = wantsEmails
+    ? `They ticked "${enquiryOptIn.label}" (wording version ${CONSENT_VERSION}) when sending this enquiry on ${sentAt}. Keep this email as the consent record.`
+    : '';
+
   const row = (label: string, value: string) =>
     `<tr><td style="padding:8px 12px;font-weight:700;vertical-align:top;border-bottom:1px solid #eee">${label}</td><td style="padding:8px 12px;border-bottom:1px solid #eee">${value}</td></tr>`;
 
@@ -209,10 +238,13 @@ export const POST: APIRoute = async (context) => {
         ${row('Message', e.message)}
         ${row('Sent', escapeHtml(sentAt))}
         ${row('From page', escapeHtml(page))}
+        ${row('Terms of Use', 'Agreed')}
+        ${row('Kit + monthly email', escapeHtml(signupLine))}
       </table>
+      ${consentLine ? `<p style="margin-top:12px;color:#6b6577">${escapeHtml(consentLine)}</p>` : ''}
       <p style="margin-top:16px;color:#6b6577">Aim to reply within 24 hours.</p>
     </div>`,
-    text: `New website enquiry\n\nName: ${data.name}\nPhone: ${data.phone || 'Not given'}\nEmail: ${data.email}\nTrade: ${data.trade}\nSuburb: ${data.suburb}\n\nMessage:\n${data.message}\n\nSent: ${sentAt}\nFrom page: ${page}`,
+    text: `New website enquiry\n\nName: ${data.name}\nPhone: ${data.phone || 'Not given'}\nEmail: ${data.email}\nTrade: ${data.trade}\nSuburb: ${data.suburb}\n\nMessage:\n${data.message}\n\nSent: ${sentAt}\nFrom page: ${page}\nTerms of Use: Agreed\nKit + monthly email: ${signupLine}${consentLine ? `\n\n${consentLine}` : ''}`,
   }, key('alert'));
 
   if (!alertOk) return json({ ok: false, error: 'send_failed' }, 502);
@@ -227,6 +259,15 @@ export const POST: APIRoute = async (context) => {
   if (data.email && !flagged) {
     const firstWord = data.name.split(' ')[0];
     const first = /^\p{L}[\p{L}'\u2019-]{0,29}$/u.test(firstWord) ? firstWord : 'there';
+    // If they asked for the kit: MailerLite sends it when they were added;
+    // otherwise give them the link here so they aren't left waiting.
+    const kitUrl = `https://www.pilotsystems.com.au${kit.pdf}`;
+    const kitHtml = !wantsEmails ? ''
+      : signup === 'added' ? '<p>You also asked for the free Tradie Follow-Up Kit. It\u2019s on its way in a separate email.</p>'
+      : `<p>You also asked for the free Tradie Follow-Up Kit. You can download it here: <a href="${kitUrl}">${kitUrl}</a></p>`;
+    const kitText = !wantsEmails ? ''
+      : signup === 'added' ? '\n\nYou also asked for the free Tradie Follow-Up Kit. It\u2019s on its way in a separate email.'
+      : `\n\nYou also asked for the free Tradie Follow-Up Kit. You can download it here: ${kitUrl}`;
     await sendEmail(apiKey, {
       from,
       to: [data.email],
@@ -235,10 +276,11 @@ export const POST: APIRoute = async (context) => {
       html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#1c1726">
         <p>Hi ${escapeHtml(first)},</p>
         <p>Thanks for your enquiry. It's come through, and we aim to be in touch within 24 hours to set up your free discovery call.</p>
+        ${kitHtml}
         <p>If it's urgent, call us on <a href="tel:+61457471392">0457 471 392</a>.</p>
         <p>Cheers,<br>Declan<br>Pilot Systems<br><a href="https://www.pilotsystems.com.au">pilotsystems.com.au</a></p>
       </div>`,
-      text: `Hi ${first},\n\nThanks for your enquiry. It's come through, and we aim to be in touch within 24 hours to set up your free discovery call.\n\nIf it's urgent, call us on 0457 471 392.\n\nCheers,\nDeclan\nPilot Systems\npilotsystems.com.au`,
+      text: `Hi ${first},\n\nThanks for your enquiry. It's come through, and we aim to be in touch within 24 hours to set up your free discovery call.${kitText}\n\nIf it's urgent, call us on 0457 471 392.\n\nCheers,\nDeclan\nPilot Systems\npilotsystems.com.au`,
     }, key('confirm'));
   }
 
