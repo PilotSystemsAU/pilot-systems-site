@@ -432,15 +432,16 @@ const fields: Field[] = [
   .spam { margin-top: 4px; }
   .consent { font-size: 14px; color: var(--text-2); margin: 6px 0 18px; }
   /* Checkboxes: the whole label is the tap target, at least 44px tall. */
-  .check { margin-bottom: 18px; }
-  .check-row { display: flex; align-items: flex-start; gap: 12px; }
-  .check-row input { flex: 0 0 auto; width: 24px; height: 24px; min-height: 0; margin: 10px 0 0; padding: 0; accent-color: var(--amber-ink); cursor: pointer; }
+  .check { margin: -10px 0 8px; }
+  .check-row { display: flex; align-items: flex-start; gap: 8px; }
+  .check-row input { flex: 0 0 auto; width: 16px; height: 16px; min-height: 0; margin: 9px 0 0; padding: 0; accent-color: var(--amber-ink); cursor: pointer; }
   .check-row input:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
-  .check-row label { font-weight: 600; margin: 0; padding: 10px 0; min-height: 44px; cursor: pointer; }
-  .check-row label a { font-weight: 700; }
-  .check-hint { margin: 0 0 0 36px; font-size: 14px; }
+  .check-row label { font-size: 14px; font-weight: 400; color: var(--text-2); margin: 0; padding: 6px 0; cursor: pointer; }
+  .check-row label a { font-weight: 600; }
+  .check-row .req { font-size: 10px; }
+  .check-hint { margin: 0 0 0 24px; font-size: 14px; }
   .check [aria-invalid='true'] { outline: 2px solid #b3261e; outline-offset: 2px; }
-  .check .error { margin-left: 36px; }
+  .check .error { margin-left: 24px; margin-top: 0; }
   .submit { width: 100%; }
   .submit:disabled { opacity: .7; cursor: progress; }
   .status { margin-top: 14px; font-weight: 600; }
