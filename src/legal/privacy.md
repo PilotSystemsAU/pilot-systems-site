@@ -45,7 +45,7 @@ We only use information for another purpose where the law permits or requires it
 
 ## Marketing
 
-We only send marketing emails to people who ask for them: by ticking the optional, unticked box on our enquiry form, or by signing up for a free resource on our Website. Agreeing to our Terms of Use is not agreeing to marketing, and sending an enquiry on its own does not sign you up.
+We are setting up an email list for tradies, which we plan to start in late 2026. Until it starts, we don't send marketing emails, and the signup options described below are not yet on our Website. Once it starts, we will only send marketing emails to people who ask for them: by ticking the optional, unticked box on our enquiry form, or by signing up for a free resource on our Website. Agreeing to our Terms of Use is not agreeing to marketing, and sending an enquiry on its own does not sign you up.
 
 If you sign up, you'll get the resource you asked for, two short follow-up emails, then about one email a month with practical tips for trade businesses. These emails may include news about other projects for tradies from Pilot Systems' founder, Declan Thomas Cawthorn, such as TradeTrust. That news comes from us, in our emails. We do not give or sell your details to any other business, including any other business our founder is involved in. If a related business ever wants to email you itself, it will ask for your permission separately.
 
@@ -61,7 +61,7 @@ We use the providers below. Some information is handled outside Australia. A pro
 |---|---|---|
 | Vercel | Hosts the Website and processes enquiry and signup form submissions; handles technical request information and the fields you fill in | United States, with pages delivered through a global network |
 | Resend | Sends enquiries to our inbox and a confirmation to you, and sends us signup details if our email platform is unavailable; handles email content and delivery records | United States |
-| MailerLite | Sends our marketing emails; stores subscriber details, signup and consent records, and email open and click activity | European Union (data storage). Our contract is with MailerLite, Inc. in the United States |
+| MailerLite (from when our email list starts) | Sends our marketing emails; stores subscriber details, signup and consent records, and email open and click activity | European Union (data storage). Our contract is with MailerLite, Inc. in the United States |
 | Cloudflare Turnstile | Spam protection using technical browser, device and request signals, including IP address | Global network, including the United States |
 | Vercel Web Analytics | Combined Website usage statistics | United States |
 | Microsoft 365 (Outlook and OneDrive) | Business email, including enquiries and client correspondence; contracts and project files | Australia (with some support and service processing possible overseas) |
@@ -85,7 +85,7 @@ We use Cloudflare Turnstile to tell genuine enquiries and signups apart from aut
 
 Our enquiry form keeps a temporary copy of what you type in your browser tab (session storage), so it isn't lost if the page reloads. It stays on your device, and is deleted when you send the form or close the tab.
 
-Our marketing emails use standard tracking to count opens and clicks, so we can see which emails are useful. Some email apps limit or block this.
+Once our email list starts, our marketing emails will use standard tracking to count opens and clicks, so we can see which emails are useful. Some email apps limit or block this.
 
 We do not send enquiry content, names, email addresses or other identifying details in analytics events or web addresses.
 
@@ -95,7 +95,7 @@ We use Claude, an AI assistant made by Anthropic, to help with software developm
 
 ## Storage, security and retention
 
-Website enquiries are delivered by email. They are not kept in a separate enquiry database. If you sign up for our emails, your details are stored in MailerLite. If MailerLite is unavailable, they are emailed to us so we can add them by hand. Copies and technical records can also exist in email-sending records, hosting logs, mailbox backups and synced devices.
+Website enquiries are delivered by email. They are not kept in a separate enquiry database. Once our email list starts, if you sign up, your details are stored in MailerLite. If MailerLite is unavailable, they are emailed to us so we can add them by hand. Copies and technical records can also exist in email-sending records, hosting logs, mailbox backups and synced devices.
 
 We take reasonable steps to protect information, including encrypted Website connections, limited access, secure handling of logins, and two-step login (multi-factor authentication) on our business accounts.
 

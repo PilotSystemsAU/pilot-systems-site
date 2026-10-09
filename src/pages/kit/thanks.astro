@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { site } from '../../data/site';
-import { kit } from '../../data/consent';
+import { EMAIL_MARKETING_LIVE, kit } from '../../data/consent';
+// Until email marketing goes live, send visitors to the home page.
+if (!EMAIL_MARKETING_LIVE) return Astro.redirect('/');
 ---
 
 <BaseLayout title="Your kit is ready | Pilot Systems" description="Download the free Tradie Follow-Up Kit from Pilot Systems." noindex>

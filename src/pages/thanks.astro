@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
+import { EMAIL_MARKETING_LIVE } from '../data/consent';
 ---
 
 <BaseLayout title="Enquiry received | Pilot Systems" description="Thanks for your enquiry. Pilot Systems aims to reply within 24 hours to set up your free discovery call." noindex>
@@ -13,7 +14,7 @@ import { site } from '../data/site';
       <p class="lead">We aim to get back to you within 24 hours to set up a time to chat.</p>
       <p class="lead">In a hurry? Call <a href={site.phoneHref}><strong>{site.phoneDisplay}</strong></a>.</p>
       <a class="btn btn--primary" href="/">Back to home</a>
-      <p class="kit">While you wait: <a href="/kit">get the free Tradie Follow-Up Kit</a>, with 10 messages you can copy today.</p>
+      {EMAIL_MARKETING_LIVE && <p class="kit">While you wait: <a href="/kit">get the free Tradie Follow-Up Kit</a>, with 10 messages you can copy today.</p>}
     </div>
   </section>
 </BaseLayout>

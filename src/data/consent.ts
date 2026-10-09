@@ -34,3 +34,11 @@ export const kit = {
   tagline: 'A 15-minute enquiry check and 10 messages you can copy today',
   pdf: '/downloads/tradie-follow-up-kit.pdf',
 };
+
+// Master switch for email marketing. While false (launch, 12 October 2026):
+// - the optional email box is hidden on the enquiry form and ignored by the server;
+// - /kit and /kit/thanks redirect to the home page, and /api/subscribe is off;
+// - the footer and /thanks don't link to the kit.
+// The Terms of Use box, the legal pages and the analytics stay as they are.
+// Set to true when MailerLite and the PO Box are ready (target: by 1 November 2026).
+export const EMAIL_MARKETING_LIVE = false;

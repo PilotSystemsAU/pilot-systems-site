@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
-import { kit, kitFormConsent } from '../../data/consent';
+import { EMAIL_MARKETING_LIVE, kit, kitFormConsent } from '../../data/consent';
 
 // Cloudflare Turnstile site key (public by design). The secret key lives in Vercel.
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAFO08JJwJUhDeGDc';
@@ -12,6 +12,8 @@ const parts = [
   { title: '10 messages you can copy', text: 'Missed call, enquiry received, quote follow-ups, booking reminders, on my way, overdue invoices and review requests. Each says when to send it and when to stop.' },
   { title: 'The rules, in plain English', text: 'Which messages are about the job, which count as marketing and need permission, and how to ask for reviews the right way.' },
 ];
+// Until email marketing goes live, send visitors to the home page.
+if (!EMAIL_MARKETING_LIVE) return Astro.redirect('/');
 ---
 
 <BaseLayout

@@ -32,7 +32,7 @@
 import type { APIRoute } from 'astro';
 import { getSecret } from 'astro:env/server';
 import { addSubscriber, describeResult, type SubscribeResult } from '../../lib/server/mailerlite';
-import { CONSENT_VERSION, enquiryOptIn, kit } from '../../data/consent';
+import { CONSENT_VERSION, EMAIL_MARKETING_LIVE, enquiryOptIn, kit } from '../../data/consent';
 
 export const prerender = false;
 
@@ -165,7 +165,8 @@ export const POST: APIRoute = async (context) => {
   if (!data.message) errors.add('message');
   // Required: agreeing to the Terms of Use. Optional: the kit and monthly email.
   if (get('agree_terms') !== 'yes') errors.add('agree_terms');
-  const wantsEmails = get('subscribe') === 'yes';
+  // Ignored entirely until email marketing goes live.
+  const wantsEmails = EMAIL_MARKETING_LIVE && get('subscribe') === 'yes';
   if (errors.size) return json({ ok: false, error: 'invalid', fields: [...errors] }, 400);
 
   // Honeypot (see the note at the top): filled in means "treat with suspicion".

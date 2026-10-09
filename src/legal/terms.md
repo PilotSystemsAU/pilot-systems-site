@@ -62,7 +62,7 @@
 
 22. We may offer free resources, such as the Tradie Follow-Up Kit. They are general information to help you run your business, not legal, financial or other professional advice, and we do not guarantee any particular result from using them. You may copy, change and use the templates in your own business. Please don't sell them or republish them as your own resource.
 
-23. Our emails are optional. You only receive them if you choose to, by ticking the optional box on our enquiry form or by signing up for a free resource. Our Privacy Policy explains what you'll receive, how often, and how to unsubscribe at any time.
+23. Our emails are optional. Once our email list starts, you will only receive them if you choose to, by ticking the optional box on our enquiry form or by signing up for a free resource. Our Privacy Policy explains what you'll receive, how often, and how to unsubscribe at any time.
 
 ## Intellectual property
 

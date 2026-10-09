@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
-import { enquiryOptIn, termsAgreement } from '../data/consent';
+import { EMAIL_MARKETING_LIVE, enquiryOptIn, termsAgreement } from '../data/consent';
 
 // Cloudflare Turnstile site key (public by design). The secret key lives in Vercel.
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAFO08JJwJUhDeGDc';
@@ -104,14 +104,15 @@ const fields: Field[] = [
           <p class="error" id="agree_terms-error" data-msg={termsAgreement.error} hidden></p>
         </div>
 
-        <!-- Optional and unticked: the free kit and monthly email. The enquiry sends either way. -->
-        <div class="field check">
+        <!-- Optional and unticked: the free kit and monthly email. The enquiry sends either way.
+             Hidden until email marketing goes live (EMAIL_MARKETING_LIVE in src/data/consent.ts). -->
+        {EMAIL_MARKETING_LIVE && <div class="field check">
           <div class="check-row">
             <input id="subscribe" name="subscribe" type="checkbox" value="yes" aria-describedby="subscribe-hint" />
             <label for="subscribe">{enquiryOptIn.label}{' '}<span class="req opt">Optional</span></label>
           </div>
           <p class="hint check-hint" id="subscribe-hint">{enquiryOptIn.hint}</p>
-        </div>
+        </div>}
 
         <!-- Honeypot: hidden from people, bots tend to fill it in -->
         <div class="hp" aria-hidden="true">
@@ -127,7 +128,7 @@ const fields: Field[] = [
           <p class="hint">This quick check stops spam. It usually finishes on its own.</p>
         </div>
 
-        <p class="consent">We use your details to respond to your enquiry. They're handled by our hosting, spam-protection and email providers, including in the United States. Please don't include passwords, payment details, health information or other sensitive information. We'll only send you marketing emails if you tick the optional box above. See our <a href="/privacy">Privacy Policy</a>.</p>
+        <p class="consent">We use your details to respond to your enquiry. They're handled by our hosting, spam-protection and email providers, including in the United States. Please don't include passwords, payment details, health information or other sensitive information. {EMAIL_MARKETING_LIVE ? "We'll only send you marketing emails if you tick the optional box above." : "Sending an enquiry doesn't sign you up to marketing."} See our <a href="/privacy">Privacy Policy</a>.</p>
 
         <button class="btn btn--primary submit" type="submit">Send my enquiry</button>
         <p class="status" role="status" aria-live="polite"></p>
@@ -179,7 +180,7 @@ const fields: Field[] = [
     const inputs = Array.from(form.querySelectorAll<Field>('.field input, .field textarea')).filter((el) => el.id !== 'company_website' && el.type !== 'hidden' && el.type !== 'checkbox');
     // Checkboxes aren't saved in the draft: people tick them fresh each time.
     const terms = form.querySelector<HTMLInputElement>('#agree_terms')!;
-    const subscribe = form.querySelector<HTMLInputElement>('#subscribe')!;
+    const subscribe = form.querySelector<HTMLInputElement>('#subscribe');
     const checkTerms = () => {
       const ok = terms.checked;
       setError(terms, ok ? '' : document.getElementById('agree_terms-error')?.dataset.msg ?? 'Please tick this box.');
@@ -265,7 +266,7 @@ const fields: Field[] = [
     // the same details keeps the same enquiry ID (so it can't arrive twice);
     // if they've changed the details since, it's a new enquiry with a new ID.
     let lastAttempt = '';
-    const snapshot = () => [...inputs.map((el) => el.value.trim()), String(terms.checked), String(subscribe.checked)].join('\u0000');
+    const snapshot = () => [...inputs.map((el) => el.value.trim()), String(terms.checked), String(subscribe?.checked ?? false)].join('\u0000');
     const setBusy = (busy: boolean) => {
       button.disabled = busy;
       button.setAttribute('aria-disabled', String(busy));
@@ -341,7 +342,7 @@ const fields: Field[] = [
         // Clear personal details before leaving, so Back doesn't show them again.
         draft.clear();
         // For the analytics event on /thanks (yes/no only, nothing personal).
-        try { sessionStorage.setItem('pilot-enquiry-sent', subscribe.checked ? 'yes' : 'no'); } catch { /* ignore */ }
+        try { sessionStorage.setItem('pilot-enquiry-sent', subscribe?.checked ? 'yes' : 'no'); } catch { /* ignore */ }
         form.reset();
         idField.value = newId();
         lastAttempt = '';

@@ -20,7 +20,7 @@ import type { APIRoute } from 'astro';
 import { getSecret } from 'astro:env/server';
 import { EMAIL_RE, MAX_TOKEN_CHARS, escapeHtml, json, oneLine, sendEmail, verifyTurnstile } from '../../lib/server/forms';
 import { addSubscriber, describeResult } from '../../lib/server/mailerlite';
-import { CONSENT_VERSION, kitFormConsent } from '../../data/consent';
+import { CONSENT_VERSION, EMAIL_MARKETING_LIVE, kitFormConsent } from '../../data/consent';
 
 export const prerender = false;
 
@@ -31,6 +31,7 @@ const FIELDS = Object.keys(LIMITS) as Field[];
 
 export const POST: APIRoute = async (context) => {
   const { request } = context;
+  if (!EMAIL_MARKETING_LIVE) return json({ ok: false, error: 'not_found' }, 404);
 
   if (Number(request.headers.get('content-length')) > MAX_BODY_BYTES) {
     return json({ ok: false, error: 'too_large' }, 413);

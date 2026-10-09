@@ -15,7 +15,7 @@ export default defineConfig({
   // (see src/image-endpoint.ts).
   image: { endpoint: { route: '/_image', entrypoint: './src/image-endpoint.ts' } },
   integrations: [
-    sitemap({ filter: (page) => !['/thanks', '/kit/thanks'].some((p) => page.includes(p)) }),
+    sitemap({ filter: (page) => !['/thanks', '/kit'].some((p) => page.includes(p)) }),
   ],
   redirects: {
     '/home': '/',
