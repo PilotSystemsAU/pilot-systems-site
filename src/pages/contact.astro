@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
+import { enquiryOptIn, termsAgreement } from '../data/consent';
 
 // Cloudflare Turnstile site key (public by design). The secret key lives in Vercel.
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAFO08JJwJUhDeGDc';
@@ -92,6 +93,26 @@ const fields: Field[] = [
           <p class="error" id="message-error" data-msg="Please add what you need help with." hidden></p>
         </div>
 
+        <!-- Required: agreeing to the Terms of Use. This is not marketing consent. -->
+        <div class="field check">
+          <div class="check-row">
+            <input id="agree_terms" name="agree_terms" type="checkbox" value="yes" required aria-describedby="agree_terms-error" />
+            <label for="agree_terms">
+              {termsAgreement.label} <a href="/terms" target="_blank" rel="noopener">{termsAgreement.linkText}<span class="sr-only"> (opens in a new tab)</span></a>{' '}<span class="req">Required</span>
+            </label>
+          </div>
+          <p class="error" id="agree_terms-error" data-msg={termsAgreement.error} hidden></p>
+        </div>
+
+        <!-- Optional and unticked: the free kit and monthly email. The enquiry sends either way. -->
+        <div class="field check">
+          <div class="check-row">
+            <input id="subscribe" name="subscribe" type="checkbox" value="yes" aria-describedby="subscribe-hint" />
+            <label for="subscribe">{enquiryOptIn.label}{' '}<span class="req opt">Optional</span></label>
+          </div>
+          <p class="hint check-hint" id="subscribe-hint">{enquiryOptIn.hint}</p>
+        </div>
+
         <!-- Honeypot: hidden from people, bots tend to fill it in -->
         <div class="hp" aria-hidden="true">
           <label for="company_website">Leave this field empty</label>
@@ -106,7 +127,7 @@ const fields: Field[] = [
           <p class="hint">This quick check stops spam. It usually finishes on its own.</p>
         </div>
 
-        <p class="consent">We use your details to respond to your enquiry. They're handled by our hosting, spam-protection and email providers, including in the United States. Please don't include passwords, payment details, health information or other sensitive information. Sending an enquiry doesn't sign you up to marketing. See our <a href="/privacy">Privacy Policy</a>.</p>
+        <p class="consent">We use your details to respond to your enquiry. They're handled by our hosting, spam-protection and email providers, including in the United States. Please don't include passwords, payment details, health information or other sensitive information. We'll only send you marketing emails if you tick the optional box above. See our <a href="/privacy">Privacy Policy</a>.</p>
 
         <button class="btn btn--primary submit" type="submit">Send my enquiry</button>
         <p class="status" role="status" aria-live="polite"></p>
@@ -155,7 +176,15 @@ const fields: Field[] = [
       return Array.from(b, (x) => x.toString(16).padStart(2, '0')).join('');
     };
 
-    const inputs = Array.from(form.querySelectorAll<Field>('.field input, .field textarea')).filter((el) => el.id !== 'company_website' && el.type !== 'hidden');
+    const inputs = Array.from(form.querySelectorAll<Field>('.field input, .field textarea')).filter((el) => el.id !== 'company_website' && el.type !== 'hidden' && el.type !== 'checkbox');
+    // Checkboxes aren't saved in the draft: people tick them fresh each time.
+    const terms = form.querySelector<HTMLInputElement>('#agree_terms')!;
+    const subscribe = form.querySelector<HTMLInputElement>('#subscribe')!;
+    const checkTerms = () => {
+      const ok = terms.checked;
+      setError(terms, ok ? '' : document.getElementById('agree_terms-error')?.dataset.msg ?? 'Please tick this box.');
+      return ok;
+    };
 
     // ---- draft (this tab only) ----
     const draft = {
@@ -201,6 +230,7 @@ const fields: Field[] = [
       el.addEventListener('blur', () => el.value && check(el));
       el.addEventListener('input', () => el.getAttribute('aria-invalid') === 'true' && check(el));
     });
+    terms.addEventListener('change', () => terms.getAttribute('aria-invalid') === 'true' && checkTerms());
 
     // ---- "Did you mean …@gmail.com?" ----
     // Only a suggestion: it never stops the form sending.
@@ -235,7 +265,7 @@ const fields: Field[] = [
     // the same details keeps the same enquiry ID (so it can't arrive twice);
     // if they've changed the details since, it's a new enquiry with a new ID.
     let lastAttempt = '';
-    const snapshot = () => inputs.map((el) => el.value.trim()).join('\u0000');
+    const snapshot = () => [...inputs.map((el) => el.value.trim()), String(terms.checked), String(subscribe.checked)].join('\u0000');
     const setBusy = (busy: boolean) => {
       button.disabled = busy;
       button.setAttribute('aria-disabled', String(busy));
@@ -261,8 +291,9 @@ const fields: Field[] = [
       if (sending) return; // a second tap or Enter while sending does nothing
 
       const results = inputs.map(check);
-      if (results.includes(false)) {
-        inputs[results.indexOf(false)].focus();
+      const termsOk = checkTerms();
+      if (results.includes(false) || !termsOk) {
+        (results.includes(false) ? inputs[results.indexOf(false)] : terms).focus();
         showMessage(msg.check, false);
         return;
       }
@@ -309,6 +340,8 @@ const fields: Field[] = [
       if (res.ok && data.ok) {
         // Clear personal details before leaving, so Back doesn't show them again.
         draft.clear();
+        // For the analytics event on /thanks (yes/no only, nothing personal).
+        try { sessionStorage.setItem('pilot-enquiry-sent', subscribe.checked ? 'yes' : 'no'); } catch { /* ignore */ }
         form.reset();
         idField.value = newId();
         lastAttempt = '';
@@ -319,13 +352,14 @@ const fields: Field[] = [
       resetSpamCheck();
       if (data.error === 'invalid' && Array.isArray(data.fields)) {
         let first: Field | null = null;
+        if (data.fields.includes('agree_terms')) { checkTerms(); first = terms; }
         for (const el of inputs) {
           if (data.fields.includes(el.id)) {
             const err = document.getElementById(`${el.id}-error`);
             const v = el.value.trim();
             const text = !v ? err?.dataset.msg : el.type === 'tel' ? err?.dataset.msgInvalid : el.type === 'email' ? err?.dataset.msgInvalid : '';
             setError(el, text || 'Please check this.');
-            first ??= el;
+            if (!first || first === terms) first = el;
           }
         }
         finishWith(msg.check);
@@ -396,6 +430,16 @@ const fields: Field[] = [
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   .spam { margin-top: 4px; }
   .consent { font-size: 14px; color: var(--text-2); margin: 6px 0 18px; }
+  /* Checkboxes: the whole label is the tap target, at least 44px tall. */
+  .check { margin-bottom: 18px; }
+  .check-row { display: flex; align-items: flex-start; gap: 12px; }
+  .check-row input { flex: 0 0 auto; width: 24px; height: 24px; min-height: 0; margin: 10px 0 0; padding: 0; accent-color: var(--amber-ink); cursor: pointer; }
+  .check-row input:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .check-row label { font-weight: 600; margin: 0; padding: 10px 0; min-height: 44px; cursor: pointer; }
+  .check-row label a { font-weight: 700; }
+  .check-hint { margin: 0 0 0 36px; font-size: 14px; }
+  .check [aria-invalid='true'] { outline: 2px solid #b3261e; outline-offset: 2px; }
+  .check .error { margin-left: 36px; }
   .submit { width: 100%; }
   .submit:disabled { opacity: .7; cursor: progress; }
   .status { margin-top: 14px; font-weight: 600; }

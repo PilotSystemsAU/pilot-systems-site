@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { kit, kitFormConsent } from '../../data/consent';
+
+// Cloudflare Turnstile site key (public by design). The secret key lives in Vercel.
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAFO08JJwJUhDeGDc';
+
+const parts = [
+  { title: 'The 15-minute enquiry leak check', text: 'Find where calls, quotes and enquiries slip through the gaps in your week, and which gap to fix first.' },
+  { title: '10 messages you can copy', text: 'Missed call, enquiry received, quote follow-ups, booking reminders, on my way, overdue invoices and review requests. Each says when to send it and when to stop.' },
+  { title: 'The rules, in plain English', text: 'Which messages are about the job, which count as marketing and need permission, and how to ask for reviews the right way.' },
+];
+---
+
+<BaseLayout
+  title="Free Tradie Follow-Up Kit | Pilot Systems"
+  description="Free for Australian tradies: a 15-minute enquiry check and 10 follow-up messages you can copy today, for missed calls, quotes, bookings, invoices and reviews."
+>
+  <PageHero kicker="Free for tradies" title={kit.name} intro={`${kit.tagline}. Stop good jobs slipping away between the call and the invoice.`} />
+
+  <section class="section">
+    <div class="container grid">
+      <div class="inside" data-reveal>
+        <h2 class="h3">What's inside</h2>
+        <ol class="parts" role="list">
+          {parts.map((p, i) => (
+            <li>
+              <span class="n" aria-hidden="true">{i + 1}</span>
+              <div><h3>{p.title}</h3><p>{p.text}</p></div>
+            </li>
+          ))}
+        </ol>
+        <p class="muted small">A short PDF that reads well on a phone. Free, with no catch: use the messages as they are, or change them to sound like you.</p>
+      </div>
+
+      <form class="card form" id="kit-form" action="/api/subscribe" method="post" novalidate>
+        <h2 class="h3">Get the free kit</h2>
+
+        <div class="field">
+          <label for="email">Email <span class="req">Required</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" required aria-describedby="email-error" />
+          <p class="error" id="email-error" data-msg="Please add your email." data-msg-invalid="That email doesn't look right. Please check it." hidden></p>
+        </div>
+        <div class="field">
+          <label for="name">First name <span class="req opt">Optional</span></label>
+          <input id="name" name="name" type="text" autocomplete="given-name" maxlength="100" />
+        </div>
+        <div class="field">
+          <label for="trade">Your trade <span class="req opt">Optional</span></label>
+          <input id="trade" name="trade" type="text" maxlength="100" placeholder="e.g. electrician" />
+        </div>
+
+        <!-- Honeypot: hidden from people, bots tend to fill it in -->
+        <div class="hp" aria-hidden="true">
+          <label for="company_website">Leave this field empty</label>
+          <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="field spam">
+          <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" data-response-field-name="cf-turnstile-response"></div>
+          <p class="hint">This quick check stops spam. It usually finishes on its own.</p>
+        </div>
+
+        <p class="consent">{kitFormConsent} See our <a href="/privacy">Privacy Policy</a>.</p>
+
+        <button class="btn btn--primary submit" type="submit">Send me the kit</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <CtaBand heading="Rather have it all send itself?" text="We set up these follow-ups to run automatically in the software you already use. Book a free 15–25 minute discovery call to talk it through. No obligation." />
+</BaseLayout>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+  import { emailProblem } from '../../lib/email-check';
+  // Kit signup: checks the email, sends once, never says "done" unless the
+  // server confirmed it, then goes to /kit/thanks (where the download is).
+  const form = document.getElementById('kit-form') as HTMLFormElement | null;
+  if (form) {
+    const email = form.querySelector<HTMLInputElement>('#email')!;
+    const err = document.getElementById('email-error')!;
+    const status = form.querySelector<HTMLElement>('.status')!;
+    const button = form.querySelector<HTMLButtonElement>('.submit')!;
+    const LABEL = button.textContent?.trim() || 'Send me the kit';
+    let sending = false;
+
+    const checkEmail = () => {
+      const v = email.value.trim();
+      const text = !v ? err.dataset.msg ?? '' : emailProblem(v) ? emailProblem(v) : '';
+      email.setAttribute('aria-invalid', String(Boolean(text)));
+      err.hidden = !text;
+      err.textContent = text;
+      return !text;
+    };
+    email.addEventListener('blur', () => email.value && checkEmail());
+    email.addEventListener('input', () => email.getAttribute('aria-invalid') === 'true' && checkEmail());
+
+    const resetSpamCheck = () => {
+      const ts = (window as Window & { turnstile?: { reset?: () => void } }).turnstile;
+      try { ts?.reset?.(); } catch { /* ignore */ }
+    };
+    const fail = (text: string) => {
+      sending = false;
+      button.disabled = false;
+      button.textContent = LABEL;
+      status.textContent = text;
+      status.classList.add('fail');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (sending) return;
+      if (!checkEmail()) { email.focus(); return; }
+      const token = (form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value ?? '').trim();
+      if (!token) { status.textContent = "The spam check hasn't finished yet. Please wait a few seconds and press the button again."; return; }
+
+      sending = true;
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      status.textContent = '';
+      status.classList.remove('fail');
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+          signal: AbortSignal.timeout(20000),
+        });
+        const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+        if (res.ok && data.ok) {
+          try { sessionStorage.setItem('pilot-kit-signup', '1'); } catch { /* ignore */ }
+          window.location.assign('/kit/thanks');
+          return;
+        }
+        resetSpamCheck();
+        if (data.error === 'invalid') { checkEmail(); email.focus(); return fail('Please check your email address.'); }
+        fail(data.error === 'spam_check_failed' ? "The spam check didn't go through. Please wait a moment for it to finish, then try again." : "Sorry, that didn't go through. Please try again in a moment.");
+      } catch {
+        resetSpamCheck();
+        fail(navigator.onLine ? "Sorry, that didn't go through. Please try again in a moment." : 'You seem to be offline. Please try again when you have signal.');
+      }
+    });
+
+    window.addEventListener('pageshow', (e) => {
+      if (!e.persisted) return;
+      sending = false;
+      button.disabled = false;
+      button.textContent = LABEL;
+      resetSpamCheck();
+    });
+  }
+</script>
+
+<style>
+  .grid { display: grid; gap: 40px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  .h3 { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 18px; }
+  .parts { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 20px; }
+  .parts li { display: flex; gap: 14px; align-items: flex-start; }
+  .parts h3 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+  .parts p { color: var(--text-2); }
+  .n { flex: 0 0 34px; height: 34px; border-radius: 50%; background: var(--ink-900); color: var(--amber); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .small { font-size: 15px; }
+
+  .form { padding: clamp(22px, 3vw, 34px); border: 2px solid var(--amber); }
+  .field { margin-bottom: 22px; }
+  label { display: block; font-weight: 700; line-height: 1.35; margin-bottom: 8px; }
+  .req { display: inline-block; margin-left: 4px; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; vertical-align: 1px; color: var(--amber-ink); }
+  .req.opt { color: var(--muted); }
+  input::placeholder { color: var(--muted); opacity: 1; }
+  input {
+    width: 100%;
+    font: 400 16px/1.5 var(--font);
+    color: var(--text);
+    background: var(--white);
+    border: 1.5px solid #9a93a8;
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    min-height: 48px;
+    scroll-margin-block: 90px 72px;
+  }
+  input:hover { border-color: var(--plum); }
+  input:focus-visible { outline: 3px solid var(--amber); outline-offset: 1px; border-color: var(--amber-ink); }
+  [aria-invalid='true'] { border-color: #b3261e; }
+  .error { color: #b3261e; font-size: 14px; font-weight: 600; margin-top: 6px; }
+  .hint { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .consent { font-size: 14px; color: var(--text-2); margin: 6px 0 18px; }
+  .submit { width: 100%; }
+  .submit:disabled { opacity: .7; cursor: progress; }
+  .status { margin-top: 14px; font-weight: 600; }
+  .status.fail { color: #b3261e; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>

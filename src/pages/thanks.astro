@@ -13,9 +13,23 @@ import { site } from '../data/site';
       <p class="lead">We aim to get back to you within 24 hours to set up a time to chat.</p>
       <p class="lead">In a hurry? Call <a href={site.phoneHref}><strong>{site.phoneDisplay}</strong></a>.</p>
       <a class="btn btn--primary" href="/">Back to home</a>
+      <p class="kit">While you wait: <a href="/kit">get the free Tradie Follow-Up Kit</a>, with 10 messages you can copy today.</p>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  import { track } from '@vercel/analytics';
+  // Count an enquiry once (set by the contact form just before it came here).
+  // Only yes/no for the newsletter box: nothing personal is sent.
+  try {
+    const optedIn = sessionStorage.getItem('pilot-enquiry-sent');
+    if (optedIn) {
+      sessionStorage.removeItem('pilot-enquiry-sent');
+      track('Enquiry sent', { newsletter: optedIn });
+    }
+  } catch { /* storage blocked: skip the event */ }
+</script>
 
 <style>
   .msg { min-height: 60vh; display: flex; align-items: center; }
@@ -25,4 +39,5 @@ import { site } from '../data/site';
   .h2 { font-size: clamp(34px, 5vw, 56px); margin-bottom: 20px; }
   .lead { margin-bottom: 14px; }
   .btn { margin-top: 18px; }
+  .kit { margin-top: 28px; color: var(--text-2); }
 </style>
