@@ -40,7 +40,7 @@
 
 14. If our GST status changes, we will update our price information and tell you before you accept a new Proposal. Changes to an existing contract are governed by that contract, not by a Website update.
 
-15. Sending an enquiry does not commit you to buying anything. A service contract is formed when both parties sign the Proposal and Client Service Agreement. Work starts once the deposit is paid and the agreed starting information and access have been provided.
+15. Sending an enquiry does not commit you to buying anything. A service contract is formed when both parties sign the Proposal and Client Service Agreement. Work starts once the deposit is paid and the agreed starting information and access have been provided. If you cancel a project, your deposit is not forfeited: it is refunded, less the value of the work actually completed and any approved third-party costs that cannot be cancelled, as set out in the Client Service Agreement.
 
 ## Care plans (subscriptions)
 
