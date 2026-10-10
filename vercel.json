@@ -29,5 +29,18 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "pilot-systems-site.vercel.app"
+        }
+      ],
+      "destination": "https://www.pilotsystems.com.au/:path*",
+      "permanent": true
+    }
   ]
 }
