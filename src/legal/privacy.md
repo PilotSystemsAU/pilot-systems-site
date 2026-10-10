@@ -63,7 +63,7 @@ We use the providers below. Some information is handled outside Australia. A pro
 | Resend | Sends enquiries to our inbox and a confirmation to you, and sends us signup details if our email platform is unavailable; handles email content and delivery records | United States |
 | MailerLite (from when our email list starts) | Sends our marketing emails; stores subscriber details, signup and consent records, and email open and click activity | European Union (data storage). Our contract is with MailerLite, Inc. in the United States |
 | Cloudflare Turnstile | Spam protection using technical browser, device and request signals, including IP address | Global network, including the United States |
-| Vercel Web Analytics | Combined Website usage statistics | United States |
+| Vercel Web Analytics | Combined Website usage statistics, and combined visitor statistics for client websites we host under Website Care | United States |
 | Microsoft 365 (Outlook and OneDrive) | Business email, including enquiries and client correspondence; contracts and project files | Australia (with some support and service processing possible overseas) |
 | Zoho Invoice | Invoicing and payment records | Australia |
 | NAB | Business banking and payment matching | Australia |
