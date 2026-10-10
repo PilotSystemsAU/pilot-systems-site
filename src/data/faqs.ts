@@ -14,9 +14,10 @@ const all = {
   careCompulsory: { q: 'Is Website Care compulsory?', a: "Yes, while we host your site, because hosting is included in Website Care ($49/month). If you’d rather host it yourself, we’ll transfer it to your own hosting account at no charge. You’d then pay your hosting provider directly." },
   cancelCare: { q: 'How do I cancel a care plan?', a: "Email declan@pilotsystems.com.au, or reply to any care invoice, with 30 days’ notice. That’s it. You don’t need to give a reason or call us. Care plans renew automatically each month until you cancel, and we’ll confirm your end date in writing and refund any unused prepaid days. If you cancel Website Care, we’ll move your site to your own hosting account at no charge." },
   afterLaunch: { q: 'What if something goes wrong after launch?', a: "Tell us. Every project is covered by the consumer guarantees under the Australian Consumer Law. Website Care and Systems Care add monitoring and monthly checks, so problems are more likely to be caught early." },
+  stats: { q: 'Will I know how my website is doing?', a: "Yes. Website Care includes simple visitor stats for your site, and each month we email you a short snapshot: how many people visited, how many enquiries came through the site, and which pages they looked at most. The stats don’t use cookies or collect anything personal. It shows you what’s working, not a promise of more jobs." },
   gst: { q: 'Do you charge GST?', a: "No. Pilot Systems isn’t registered for GST, so no GST is added." },
 };
 
 export const homeFaqs = [all.own, all.howLong, all.provide, all.guarantee, all.payments, all.afterLaunch, all.software, all.other];
 export const servicesFaqs = [all.software, all.guarantee, all.other, all.phone, all.spam];
-export const pricingFaqs = [all.founding, all.upfront, all.careCompulsory, all.cancelCare, all.gst];
+export const pricingFaqs = [all.founding, all.upfront, all.careCompulsory, all.stats, all.cancelCare, all.gst];

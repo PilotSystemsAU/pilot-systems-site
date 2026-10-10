@@ -44,7 +44,7 @@
 
 ## Care plans (subscriptions)
 
-16. **Our care plans are subscriptions.** **Website Care** is $49 per month and is required while we host your website. It includes hosting. **Systems Care** is $79 per month for each automation package listed in your Proposal and is optional. The Proposal and Client Service Agreement set out what each plan includes.
+16. **Our care plans are subscriptions.** **Website Care** is $49 per month and is required while we host your website. It includes hosting, visitor statistics for your website and a short monthly snapshot email. **Systems Care** is $79 per month for each automation package listed in your Proposal and is optional. The Proposal and Client Service Agreement set out what each plan includes.
 
 17. **They renew automatically.** Each care plan has no fixed end date. It renews automatically every month and is charged monthly in advance, by invoice, from the start date in your Proposal (usually your launch date) until it is cancelled. Before you sign, your Proposal shows, next to where you sign, the plans you're starting, their total monthly price and the start date.
 

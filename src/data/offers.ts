@@ -88,6 +88,8 @@ export const care = [
       'Hosting for your website',
       'Uptime monitoring',
       'A monthly check that your enquiry form is still delivering',
+      'Visitor stats for your site (no cookies, nothing personal)',
+      'A short monthly snapshot email: visitors, enquiries and top pages',
       'Regular security and software updates',
       'One small text or image change each month (up to 15 minutes)',
       'We aim to respond within 24 hours',
